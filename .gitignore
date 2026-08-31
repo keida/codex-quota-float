@@ -1,0 +1,28 @@
+native/bin/
+native/obj/
+native/tests/bin/
+native/tests/obj/
+release/
+native/test-output/
+native/tests-lifecycle/**/bin/
+native/tests-lifecycle/**/obj/
+
+# Local design drafts and private development evidence (not release contents).
+/prototype/
+/output/
+/native/README.md
+/native/SECURITY-REVIEW.md
+/docs/PUBLISHING.md
+
+# Never commit local credentials, diagnostics, or signing material.
+auth.json
+.env
+.env.*
+diagnostics/
+*.log
+*.pfx
+*.p12
+*.pem
+*.key
+.vs/
+*.user
