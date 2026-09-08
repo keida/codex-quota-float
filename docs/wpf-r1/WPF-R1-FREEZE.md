@@ -1,6 +1,6 @@
 # Quote Float WPF R1 Freeze
 
-State: `READY FOR PUBLICATION DECISION`  
+State: `PR #1 OPEN — READY FOR MERGE DECISION`
 Acceptance: `QUOTE FLOAT WPF R1 — ACCEPTED WITH DOCUMENTED LIMITATIONS`  
 Public evidence: [Acceptance summary](ACCEPTANCE-SUMMARY.md); historical final recheck retained locally, not shipped.
 
@@ -36,7 +36,7 @@ These hashes identify the accepted local candidate after PUB-WPF-001 source deta
 
 ## R1 publication boundary
 
-The exact selection is [PUBLICATION-ALLOWLIST-V2.md](PUBLICATION-ALLOWLIST-V2.md): 30 WPF source/project files, ten immutable canonical PNGs, and 12 public documentation/configuration files. Historical tickets, local audit records, agent state and generated binaries are omitted. Existing LICENSE and THIRD_PARTY_NOTICES.md are retained unchanged; the latter's historical implementation wording requires a separate follow-up.
+The exact selection is [PUBLICATION-ALLOWLIST-V2.md](PUBLICATION-ALLOWLIST-V2.md): 30 WPF source/project files, ten immutable canonical PNGs, and 13 public documentation/configuration files. Historical tickets, local audit records, agent state and generated binaries are omitted. Existing LICENSE remains tracked and unchanged. `THIRD_PARTY_NOTICES.md` is updated for WPF R1 and included in the exact selection. The current publication state is represented by open PR #1 from `codex/initial-publication` to `main`; no merge, tag or release has occurred.
 
 PNG references preserve approved visual details. Later discrete-scale and Minimal Refreshing contracts override affected historical controls/statuses; static images are not final runtime captures.
 
@@ -77,15 +77,15 @@ These files remain user-owned dirty work. Do not reset, stash, clean, delete, ov
 
 Reuse must be justified by final manifest and changed-file analysis. This rule prevents redundant heavy lifecycle/stress reruns while preserving evidence validity.
 
-## Publication sequence requiring separate authorization
+## Publication sequence and current state
 
 1. Review a precise staging allowlist and public privacy/size scan; keep all protected legacy WinForms paths excluded.
 2. Create or confirm a dedicated release-preparation branch.
 3. Commit WPF source/docs and an intentionally selected evidence set in reviewable commits.
 4. Rebuild from the committed tree in a clean disposable worktree; compare source/candidate manifests and run only gates affected by packaging or source differences.
-5. Push the release-preparation branch.
-6. Open and review a pull request; require CI and an exact changed-file/privacy review before a normal merge.
-7. Tag the accepted merge commit after the release version is explicitly chosen.
-8. Build the release bundle from the tagged commit, publish SHA-256 checksums and the three limitations, then create the GitHub Release.
+5. Push the release-preparation branch — completed for PR #1.
+6. Open and review a pull request; PR #1 is open with the exact changed-file/privacy review and applicable check review completed.
+7. Merge only after a separate merge decision; tag the accepted merge commit after the release version is explicitly chosen.
+8. Build the release bundle from the tagged commit, publish SHA-256 checksums and the three limitations, then create the GitHub Release under separate release authorization.
 
-No step above is authorized by this freeze record. Commit, push, merge, tag, bundle publication, and GitHub Release creation remain separate decisions.
+Current state: PR #1 is open and ready for a merge decision. Merge, tag, bundle publication and GitHub Release creation remain separate decisions and have not occurred.

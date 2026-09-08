@@ -1,6 +1,6 @@
 # WPF R1 publication allowlist V2
 
-Publication cleanup step 2.5, revision 1. Exact proposed staging selection: 53 files in three reviewable commits. No staging or publication action is executed by this document.
+Publication cleanup step 2.5, revision 1. Exact publication selection: 53 files in four reviewable commits. The selection is represented by open PR #1 from `codex/initial-publication` to `main`; merge, tag, release-bundle publication and GitHub Release remain separate decisions.
 
 ## PUBLICATION REQUIRED — commit 1: WPF source and tests (30)
 
@@ -66,7 +66,7 @@ Retain these ten files byte-for-byte. They are static design references, not exe
 - `docs/wpf-r1/PUBLICATION-ALLOWLIST-V2.md`
 - `THIRD_PARTY_NOTICES.md`
 
-`LICENSE` remains tracked and unchanged; do not stage it for this packet. `THIRD_PARTY_NOTICES.md` is included in this commit and retains the upstream reference, revision, links, attribution and complete MIT text. The READMEs still contain the earlier warning that notice wording requires a separate follow-up; README edits are outside this packet, so that stale warning is a publication blocker requiring a later authorized README correction.
+`LICENSE` remains tracked and unchanged; do not stage it for this packet. `THIRD_PARTY_NOTICES.md` is included in the accepted publication selection and is updated for WPF R1 while retaining the upstream reference, revision, links, attribution and complete MIT text. The READMEs are included in the accepted public documentation set; their documentation state is accepted for PR #1.
 
 ## PUBLICATION OPTIONAL
 
@@ -129,15 +129,15 @@ PNG checks cover exact selection, byte size and unchanged hashes. This text scan
 
 Step: PUBLICATION PREP STEP 2.5
 Revision: 1
-Status: NEEDS CLEANUP for actual publication; notice correction PASS, stale README warning remains a publication blocker
-Files changed: `THIRD_PARTY_NOTICES.md` and this allowlist only; commit 3 now contains the exact 13 paths above.
+Status: PASS for the exact publication selection represented by PR #1; current-state wording is corrected by the fourth documentation commit.
+Files changed in the correction: this allowlist and `docs/wpf-r1/WPF-R1-FREEZE.md` only; the publication selection remains the exact 53 paths above, including the 13 public documentation/configuration files.
 Checks RAN: notice preservation review, upstream URL syntax review, candidate hashes, source/image protection, ignore selection, public links, privacy/path and size review.
 Checks NOT RUN: build, automated runtime fixtures, application launch, native capture, heavy lifecycle/stress tests.
 Prior evidence: PUB-WPF-001 accepted migration builds, 29 fixtures and native smoke are reused; no migration evidence file is invented.
-Protection: 44 protected manifest/runtime/image entries compared with zero mismatches: 30 WPF source/project files, four candidate runtime files and the canonical ten PNGs. Three Shared/native copy hashes remain equal. LICENSE, all other product/source/design files and the 17 protected native dirty files remain unchanged. The notice baseline changed only under this packet; the allowlist baseline changed only to add the notice and update this result.
-Git: index empty; HEAD unchanged. No commit/push/merge/tag/release action.
-Limits: three R1 exclusions remain explicit in RELEASE-NOTES-R1.md and ACCEPTANCE-SUMMARY.md; README correction remains required before actual publication.
-Next: independent review of this documentation selection. No step 3 action is authorized.
+Protection: 44 protected manifest/runtime/image entries compared with zero mismatches: 30 WPF source/project files, four candidate runtime files and the canonical ten PNGs. Three Shared/native copy hashes remain equal. LICENSE, all other product/source/design files and the 17 protected native dirty files remain unchanged. The fourth documentation commit changes only current-state wording in this allowlist and the freeze record.
+Git: the publication branch is pushed and PR #1 is open against `main`; no merge, tag, release-bundle publication or GitHub Release has occurred.
+Limits: three R1 exclusions remain explicit in RELEASE-NOTES-R1.md and ACCEPTANCE-SUMMARY.md; they remain part of the accepted PR state.
+Next: review PR #1 and make a separate merge decision. Tagging, bundle publication and GitHub Release remain separately authorized actions.
 
 ## R1 limitations
 
