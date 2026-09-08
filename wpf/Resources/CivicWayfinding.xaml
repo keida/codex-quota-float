@@ -1,0 +1,24 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="CivicSurfaceBrush" Color="#101C31" />
+    <SolidColorBrush x:Key="CivicAccentBrush" Color="#E2AD3D" />
+    <SolidColorBrush x:Key="CivicPrimaryTextBrush" Color="#FFF8E8" />
+    <SolidColorBrush x:Key="CivicSecondaryTextBrush" Color="#B5C0CF" />
+    <SolidColorBrush x:Key="CivicStructureLineBrush" Color="#40506B" />
+    <SolidColorBrush x:Key="CivicInactiveMeterBrush" Color="#3A4961" />
+    <SolidColorBrush x:Key="CivicSyncBrush" Color="#35BCA4" />
+    <Thickness x:Key="CivicBorderThickness">2</Thickness>
+    <CornerRadius x:Key="CivicCornerRadius">2</CornerRadius>
+
+    <Style x:Key="CivicShellButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="#15233C" />
+        <Setter Property="BorderBrush" Value="#40506B" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="{DynamicResource CivicPrimaryTextBrush}" />
+        <Setter Property="FontSize" Value="9" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Padding" Value="7,0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+</ResourceDictionary>
