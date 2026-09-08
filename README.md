@@ -1,89 +1,65 @@
-# Quota Float
-
-**把 Codex 额度放在桌面上，一眼看清还剩多少。**
+# Quote Float — WPF R1
 
 中文 · [English](README.en.md)
 
-面向 Windows 的原生桌面浮窗，利用本机 Codex 登录会话读取 5 小时与每周剩余额度。完整面板、胶囊、小球三种形态，让额度可见，又不占满桌面。
+基于 C# / .NET 8 WPF 的 Windows x64 额度浮窗，读取本机 Codex 会话。WPF R1 已按明确限制完成验收；R1 是验收标识，不是已指定的语义版本号。本文不表示安装器或二进制 Release 已发布。
 
-> 当前为 0.3.0 预发布开发版本，按 [MIT 许可证](LICENSE) 开源，尚未发布 EXE Release。非 OpenAI 官方产品，未获其背书。
+## 当前功能
 
-## 一窗看全，也能缩得很小
+- 单一 Civic Wayfinding 界面，Full 与 Orb 两种形态，独立的中英文布局。
+- 按服务端实际返回的受支持额度窗口显示；当前接受的快照必须含 Weekly 窗口，不支持或只有 5 小时窗口的数据按格式错误处理；没有 5 小时窗口就没有该行，未知额度不显示为零。
+- 显示可用重置机会、最早有效到期时间、同步状态，并提供 Usage & billing 入口。
+- 产品比例只有 40%、70%、100% 三档：70% 为紧凑 Full；40% 常驻 Orb，悬停 300 ms 展开紧凑 Full。产品比例与 Windows DPI 分开处理。
+- 支持置顶、贴边变球、临时悬停展开、设置、单实例激活，以及通知区域的鼠标穿透恢复入口。
+- 已有额度时刷新保留内容并显示“刷新中”；没有历史额度时请求显示 Loading。
 
-| 模式 | 默认尺寸（逻辑像素） | 适合什么场景 |
-| --- | --- | --- |
-| 完整面板 | 306 × 286 | 两项剩余额度、进度条、重置时间、重置机会详情 |
-| 胶囊 | 216 × 76 | 保留两项额度数字与进度条，减少遮挡 |
-| 小球 | 80 × 80 | 常驻屏幕边缘，仍能区分 5 小时和每周额度 |
+设置中仅保存低额度提醒偏好；实际提醒投递尚未实现。没有皮肤/主题选择器、胶囊形态、自动安装器或自动更新服务。
 
-完整面板支持拖动四边或四角等比例缩放，范围 100%–180%，同时受屏幕工作区限制。舒适密度、异常提示与 Windows DPI 会改变实际尺寸。
+## 构建与运行
 
-- **直观的剩余额度**：数字、进度条与独立风险色；完整面板显示倒计时和本地重置时间。未知数据不会冒充 0%。
-- **收起与展开**：顶部 `◉` 按钮切换小球，设置页提供三个直接模式按钮；可选悬停展开。
-- **贴边变球**：拖动完整面板的顶部标题栏到屏幕工作区边缘，松开后收成小球；可单独关闭，不影响贴边吸附。
-- **原生桌面操作**：置顶、托盘、鼠标穿透与托盘解锁、位置找回、单实例；设置页作为由主窗拥有的对话框显示在前方。
-- **外观选择**：深色、浅色、跟随系统；墨色、苔色、终端皮肤；中英文、字号和密度设置。
-- **克制刷新**：默认每 5 分钟刷新，临近重置加快，失败后退避；可选低额度提醒。
-
-## 随 Codex 出现，也随它收起
-
-在设置的窗口联动页启用“随 Codex 自动出现（登录时启动监听）”，确认后添加当前 Windows 用户的登录启动项。
-
-- Codex 出现可见窗口时打开浮窗；最小化 Codex 不会关闭浮窗。
-- 最后一个 Codex 窗口消失，连续两次检查确认后关闭浮窗。
-- 自动跟随启用时，Codex 关闭后仍保留一个后台监听进程，以便下次自动出现；这时不请求额度。
-- 可在设置中关闭登录启动；托盘“停止联动并退出”结束本次监听，不会关闭 Codex。
-
-这不是“零后台进程”模式。程序不安装服务、不修改 Codex 文件或原有快捷方式。
-
-## 开始使用
-
-从 [GitHub 仓库](https://github.com/keida/codex-quota-float) 获取源码，按下方步骤构建；目前尚无预编译 EXE 下载。
-
-需要 Windows x64、已安装并登录的 Codex Desktop，以及 **.NET 8 Desktop Runtime**。当前跟随逻辑识别官方 `OpenAI.Codex` MSIX 安装，不是通用 CLI 额度监控器。
-
-1. 将构建出的 `QuotaFloat.exe` 放在长期保留的目录中。
-2. 双击运行：优先附着已打开的 Codex；未打开时尝试通过已安装应用入口启动 Codex。
-3. 点击齿轮调整外观、模式和联动选项。登录启动默认不安装，需你主动启用。
-
-移动或删除 EXE 前，请先在旧位置运行的版本中关闭登录启动，避免留下失效启动项。EXE 当前未签名；遇到安全软件提示时先核验来源，不要关闭系统安全防护。
-
-## 隐私与权限
-
-本工具**不是离线工具**：它读取本地登录会话，再通过 HTTPS 向 ChatGPT 查询额度。
-
-- 只读 `CODEX_HOME/auth.json`，未设置时使用用户目录下的 `.codex/auth.json`；不要求你复制令牌，不修改登录信息。
-- 凭证仅在内存中用于固定的 `chatgpt.com` 额度查询 GET 请求；不发送到项目作者的服务器，不禁用 TLS 校验，不跟随 HTTP 重定向。
-- 不购买或兑换重置机会，不发送模型请求，不停止你的任务。
-- 偏好设置只保存外观、行为和位置。无遥测上传；本地退出原因日志不记录凭证或账户。
-- 显式启用诊断报告时，报告会包含额度与进程资源快照。**不要直接公开原始日志、报告、登录文件或真实账户截图。**
-
-额度查询依赖非稳定公开 API，Codex 或服务端变更可能使工具失效；额度与可用性以官方界面为准。
-
-## 构建与检查
-
-需要 Windows 和 .NET 8 SDK。在仓库根目录运行：
+需要 Windows x64 与 .NET 8 SDK。在仓库根目录运行：
 
 ```powershell
-dotnet run --project native/tests/QuotaFloat.Tests.csproj -c Release
-dotnet publish native/QuotaFloat.csproj -c Release -r win-x64 --self-contained false -o release
+dotnet build wpf/QuotaFloat.Wpf.csproj -c Release
+dotnet run --project wpf/QuotaFloat.Wpf.csproj -c Release --no-build -- --direct
 ```
 
-输出为 `release/QuotaFloat.exe`。这是依赖已安装 Desktop Runtime 的单文件 EXE，不是自带运行时的安装包。
+`--direct` 不依赖 Codex 是否出现；改用 `--watch` 可启用已实现的跟随模式，在连续三次确认 Codex 缺席后退出。它不会启动 Codex，也不是永久后台启动器。更改跟随偏好在下次启动生效。不传模式时使用“跟随 Codex”保存偏好（初始开启）；同时传两个参数时 `--direct` 优先。真实关闭与重启的完整场景仍未验证。
 
-实现采用 C#、WinForms 与 GDI，不嵌入 Electron、WebView 或 Node 后台。不承诺“零资源占用”；尚无可泛化的多机、长期资源基准。
+无需账号的合成演示：
 
-## 当前限制与反馈
+```powershell
+dotnet run --project wpf/QuotaFloat.Wpf.csproj -c Release --no-build -- --demo-state plus --demo-language zh --demo-scale 100 --demo-exit-ms 10000
+```
 
-- 没有代码签名、自动更新或签名安装器。
-- 多屏相邻边界、混合 DPI，以及真实退出 Codex → 重开、重新登录 Windows 后启动等完整场景仍需进一步验收。
-- 收到“打开时出现 CMD 黑框”的反馈，尚未确认复现条件或来源；目前不能宣称已解决。
-- 首次公开内容仅包含原生源码与测试，不包含早期网页原型和概念图，也不承诺原型中的全部功能。
+演示模式不会创建真实额度客户端或 Codex 进程观察源。测试说明见[开发文档](docs/DEVELOPMENT.md)。
 
-欢迎通过 [GitHub Issues](https://github.com/keida/codex-quota-float/issues) 反馈。请提供应用版本、Windows 版本、DPI/屏幕布局、操作步骤、期望与实际表现；截图使用演示数据，先遮挡账户信息。不要附上 `auth.json`、令牌或完整接口响应。参与开发与更多测试方法见 [开发说明](docs/DEVELOPMENT.md)。
+## 隐私与网络
 
-## 致谢与许可证
+真实模式由应用读取 `CODEX_HOME` 指向目录中的 `auth.json`，未配置时读取用户目录下的默认 `.codex` 登录文件。应用使用会话 token，通过经过认证的 HTTPS GET 请求访问 `chatgpt.com` 的额度与重置机会接口，因此不是纯离线显示。应用不会替你登录或修改登录文件。
 
-功能与字段探索参考了 [change-42-yhmm/quota-float](https://github.com/change-42-yhmm/quota-float)。本项目采用 C# 原生实现，不宣称与参考项目功能完全等价，也不包含其付费授权或更新服务。参考版本与许可声明见 [第三方说明](THIRD_PARTY_NOTICES.md)。
+Billing 用默认浏览器打开额度页面；浮窗不购买或兑换重置机会。偏好保存在系统 LocalApplicationData 的 QuotaFloat 目录。不要公开登录文件、token、原始接口响应、账户截图或个人诊断。
 
-[MIT](LICENSE) © 2026 keida。第三方材料保留各自的版权与许可声明。
+## 验收限制
+
+以下三项全部为 `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`：
+
+1. 同一真实 Pro 账户 `Fresh -> SignedOut -> Fresh`。
+2. 隔离 Codex 的 `Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery`。
+3. 原生 Windows 125% / 120 DPI 与 150% / 144 DPI 运行验收。
+
+已原生验证的基线为 Windows 100% / 96 DPI。29 项确定性 fixture 通过，不代表真实登录/退出或完整 Codex 生命周期已经验证。详见[验收摘要](docs/wpf-r1/ACCEPTANCE-SUMMARY.md)、[发行说明](docs/wpf-r1/RELEASE-NOTES-R1.md)与[候选清单](docs/wpf-r1/CANDIDATE-MANIFEST.json)。
+
+## 设计参考
+
+![Civic Wayfinding 中文设计参考](design-preview/wpf-r1/01-civic-full-orb-zh.png)
+
+保留的十张 PNG 是获批静态设计参考，不是最终原生运行截图或可执行程序下载。历史设置图仍画有 40–180 滑块；后续获批的 40/70/100 三档比例及 Minimal Refreshing 规则，覆盖相关历史控件与状态细节。
+
+## 历史实现与署名
+
+`native/` 是历史 WinForms 实现。WPF 自有三份共享逻辑副本，构建不再依赖 native 目录；原有 legacy 修改不在本次发布选择中。
+
+[MIT 许可证](LICENSE)保持不变。[第三方声明](THIRD_PARTY_NOTICES.md)已更新以反映 WPF R1：`native/` WinForms 被明确标为历史实现，同时保留上游项目署名与许可证声明。
+
+本项目非 OpenAI 官方产品，未获其背书。
