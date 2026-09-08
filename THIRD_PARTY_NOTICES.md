@@ -9,9 +9,9 @@ Feature behavior and quota-field exploration referenced:
 - Reference: [src-tauri/src/codex.rs](https://github.com/change-42-yhmm/quota-float/blob/3e3848f4161b912166dcde98fcb94efb3630ddde/src-tauri/src/codex.rs)
 - License: [MIT at the referenced revision](https://github.com/change-42-yhmm/quota-float/blob/3e3848f4161b912166dcde98fcb94efb3630ddde/LICENSE)
 
-This repository contains a C# / WinForms implementation, not the reference project's Rust/Tauri distribution. The upstream copyright and permission notice is retained below for the referenced material. This acknowledgment does not imply endorsement or feature parity.
+The current primary implementation is C# / .NET 8 / WPF. The legacy `native/` tree is a historical C# / WinForms implementation. The upstream Rust/Tauri distribution is not redistributed. The upstream copyright and permission notice is retained below for the referenced material; this acknowledgment does not imply endorsement or feature parity.
 
-本项目参考了上述版本的行为与额度字段，并采用 C# / WinForms 实现；未分发其 Rust/Tauri 发行包。下面保留参考材料的上游版权与许可声明；致谢不代表对方背书或功能完全等价。
+当前主实现为 C# / .NET 8 / WPF；`native/` 目录是历史 C# / WinForms 实现。本项目不分发上游 Rust/Tauri 发行包。下面保留参考材料的上游版权与许可声明；致谢不代表对方背书或功能完全等价。
 
 ```text
 MIT License
@@ -39,8 +39,8 @@ SOFTWARE.
 
 ## Runtime and system resources / 运行时与系统资源
 
-The current project files declare no third-party NuGet package references. The app requires .NET 8 Desktop Runtime and Windows system APIs. Framework-dependent publication does not bundle the Desktop Runtime. Fonts and tray icons are obtained through Windows/.NET APIs; no font files, third-party icon packs, or concept images are included in this source publication.
+The current WPF project files declare no third-party NuGet package references. The framework-dependent binary requires the .NET 8 Desktop Runtime and Windows/.NET APIs. Fonts and tray assets are obtained through Windows/.NET APIs. The publication selection includes exactly ten approved static design PNGs listed in `docs/wpf-r1/PUBLICATION-ALLOWLIST-V2.md`; they are project design artifacts, not upstream quota-float assets, final native captures, or executable downloads. Their redistribution and license status require review before publication; this notice is not legal advice or a comprehensive legal audit.
 
-当前项目文件没有第三方 NuGet 包引用。应用依赖 .NET 8 Desktop Runtime 与 Windows 系统 API；依赖运行时的发布方式不打包 Desktop Runtime。字体与托盘图标通过 Windows/.NET API 获取，本次源码公开不包含字体文件、第三方图标包或概念图。
+当前 WPF 项目文件没有第三方 NuGet 包引用。依赖框架的二进制需要 .NET 8 Desktop Runtime 与 Windows/.NET API。字体与托盘资源通过 Windows/.NET API 获取。本次发布选择准确包含十张列于 `docs/wpf-r1/PUBLICATION-ALLOWLIST-V2.md` 的获批静态设计 PNG；它们是项目设计产物，不是上游 quota-float 资产、最终原生运行截图或可执行程序下载。实际发布前仍需审查其再分发与许可状态；本说明不是法律意见，也不是全面法律审计。
 
 If future releases bundle a runtime, package, font, image, or other asset, review and include that component's redistribution notices before publishing it. OpenAI, Codex, Microsoft, and Windows names identify compatibility targets; no affiliation or endorsement is implied.

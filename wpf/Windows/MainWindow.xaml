@@ -1,0 +1,449 @@
+<Window x:Class="QuotaFloat.Wpf.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        Title="Quota Float WPF"
+        WindowStartupLocation="CenterScreen"
+        Width="278"
+        Height="216"
+        MinWidth="278"
+        MinHeight="216"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="False"
+        Background="Transparent"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="Grayscale"
+        AutomationProperties.AutomationId="QuotaFloatWpfRootWindow"
+        AutomationProperties.Name="Quota Float">
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="0"
+                            ResizeBorderThickness="0"
+                            GlassFrameThickness="0"
+                            CornerRadius="0"
+                            UseAeroCaptionButtons="False" />
+    </shell:WindowChrome.WindowChrome>
+
+    <Border x:Name="ShellBorder"
+            Background="{DynamicResource CivicSurfaceBrush}"
+            BorderBrush="{DynamicResource CivicAccentBrush}"
+            BorderThickness="{DynamicResource CivicBorderThickness}"
+            CornerRadius="{DynamicResource CivicCornerRadius}"
+            MouseEnter="ShellSurface_OnMouseEnter"
+            MouseLeave="ShellSurface_OnMouseLeave"
+            MouseLeftButtonDown="ShellSurface_OnMouseLeftButtonDown"
+            MouseLeftButtonUp="ShellSurface_OnMouseLeftButtonUp">
+        <Grid x:Name="SurfaceHostGrid">
+        <Grid x:Name="FullSurfaceGrid"
+              AutomationProperties.AutomationId="PlusFullSurface">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="26" />
+                <RowDefinition Height="62" />
+                <RowDefinition Height="64" />
+                <RowDefinition Height="28" />
+                <RowDefinition Height="32" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Background="{DynamicResource CivicAccentBrush}">
+                <TextBlock x:Name="ProductTitleText" Margin="12,0,0,0"
+                           Text="Quota Float"
+                           Foreground="{DynamicResource CivicSurfaceBrush}"
+                           FontFamily="Microsoft YaHei UI, Segoe UI"
+                           FontSize="10"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           AutomationProperties.AutomationId="PlusFullTitle" />
+                <TextBlock Margin="0,0,12,0"
+                           x:Name="PlanLabel"
+                           Text="PLUS"
+                           Foreground="{DynamicResource CivicSurfaceBrush}"
+                           FontFamily="Segoe UI"
+                           FontSize="9"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           AutomationProperties.AutomationId="PlusFullPlan" />
+            </Grid>
+
+            <Border x:Name="FiveHourSection"
+                    Grid.Row="1"
+                    Margin="0"
+                    BorderBrush="{DynamicResource CivicStructureLineBrush}"
+                    BorderThickness="0,0,0,1">
+                <Grid x:Name="FiveHourContentGrid" Margin="12,7,12,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="13" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="85" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.RowSpan="2"
+                               x:Name="FiveHourValue"
+                               Text="—"
+                               Foreground="{DynamicResource CivicPrimaryTextBrush}"
+                               FontFamily="Segoe UI"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Margin="0,-8,0,0"
+                               VerticalAlignment="Center"
+                               AutomationProperties.AutomationId="PlusFiveHourRow" />
+                    <StackPanel Grid.Column="1"
+                                VerticalAlignment="Center">
+                        <TextBlock x:Name="FullFiveHourLabelText" Text="5 小时"
+                                   Foreground="{DynamicResource CivicPrimaryTextBrush}"
+                                   FontFamily="Microsoft YaHei UI, Segoe UI"
+                                   FontSize="11"
+                                   FontWeight="Bold" />
+                        <TextBlock x:Name="FullFiveHourRemainingText" Text="—"
+                                   Foreground="{DynamicResource CivicSecondaryTextBrush}"
+                                   FontFamily="Microsoft YaHei UI, Segoe UI"
+                                   FontSize="9" />
+                    </StackPanel>
+                    <UniformGrid Grid.Row="1"
+                                 Grid.ColumnSpan="2"
+                                 Columns="10"
+                                 Height="6"
+                                 VerticalAlignment="Bottom"
+                                 x:Name="PlusFiveHourMeter"
+                                 AutomationProperties.AutomationId="PlusFiveHourMeter">
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" />
+                    </UniformGrid>
+                </Grid>
+            </Border>
+
+            <Border x:Name="WeeklySection"
+                    Grid.Row="2"
+                    Margin="0"
+                    BorderBrush="{DynamicResource CivicStructureLineBrush}"
+                    BorderThickness="0,0,0,1">
+                <Grid x:Name="WeeklyContentGrid" Margin="12,7,12,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="13" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="85" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.RowSpan="2"
+                               x:Name="WeeklyValue"
+                               Text="38%"
+                               Foreground="{DynamicResource CivicPrimaryTextBrush}"
+                               FontFamily="Segoe UI"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Margin="0,-8,0,0"
+                               VerticalAlignment="Center"
+                               AutomationProperties.AutomationId="PlusWeeklyRow" />
+                    <StackPanel Grid.Column="1"
+                                VerticalAlignment="Center">
+                        <TextBlock x:Name="FullWeeklyLabelText" Text="每周"
+                                   Foreground="{DynamicResource CivicPrimaryTextBrush}"
+                                   FontFamily="Microsoft YaHei UI, Segoe UI"
+                                   FontSize="11"
+                                   FontWeight="Bold" />
+                        <TextBlock x:Name="FullWeeklyRemainingText" Text="—"
+                                   Foreground="{DynamicResource CivicSecondaryTextBrush}"
+                                   FontFamily="Microsoft YaHei UI, Segoe UI"
+                                   FontSize="9" />
+                    </StackPanel>
+                    <UniformGrid Grid.Row="1"
+                                 Grid.ColumnSpan="2"
+                                 Columns="10"
+                                 Height="6"
+                                 VerticalAlignment="Bottom"
+                                  x:Name="WeeklyMeter"
+                                 AutomationProperties.AutomationId="PlusWeeklyMeter">
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" Margin="0,0,2,0" />
+                        <Path Data="M0,0 H17 L22,3 L17,6 H0 L4,3 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" />
+                    </UniformGrid>
+                </Grid>
+            </Border>
+
+            <Grid x:Name="ResetRow"
+                  Grid.Row="3"
+                  Margin="12,0"
+                  AutomationProperties.AutomationId="PlusResetRow">
+                <TextBlock x:Name="ResetCreditsText" Text="重置机会 —"
+                           Foreground="{DynamicResource CivicPrimaryTextBrush}"
+                           FontFamily="Microsoft YaHei UI, Segoe UI"
+                           FontSize="9"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center" />
+                <TextBlock x:Name="EarliestExpiryText" Text="最早到期 —"
+                           Foreground="{DynamicResource CivicSecondaryTextBrush}"
+                           FontFamily="Microsoft YaHei UI, Segoe UI"
+                           FontSize="9"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center" />
+            </Grid>
+
+            <Grid x:Name="ActionBar"
+                  Grid.Row="4"
+                  Margin="0"
+                  Background="#15233C"
+                  AutomationProperties.AutomationId="PlusActionBar">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="102" />
+                    <ColumnDefinition Width="74" />
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition Width="54" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           Margin="12,0,0,0"
+                           x:Name="BillingText"
+                           Text="用量与账单 →"
+                           Foreground="{DynamicResource CivicAccentBrush}"
+                           FontFamily="Microsoft YaHei UI, Segoe UI"
+                           FontSize="9"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           TextWrapping="Wrap"
+                           AutomationProperties.AutomationId="Billing"
+                           Cursor="Hand"
+                           MouseLeftButtonUp="Billing_OnClick" />
+                <TextBlock Grid.Column="1"
+                           x:Name="FullSyncText"
+                           Text="已同步"
+                           Foreground="{DynamicResource CivicSyncBrush}"
+                           FontFamily="Microsoft YaHei UI, Segoe UI"
+                           FontSize="9"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           AutomationProperties.AutomationId="Sync" />
+                <Button Grid.Column="2"
+                        Height="20"
+                        Margin="2,4,2,0"
+                        VerticalAlignment="Top"
+                        x:Name="RefreshButton"
+                        Content="刷新"
+                        ToolTip="刷新"
+                        Style="{DynamicResource CivicShellButtonStyle}"
+                        AutomationProperties.AutomationId="Refresh"
+                        Click="Refresh_OnClick" />
+                <Button Grid.Column="3"
+                        Height="20"
+                        Margin="2,4,2,0"
+                        VerticalAlignment="Top"
+                        x:Name="SettingsButton"
+                        Content="设置"
+                        ToolTip="设置"
+                        Style="{DynamicResource CivicShellButtonStyle}"
+                        AutomationProperties.AutomationId="Settings"
+                        Click="Settings_OnClick" />
+            </Grid>
+        </Grid>
+        <Grid x:Name="OrbSurfaceGrid"
+              Visibility="Collapsed"
+              AutomationProperties.AutomationId="OrbSurface">
+            <Grid x:Name="OrbPlusSurface"
+                  Visibility="Collapsed"
+                  Margin="6,5,6,4"
+                  AutomationProperties.AutomationId="OrbPlusRoot">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="26" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="17" />
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0"
+                        BorderThickness="0"
+                        AutomationProperties.AutomationId="OrbPlusFiveHourSection">
+                    <Grid Margin="0,-1,0,2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="19" />
+                            <RowDefinition Height="6" />
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="OrbPlusFiveHourLabelText" Text="5小时"
+                                   AutomationProperties.AutomationId="OrbPlusFiveHourRow"
+                                   Foreground="{DynamicResource CivicPrimaryTextBrush}"
+                                   FontFamily="Microsoft YaHei UI, Segoe UI"
+                                   FontSize="10"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center" />
+                        <TextBlock x:Name="OrbPlusFiveHourValue" Text="—"
+                                   Grid.Row="0"
+                                   Foreground="{DynamicResource CivicPrimaryTextBrush}"
+                                   FontFamily="Segoe UI"
+                                   FontSize="13"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center" />
+                        <UniformGrid Grid.Row="1"
+                                     Columns="10"
+                                     Width="57"
+                                     Height="4"
+                                     HorizontalAlignment="Left"
+                                     Margin="0,0,0,3"
+                                     VerticalAlignment="Bottom"
+                                     x:Name="OrbPlusFiveHourMeter"
+                                     AutomationProperties.AutomationId="OrbPlusFiveHourMeter">
+                            <UniformGrid.RenderTransform>
+                                <TranslateTransform Y="-1" />
+                            </UniformGrid.RenderTransform>
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                        </UniformGrid>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="1"
+                        BorderThickness="0"
+                        AutomationProperties.AutomationId="OrbPlusWeeklySection">
+                    <Grid Margin="0,-3,0,3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15" />
+                            <RowDefinition Height="5" />
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="OrbPlusWeeklyLabelText" Text="每周"
+                                   AutomationProperties.AutomationId="OrbPlusWeeklyRow"
+                                   Foreground="{DynamicResource CivicPrimaryTextBrush}"
+                                   FontFamily="Microsoft YaHei UI, Segoe UI"
+                                   FontSize="10"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center" />
+                        <TextBlock x:Name="OrbPlusWeeklyValue" Text="—"
+                                   Grid.Row="0"
+                                   Foreground="{DynamicResource CivicPrimaryTextBrush}"
+                                   FontFamily="Segoe UI"
+                                   FontSize="13"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center" />
+                        <UniformGrid Grid.Row="1"
+                                     Columns="10"
+                                     Width="57"
+                                     Height="3"
+                                     HorizontalAlignment="Left"
+                                     Margin="0,0,0,1"
+                                     VerticalAlignment="Bottom"
+                                     x:Name="OrbPlusWeeklyMeter"
+                                     AutomationProperties.AutomationId="OrbPlusWeeklyMeter">
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                        </UniformGrid>
+                    </Grid>
+                </Border>
+
+                <TextBlock Grid.Row="2"
+                           x:Name="OrbPlusSyncText"
+                           Text="已同步"
+                           Foreground="{DynamicResource CivicSyncBrush}"
+                           FontFamily="Microsoft YaHei UI, Segoe UI"
+                           FontSize="9"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="0"
+                           AutomationProperties.AutomationId="OrbPlusSync" />
+            </Grid>
+
+            <Grid x:Name="OrbProSurface"
+                  Visibility="Collapsed"
+                  Margin="6,3,6,4"
+                  AutomationProperties.AutomationId="OrbProRoot">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="27" />
+                    <RowDefinition Height="13" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0"
+                        BorderThickness="0"
+                        AutomationProperties.AutomationId="OrbProWeeklySection">
+                    <Grid Margin="0,3,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="18" />
+                            <RowDefinition Height="6" />
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="OrbProWeeklyLabelText" Text="每周"
+                                   AutomationProperties.AutomationId="OrbProWeeklyRow"
+                                   Foreground="{DynamicResource CivicPrimaryTextBrush}"
+                                   FontFamily="Microsoft YaHei UI, Segoe UI"
+                                   FontSize="10"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center" />
+                        <TextBlock x:Name="OrbProWeeklyValue" Text="—"
+                                   Grid.Row="0"
+                                   Foreground="{DynamicResource CivicPrimaryTextBrush}"
+                                   FontFamily="Segoe UI"
+                                   FontSize="13"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center" />
+                        <UniformGrid Grid.Row="1"
+                                     Columns="10"
+                                     Width="57"
+                                     Height="4"
+                                     HorizontalAlignment="Left"
+                                     Margin="0,0,0,3"
+                                     VerticalAlignment="Bottom"
+                                      x:Name="OrbProWeeklyMeter"
+                                      AutomationProperties.AutomationId="OrbProWeeklyMeter">
+                            <UniformGrid.RenderTransform>
+                                <TranslateTransform Y="-1" />
+                            </UniformGrid.RenderTransform>
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicAccentBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                            <Path Width="4" Height="3" Data="M0,0 H2.8 L4,1.5 L2.8,3 H0 L1.2,1.5 Z" Fill="{DynamicResource CivicInactiveMeterBrush}" Stretch="Fill" HorizontalAlignment="Center" />
+                        </UniformGrid>
+                    </Grid>
+                </Border>
+                <TextBlock Grid.Row="1"
+                           x:Name="OrbProSyncText"
+                           Text="已同步"
+                           Foreground="{DynamicResource CivicSyncBrush}"
+                           FontFamily="Microsoft YaHei UI, Segoe UI"
+                           FontSize="9"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="0"
+                           AutomationProperties.AutomationId="OrbProSync" />
+            </Grid>
+        </Grid>
+        </Grid>
+    </Border>
+</Window>

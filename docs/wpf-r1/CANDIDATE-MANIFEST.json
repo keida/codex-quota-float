@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "candidate": "WPF R1 after PUB-WPF-001",
+  "status": "accepted with documented limitations",
+  "provenance": {
+    "source_detachment": "Three byte-identical WPF-owned copies; native Compile/Link references removed.",
+    "builds": "Prior PUB-WPF-001 current-tree and independent source-view Release builds: 0 warnings, 0 errors.",
+    "tests": "Prior PUB-WPF-001: 29 focused deterministic fixtures passed in each source view.",
+    "runtime": "Prior PUB-WPF-001: synthetic Full 278x216 at 96 DPI; normal/auto exit code 0, residual 0.",
+    "documentation_step": "Publication cleanup step 2 performs static/hash checks only; no new build, tests or runtime launch.",
+    "reproducibility": "Hashes identify local artifacts; clean tagged-build or cross-root byte reproducibility is not claimed.",
+    "supersedes": "Earlier QF-WPF-012 final-recheck DLL; UI acceptance reused under unchanged-source analysis."
+  },
+  "verified_native_dpi": 96,
+  "limitations": [
+    "Same real Pro account Fresh -> SignedOut -> Fresh — NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE",
+    "Isolated Codex Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery — NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE",
+    "Native Windows 125% / 120 DPI and 150% / 144 DPI — NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE"
+  ],
+  "source_files": [
+    {
+      "path": "wpf/app.manifest",
+      "sha256": "CF44A87DD9DB916FD332BDE6C6469481710F0C915274D7FC00EC13C5EC217397",
+      "bytes": 747
+    },
+    {
+      "path": "wpf/App.xaml",
+      "sha256": "F9A3116A80EC5A0A0A2F9BC856ED5B070C94A99643BB75FB8C2C467A2D2196F9",
+      "bytes": 281
+    },
+    {
+      "path": "wpf/App.xaml.cs",
+      "sha256": "C56EF21FF29DC0B36D477DAD7DBF5451B207FBE5EBBA79EE98BFAD379CE069AA",
+      "bytes": 819
+    },
+    {
+      "path": "wpf/Interaction/OrbFullInteractionStateMachine.cs",
+      "sha256": "D4571551CAB34375DA93111AD5AC371E03083210DD1D85D0AA7BB17AC8E92ECD",
+      "bytes": 3375
+    },
+    {
+      "path": "wpf/Platform/WindowPlacementService.cs",
+      "sha256": "51CF9D98466FDA66BE3E3CF7588F35907455B8C31B29E0B81ECD009BCFE52DEA",
+      "bytes": 5529
+    },
+    {
+      "path": "wpf/QuotaFloat.Wpf.csproj",
+      "sha256": "82D81A458D195467932E0B280FA179A3A7F18B79D1C8D372218D657D6A7BFB48",
+      "bytes": 677
+    },
+    {
+      "path": "wpf/Resources/CivicWayfinding.xaml",
+      "sha256": "E65B988214CD68CF8C3D97FD82293BA858B874403EA92C2D750183E1481D8888",
+      "bytes": 1427
+    },
+    {
+      "path": "wpf/Resources/UiText.cs",
+      "sha256": "37624FAE80704348BCF280E65F12F05D5020B2C04AFDF4E02EAF172C7A5DCA3E",
+      "bytes": 4476
+    },
+    {
+      "path": "wpf/Services/BillingLauncher.cs",
+      "sha256": "5F251A1F9D49F2CC2E3FD3E515DE1F8C6A4C6303333186ABBC863D1F24E19631",
+      "bytes": 1133
+    },
+    {
+      "path": "wpf/Services/CodexPresenceService.cs",
+      "sha256": "A85FB8C6A0E1CF62A550ED1A73B6982265B7DC15437FCC8248AA7A2A3AB3CC87",
+      "bytes": 2949
+    },
+    {
+      "path": "wpf/Services/PreferenceStore.cs",
+      "sha256": "91CAE03D139E7916FBF772B31DCFF88D2BE7C0EE79C19585FCB804B71DF610E8",
+      "bytes": 3293
+    },
+    {
+      "path": "wpf/Services/QuotaRefreshCoordinator.cs",
+      "sha256": "24D69EA29078CC0402CA834135065F02463C4DA68502669728EF171B60307F63",
+      "bytes": 8677
+    },
+    {
+      "path": "wpf/Services/QuotaState.cs",
+      "sha256": "A4423B03165CFCE314072017C332BB844BEBC8B6AABFED7F1BDCB7B74C46D475",
+      "bytes": 1660
+    },
+    {
+      "path": "wpf/Services/SingleInstanceService.cs",
+      "sha256": "2D35498AE271F024F4D606488FCCD42D3413E5AD6C602FE3FB8B971E840FB5E1",
+      "bytes": 2821
+    },
+    {
+      "path": "wpf/Services/TrayIconService.cs",
+      "sha256": "83BF517254DF43122F2A0976990412E502B1A31A2091BDE1AFC04F3C0FFE0967",
+      "bytes": 6912
+    },
+    {
+      "path": "wpf/Services/WpfApplicationCoordinator.cs",
+      "sha256": "E3A27C932E005F4DDE8FBC44E3BCC85619352B84C9FC3343E66ECFECEAAD1F17",
+      "bytes": 10708
+    },
+    {
+      "path": "wpf/Shared/CodexLifecycle.cs",
+      "sha256": "8A8B60B5E8A47E553B1552CF93F5B74DEFBD0B1F153ED71200A2C0C9EEEE43E6",
+      "bytes": 36930
+    },
+    {
+      "path": "wpf/Shared/QuotaClient.cs",
+      "sha256": "5123482D6B149AEA71A9FC05BD405EA62113AF65F36EE5DA6E42A6DE61F59CD2",
+      "bytes": 6985
+    },
+    {
+      "path": "wpf/Shared/QuotaData.cs",
+      "sha256": "B179F2003AAF106CBD58FE46924EBFA70B59CEAFF310602FE2D46FF4664AA17F",
+      "bytes": 9837
+    },
+    {
+      "path": "wpf/SharedUsings.cs",
+      "sha256": "8CC27E25FC569C6EBA243F0EBC635BA382F429B482EF3054BC307EBF4FF024FA",
+      "bytes": 54
+    },
+    {
+      "path": "wpf/Skins/CivicWayfinding/CivicWayfindingSkin.cs",
+      "sha256": "806C058B70E3A577A31132B82E57006FB77A9404116F4DCE548C497A3BB38B52",
+      "bytes": 341
+    },
+    {
+      "path": "wpf/Skins/IWidgetSkin.cs",
+      "sha256": "477993657DCC46B108CE02C5561AC59F62F0FD7DB39FBA72732712F637009357",
+      "bytes": 156
+    },
+    {
+      "path": "wpf/Skins/WidgetSkinRegistry.cs",
+      "sha256": "FA5876975E3E527557DE41D4BD6E40890CCB475321229AE1CA50714132185686",
+      "bytes": 201
+    },
+    {
+      "path": "wpf/tests/Program.cs",
+      "sha256": "7BC276A1FABC85F183BDAA54F29874D0FC4E821228C4BFDF3A182F539E7D1C44",
+      "bytes": 16416
+    },
+    {
+      "path": "wpf/tests/QuotaFloat.Wpf.Tests.csproj",
+      "sha256": "6E3BC7CBC7E3FC2B45E4E3B4E4AE1CC475DD4EBB6B9AAF4733E6C2FC1B61E129",
+      "bytes": 401
+    },
+    {
+      "path": "wpf/Windows/MainWindow.xaml",
+      "sha256": "6C4DE06BEAC95BCFD381F41B2EE1916C83563D9885E7DA471BE6ADFE777AE9FB",
+      "bytes": 29347
+    },
+    {
+      "path": "wpf/Windows/MainWindow.xaml.cs",
+      "sha256": "E5D1BCC03CFFE23F0B9AA685C03D1C7584D89F18A16384A5F55DD9967424CF32",
+      "bytes": 48541
+    },
+    {
+      "path": "wpf/Windows/ProductScaleLayout.cs",
+      "sha256": "2D3E13A676EB54D0FFDBA0782F637B914BEC5FA710E2E9C9A54B72B28DDC41C4",
+      "bytes": 1251
+    },
+    {
+      "path": "wpf/Windows/SettingsWindow.xaml",
+      "sha256": "AC36474E378E64A7076F58206B44D8504B02A895FD9558B487CAA12516B2DDE2",
+      "bytes": 25400
+    },
+    {
+      "path": "wpf/Windows/SettingsWindow.xaml.cs",
+      "sha256": "ED0A8A64FA2182F0C69BAB9F838CA64B5397698B0E65840126E0E8FF45DE6EA8",
+      "bytes": 16186
+    }
+  ],
+  "runtime_files": [
+    {
+      "path": "wpf/bin/Release/net8.0-windows/QuotaFloat.Wpf.deps.json",
+      "sha256": "74ABC7675EF11BA131B1BAAFC5DA5BECB386DE95F22C3B76ED7A46502F2EF158",
+      "bytes": 434,
+      "publication": "Release asset only after authorization; excluded from Git"
+    },
+    {
+      "path": "wpf/bin/Release/net8.0-windows/QuotaFloat.Wpf.dll",
+      "sha256": "CADA7E944A418F080EA43658B6C76ACCE68E05824C050AA7A66C9F0F122256E1",
+      "bytes": 225792,
+      "publication": "Release asset only after authorization; excluded from Git"
+    },
+    {
+      "path": "wpf/bin/Release/net8.0-windows/QuotaFloat.Wpf.exe",
+      "sha256": "77A2E2D531C56E6B5FE2A0E69A4203DD1E667ED61D88BB7FFF80A952E3C11A40",
+      "bytes": 152064,
+      "publication": "Release asset only after authorization; excluded from Git"
+    },
+    {
+      "path": "wpf/bin/Release/net8.0-windows/QuotaFloat.Wpf.runtimeconfig.json",
+      "sha256": "C71152BF25E40D647B2440C5B39BE157A3D356106BE9D5B678AB97BB87B4E782",
+      "bytes": 458,
+      "publication": "Release asset only after authorization; excluded from Git"
+    }
+  ]
+}

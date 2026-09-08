@@ -26,3 +26,37 @@ diagnostics/
 *.key
 .vs/
 *.user
+
+# WPF generated outputs and local tooling state.
+/wpf/**/bin/
+/wpf/**/obj/
+/.d-ai/
+/.codex/
+/.impeccable/
+**/TestResults/
+**/.cache/
+**/cache/
+**/tmp/
+**/temp/
+*.tmp
+*.temp
+
+# Local historical material excluded from WPF R1 publication.
+/PRODUCT.md
+/docs/UI-SPEC-R12.md
+/docs/wpf-r1/tickets/
+/design-preview/*
+!/design-preview/wpf-r1/
+/design-preview/wpf-r1/*
+!/design-preview/wpf-r1/01-civic-full-orb-zh.png
+!/design-preview/wpf-r1/02-civic-full-orb-en.png
+!/design-preview/wpf-r1/03-civic-settings-zh.png
+!/design-preview/wpf-r1/04-civic-settings-en.png
+!/design-preview/wpf-r1/scale-approval/
+/design-preview/wpf-r1/scale-approval/*
+!/design-preview/wpf-r1/scale-approval/qf-wpf-010-scale-design-approval-pack.png
+!/design-preview/wpf-r1/scale-approval/candidate-a-40-orb-first.png
+!/design-preview/wpf-r1/scale-approval/candidate-a-plus-70-zh.png
+!/design-preview/wpf-r1/scale-approval/candidate-a-plus-70-en.png
+!/design-preview/wpf-r1/scale-approval/candidate-a-pro-70-zh.png
+!/design-preview/wpf-r1/scale-approval/candidate-a-pro-70-en.png
