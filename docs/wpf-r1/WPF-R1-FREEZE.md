@@ -13,7 +13,7 @@ The accepted simplified WPF candidate is now locally committed on branch `codex/
 
 Commit 1 source SHA is `c186aaf6b561ba45f0fae43a96edb2b9ee8f4362`. The branch base and immutable comparison base are canonical `origin/main` SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`. The prior `ce9cc923ded971d8aa051ab8d4b69dc065051c8b` is a historical identical-tree baseline, not the simplified candidate commit.
 
-Boss accepted the simplification and final ApplyState ownership fix. The independent ownership recheck also passed. The two local commits preserve the exact source-then-docs order; no build, test, push, merge, tag, Release, or external GitHub mutation is performed.
+Boss accepted the simplification and final ApplyState ownership fix. The independent ownership recheck also passed. The local commit sequence records the WPF source candidate first and documentation-only updates afterward; no build, test, push, merge, tag, Release, or external GitHub mutation is performed.
 
 ## Frozen contract
 
