@@ -2,7 +2,7 @@
 
 Status: **exact local publication set; publication HOLD**.
 
-Rebaseline branch: `codex/wpf-r1-simplification`. Complete source snapshot SHA: `def17bee8088ccf574b95c39b6f47802927504b0`. Comparison base: canonical `origin/main` at immutable SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`. Expected staging set: **33 paths** — **19 WPF product/source/test paths**, **1 repository config path**, and **13 public documentation paths**. Optional public artifacts: **0**. No push, merge, tag, Release mutation, or external publication is authorized by this allowlist.
+Rebaseline branch: `codex/wpf-r1-simplification`. Complete source snapshot SHA: `dd6dcb4b03b914bf42f72ea1e47a1336a8ee0be0`. Comparison base: canonical `origin/main` at immutable SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`. Expected staging set: **34 paths** — **20 WPF product/source/test paths**, **1 repository config path**, and **13 public documentation paths**. Optional public artifacts: **0**. Reproducible clean-path EXE/DLL hashes supersede prior path-specific artifact hashes; accepted runtime semantics and WPF resources are unchanged. No push, merge, tag, Release mutation, or external publication is authorized by this allowlist.
 
 ## A. PUBLICATION REQUIRED — WPF delta (19)
 
@@ -14,6 +14,7 @@ Modified or added WPF paths:
 - `wpf/Platform/WindowCornerContract.cs`
 - `wpf/Platform/WindowPlacementService.cs`
 - `wpf/Properties/AssemblyInfo.cs`
+- `wpf/QuotaFloat.Wpf.csproj`
 - `wpf/Resources/CivicWayfinding.xaml`
 - `wpf/Resources/UiText.cs`
 - `wpf/Services/PreferenceStore.cs`
@@ -68,4 +69,4 @@ The deleted Billing and Product Scale source paths are explicit staging deletion
 
 ## Required pre-publication checks
 
-Before any push or separately authorized publication, re-check the exact 33-file committed range against canonical `origin/main` SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`, confirm the index is empty after the local commits, verify canonical Git blob hashes and byte counts, scan the selected files for secrets/private paths/identifiers, validate Markdown links and JSON parsing, and confirm no native or output path is committed. The V3 scope has completed local staging and rebaseline commits; push, merge, tag, Release, and external publication remain unperformed.
+Before any push or separately authorized publication, re-check the exact 34-file committed range against canonical `origin/main` SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`, confirm the index is empty after the local commits, verify canonical Git blob hashes and byte counts, scan the selected files for secrets/private paths/identifiers, validate Markdown links and JSON parsing, and confirm no native or output path is committed. The V3 scope has completed local staging and rebaseline commits; push, merge, tag, Release, and external publication remain unperformed.
