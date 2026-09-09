@@ -6,14 +6,14 @@ Freeze result: **PASS for documentation freeze; publication HOLD**.
 
 The accepted simplified WPF candidate is now locally committed on branch `codex/wpf-r1-simplification`. The complete source snapshot is recorded at the source snapshot commit below; later documentation-only updates preserve the publication record. No push, merge, tag, Release, or external publication is performed. It is identified by:
 
-- Reproducible clean-path EXE SHA-256 `4927B52297C9883D3052B5F2F7D494C56EBC24BEA6C7EAB2DD4BC2E351949FAC`
-- Reproducible clean-path WPF DLL SHA-256 `B6F8BCEF814680F75EF97C205006A02601E1BEE2B826D38CA9FA60CEB00A1F31`
+- Revision-independent clean-path EXE SHA-256 `FF3AFD7A3CDC748D0C4AF15C34C6C7F4533BCC53876869ABE49EF39713CC012F`
+- Revision-independent clean-path WPF DLL SHA-256 `2BBFE2AC0FCE9AD99B89EFE5447E3E5DF624B399641B3E469591A44D0097E0BB`
 - Windows 100% / 96 DPI native baseline
 - Current WPF source inventory in [`CANDIDATE-MANIFEST.json`](CANDIDATE-MANIFEST.json)
 
-Complete source snapshot SHA is `dd6dcb4b03b914bf42f72ea1e47a1336a8ee0be0`. The branch base and immutable comparison base are canonical `origin/main` SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`. The prior `ce9cc923ded971d8aa051ab8d4b69dc065051c8b` is a historical identical-tree baseline, not the complete source snapshot commit. The clean-path hashes supersede prior path-specific artifact hashes; semantic IL and WPF resource hashes remain unchanged.
+Complete source snapshot SHA is `1089a13bfb67549fabafedb83f11a022dfbf7784`. The branch base and immutable comparison base are canonical `origin/main` SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`. The prior `ce9cc923ded971d8aa051ab8d4b69dc065051c8b` is a historical identical-tree baseline, not the complete source snapshot commit. The revision-independent hashes supersede prior path-specific artifact hashes; InformationalVersion is `1.0.0` without SourceRevisionId, so documentation-only Git SHA changes do not alter the artifacts. Semantic IL and WPF resource hashes remain unchanged.
 
-Boss accepted the simplification and final ApplyState ownership fix. The independent ownership recheck passed, and the Release artifacts now reproduce byte-for-byte across two distinct clean checkout paths. Focused tests passed with 31 fixtures and 58 checks; lightweight runtime smoke passed for Plus Full and Settings at 96 DPI with normal exit and zero residual process. No push, merge, tag, Release, or external GitHub mutation is performed.
+Boss accepted the simplification and final ApplyState ownership fix. The independent ownership recheck passed, and the Release artifacts now reproduce byte-for-byte across two distinct clean checkout paths and remain independent of later documentation-only Git SHA. Focused tests passed with 31 fixtures and 58 checks; lightweight runtime smoke passed for Plus Full and Settings at 96 DPI with normal exit and zero residual process. No push, merge, tag, Release, or external GitHub mutation is performed.
 
 ## Frozen contract
 

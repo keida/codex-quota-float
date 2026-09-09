@@ -2,7 +2,7 @@
 
 Status: **exact local publication set; publication HOLD**.
 
-Rebaseline branch: `codex/wpf-r1-simplification`. Complete source snapshot SHA: `dd6dcb4b03b914bf42f72ea1e47a1336a8ee0be0`. Comparison base: canonical `origin/main` at immutable SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`. Expected staging set: **34 paths** — **20 WPF product/source/test paths**, **1 repository config path**, and **13 public documentation paths**. Optional public artifacts: **0**. Reproducible clean-path EXE/DLL hashes supersede prior path-specific artifact hashes; accepted runtime semantics and WPF resources are unchanged. No push, merge, tag, Release mutation, or external publication is authorized by this allowlist.
+Rebaseline branch: `codex/wpf-r1-simplification`. Complete source snapshot SHA: `1089a13bfb67549fabafedb83f11a022dfbf7784`. Comparison base: canonical `origin/main` at immutable SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`. Expected staging set: **34 paths** — **20 WPF product/source/test paths**, **1 repository config path**, and **13 public documentation paths**. Optional public artifacts: **0**. Reproducible clean-path EXE/DLL hashes supersede prior path-specific artifact hashes; artifacts are independent of checkout path and subsequent documentation-only Git SHA; accepted runtime semantics and WPF resources are unchanged. No push, merge, tag, Release mutation, or external publication is authorized by this allowlist.
 
 ## A. PUBLICATION REQUIRED — WPF delta (20)
 
