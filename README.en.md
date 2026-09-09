@@ -1,6 +1,6 @@
 # Quote Float
 
-The WPF R1 candidate is simplified and frozen. Its status is **Boss PASS, publication HOLD**: source is recorded in the local rebaseline branch's Commit 1 and the documentation freeze is recorded by Commit 2; no push, merge, tag, Release, or external publication is performed.
+The WPF R1 candidate is simplified and frozen. Its status is **Boss PASS, publication HOLD**: the complete source snapshot and subsequent documentation updates are recorded in the local rebaseline branch; no push, merge, tag, Release, or external publication is performed.
 
 ## Current product contract
 

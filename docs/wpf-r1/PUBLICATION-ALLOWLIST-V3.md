@@ -2,12 +2,13 @@
 
 Status: **exact local publication set; publication HOLD**.
 
-Rebaseline branch: `codex/wpf-r1-simplification`. Commit 1 source SHA: `c186aaf6b561ba45f0fae43a96edb2b9ee8f4362`. Comparison base: canonical `origin/main` at immutable SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`. Expected staging set: **31 paths** — **18 WPF product/source/test paths** and **13 public documentation paths**. Optional public artifacts: **0**. No push, merge, tag, Release mutation, or external publication is authorized by this allowlist.
+Rebaseline branch: `codex/wpf-r1-simplification`. Complete source snapshot SHA: `def17bee8088ccf574b95c39b6f47802927504b0`. Comparison base: canonical `origin/main` at immutable SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`. Expected staging set: **33 paths** — **19 WPF product/source/test paths**, **1 repository config path**, and **13 public documentation paths**. Optional public artifacts: **0**. No push, merge, tag, Release mutation, or external publication is authorized by this allowlist.
 
-## A. PUBLICATION REQUIRED — WPF delta (18)
+## A. PUBLICATION REQUIRED — WPF delta (19)
 
 Modified or added WPF paths:
 
+- `wpf/Diagnostics/EdgeDragDiagnostics.cs`
 - `wpf/Interaction/OrbFullInteractionStateMachine.cs`
 - `wpf/Platform/DwmWindowAppearance.cs`
 - `wpf/Platform/WindowCornerContract.cs`
@@ -29,6 +30,10 @@ Deleted obsolete WPF paths:
 
 - `wpf/Services/BillingLauncher.cs`
 - `wpf/Windows/ProductScaleLayout.cs`
+
+## A. PUBLICATION REQUIRED — repository config (1)
+
+- `.gitignore`
 
 ## A. PUBLICATION REQUIRED — public documentation (13)
 
@@ -57,10 +62,10 @@ None. Do not broaden the set with screenshots, PNGs, ZIPs, PDBs, logs, or local 
 - Credentials, `auth.json`, tokens, cookies, authorization headers, raw API payloads, account data, personal diagnostics, absolute personal paths, machine identifiers, PID/HWND values, Worker/task/thread identifiers, and private evidence logs.
 - Tauri material, release binaries, EXE/DLL/ZIP/PDB files, screenshots, duplicate or superseded evidence, and any old scale PNG references.
 - `PRODUCT.md` by default; it is not required by the WPF R1 delta.
-- LICENSE/THIRD_PARTY, `.gitignore`, or unrelated project files.
+- LICENSE/THIRD_PARTY or unrelated project files.
 
 The deleted Billing and Product Scale source paths are explicit staging deletions. The current manifest is the source-hash authority; local output evidence is excluded.
 
 ## Required pre-publication checks
 
-Before any push or separately authorized publication, re-check the exact 31-file committed range against canonical `origin/main` SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`, confirm the index is empty after the local commits, verify all manifest hashes, scan the selected files for secrets/private paths/identifiers, validate Markdown links and JSON parsing, and confirm no native or output path is committed. The V3 scope has completed local staging and rebaseline commits; push, merge, tag, Release, and external publication remain unperformed.
+Before any push or separately authorized publication, re-check the exact 33-file committed range against canonical `origin/main` SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`, confirm the index is empty after the local commits, verify canonical Git blob hashes and byte counts, scan the selected files for secrets/private paths/identifiers, validate Markdown links and JSON parsing, and confirm no native or output path is committed. The V3 scope has completed local staging and rebaseline commits; push, merge, tag, Release, and external publication remain unperformed.

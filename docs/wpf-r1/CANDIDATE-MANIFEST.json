@@ -4,8 +4,9 @@
   "branch": "codex/wpf-r1-simplification",
   "base_commit": "d86e21e01d3e1ed389cb53afa7f327184a345c3a",
   "prior_working_tree_base": "ce9cc923ded971d8aa051ab8d4b69dc065051c8b (identical tree; historical source baseline, not the simplified candidate commit)",
-  "source_commit": "c186aaf6b561ba45f0fae43a96edb2b9ee8f4362",
-  "candidate_state": "locally committed WPF source candidate; Commit 1 records source changes and Commit 2 records the documentation freeze; no push, merge, tag, Release, or external publication",
+  "source_snapshot_commit": "def17bee8088ccf574b95c39b6f47802927504b0",
+  "candidate_state": "complete WPF source snapshot recorded at source_snapshot_commit; subsequent documentation-only updates are recorded locally; no push, merge, tag, Release, or external publication",
+  "hash_basis": "source_inventory, config_inventory, and documentation_inventory SHA-256/byte counts use canonical Git blob bytes at their recorded commits; checkout EOL conversion is not the identity basis",
   "comparison_base": "origin/main",
   "comparison_base_sha": "d86e21e01d3e1ed389cb53afa7f327184a345c3a",
   "verified_native_baseline": "Windows 100% / 96 DPI",
@@ -67,6 +68,9 @@
   ],
   "documentation_inventory": [
     {"path":"docs/wpf-r1/SIMPLIFICATION-CONTRACT.md","sha256":"7E35DC131AC50EE8D752EC0EDD065466E63C5DC0FD0A53668C74F4EBE5A5D606","bytes":3276}
+  ],
+  "config_inventory": [
+    {"path":".gitignore","sha256":"1B52A90BD6C3EF55728D4CFB4F22CD83654F5891C7EDEA9A6DBBCBB14E1C94EC","bytes":1658}
   ],
   "deleted_obsolete_sources": ["wpf/Services/BillingLauncher.cs", "wpf/Windows/ProductScaleLayout.cs"],
   "limitations": [

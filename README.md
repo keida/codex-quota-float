@@ -1,6 +1,6 @@
 # Quote Float
 
-Quote Float 的 WPF R1 候选已完成简化冻结。当前状态是 **Boss PASS、publication HOLD**：源码已记录在本地 rebaseline branch 的 Commit 1，文档冻结由 Commit 2 完成；不执行 push、merge、tag、Release 或外部发布。
+Quote Float 的 WPF R1 候选已完成简化冻结。当前状态是 **Boss PASS、publication HOLD**：完整源代码快照和后续文档更新已记录在本地 rebaseline branch；不执行 push、merge、tag、Release 或外部发布。
 
 ## 当前产品契约
 
