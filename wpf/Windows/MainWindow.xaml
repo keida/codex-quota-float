@@ -1,7 +1,6 @@
 <Window x:Class="QuotaFloat.Wpf.Windows.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         Title="Quota Float WPF"
         WindowStartupLocation="CenterScreen"
         Width="278"
@@ -11,30 +10,18 @@
         WindowStyle="None"
         ResizeMode="NoResize"
         AllowsTransparency="False"
-        Background="Transparent"
+        Background="#101C31"
         SnapsToDevicePixels="True"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         TextOptions.TextRenderingMode="Grayscale"
         AutomationProperties.AutomationId="QuotaFloatWpfRootWindow"
         AutomationProperties.Name="Quota Float">
-    <shell:WindowChrome.WindowChrome>
-        <shell:WindowChrome CaptionHeight="0"
-                            ResizeBorderThickness="0"
-                            GlassFrameThickness="0"
-                            CornerRadius="0"
-                            UseAeroCaptionButtons="False" />
-    </shell:WindowChrome.WindowChrome>
-
-    <Border x:Name="ShellBorder"
-            Background="{DynamicResource CivicSurfaceBrush}"
-            BorderBrush="{DynamicResource CivicAccentBrush}"
-            BorderThickness="{DynamicResource CivicBorderThickness}"
-            CornerRadius="{DynamicResource CivicCornerRadius}"
+    <Border x:Name="SurfaceHostBorder"
+            Background="#101C31"
             MouseEnter="ShellSurface_OnMouseEnter"
             MouseLeave="ShellSurface_OnMouseLeave"
-            MouseLeftButtonDown="ShellSurface_OnMouseLeftButtonDown"
-            MouseLeftButtonUp="ShellSurface_OnMouseLeftButtonUp">
+            MouseLeftButtonDown="ShellSurface_OnMouseLeftButtonDown">
         <Grid x:Name="SurfaceHostGrid">
         <Grid x:Name="FullSurfaceGrid"
               AutomationProperties.AutomationId="PlusFullSurface">
@@ -205,36 +192,23 @@
                   Background="#15233C"
                   AutomationProperties.AutomationId="PlusActionBar">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="102" />
-                    <ColumnDefinition Width="74" />
-                    <ColumnDefinition Width="48" />
-                    <ColumnDefinition Width="54" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="56" />
+                    <ColumnDefinition Width="58" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0"
-                           Margin="12,0,0,0"
-                           x:Name="BillingText"
-                           Text="用量与账单 →"
-                           Foreground="{DynamicResource CivicAccentBrush}"
-                           FontFamily="Microsoft YaHei UI, Segoe UI"
-                           FontSize="9"
-                           FontWeight="Bold"
-                           VerticalAlignment="Center"
-                           TextWrapping="Wrap"
-                           AutomationProperties.AutomationId="Billing"
-                           Cursor="Hand"
-                           MouseLeftButtonUp="Billing_OnClick" />
-                <TextBlock Grid.Column="1"
                            x:Name="FullSyncText"
                            Text="已同步"
                            Foreground="{DynamicResource CivicSyncBrush}"
                            FontFamily="Microsoft YaHei UI, Segoe UI"
                            FontSize="9"
-                           TextAlignment="Center"
+                           Margin="11,0,0,0"
+                           TextAlignment="Left"
                            TextWrapping="Wrap"
-                           HorizontalAlignment="Center"
+                           HorizontalAlignment="Left"
                            VerticalAlignment="Center"
-                           AutomationProperties.AutomationId="Sync" />
-                <Button Grid.Column="2"
+                           AutomationProperties.AutomationId="SyncStatus" />
+                <Button Grid.Column="1"
                         Height="20"
                         Margin="2,4,2,0"
                         VerticalAlignment="Top"
@@ -244,7 +218,7 @@
                         Style="{DynamicResource CivicShellButtonStyle}"
                         AutomationProperties.AutomationId="Refresh"
                         Click="Refresh_OnClick" />
-                <Button Grid.Column="3"
+                <Button Grid.Column="2"
                         Height="20"
                         Margin="2,4,2,0"
                         VerticalAlignment="Top"
@@ -442,8 +416,8 @@
                            VerticalAlignment="Top"
                            Margin="0"
                            AutomationProperties.AutomationId="OrbProSync" />
-            </Grid>
-        </Grid>
+             </Grid>
+         </Grid>
         </Grid>
     </Border>
 </Window>

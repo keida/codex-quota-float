@@ -7,8 +7,7 @@ namespace QuotaFloat.Wpf.Services;
 public sealed class TrayIconService : IDisposable
 {
     public const int OpenSettingsCommandId = 0x5101;
-    public const int DisableClickThroughCommandId = 0x5102;
-    public const int ExitCommandId = 0x5103;
+    public const int ExitCommandId = 0x5102;
 
     private const int WmApp = 0x8000;
     private const int WmTrayCallback = WmApp + 0x4F;
@@ -27,17 +26,15 @@ public sealed class TrayIconService : IDisposable
     private const uint TpmRightButton = 0x0002;
 
     private readonly Action openSettings;
-    private readonly Action disableClickThrough;
     private readonly Action exitApplication;
     private readonly HwndSource hwndSource;
     private readonly uint iconId = 0x5146;
     private bool disposed;
     private bool iconAdded;
 
-    public TrayIconService(Window owner, Action openSettings, Action disableClickThrough, Action exitApplication)
+    public TrayIconService(Window owner, Action openSettings, Action exitApplication)
     {
         this.openSettings = openSettings;
-        this.disableClickThrough = disableClickThrough;
         this.exitApplication = exitApplication;
 
         var hwnd = new WindowInteropHelper(owner).Handle;
@@ -121,7 +118,6 @@ public sealed class TrayIconService : IDisposable
         try
         {
             AppendMenu(menu, MfString | MfEnabled, OpenSettingsCommandId, "打开设置");
-            AppendMenu(menu, MfString | MfEnabled, DisableClickThroughCommandId, "恢复鼠标控制");
             AppendMenu(menu, MfString | MfEnabled, ExitCommandId, "退出 Quote Float");
             SetForegroundWindow(hwnd);
             if (!GetCursorPos(out var point))
@@ -141,9 +137,6 @@ public sealed class TrayIconService : IDisposable
             {
                 case OpenSettingsCommandId:
                     openSettings();
-                    break;
-                case DisableClickThroughCommandId:
-                    disableClickThrough();
                     break;
                 case ExitCommandId:
                     exitApplication();

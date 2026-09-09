@@ -1,21 +1,11 @@
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using QuotaFloat.Wpf.Windows;
-
 namespace QuotaFloat.Wpf.Services;
 
 public sealed class UserPreferences
 {
-    public string DisplayMode { get; set; } = "Full";
     public string Language { get; set; } = "zh-Hans";
-    public int FullSizePercent { get; set; } = 100;
-    public bool AlwaysOnTop { get; set; } = true;
-    public bool EdgeAutoOrb { get; set; } = true;
-    public bool HoverExpandFull { get; set; } = true;
-    public bool AutoRefresh { get; set; } = true;
-    public bool FollowCodexLifecycle { get; set; } = true;
-    public bool LowQuotaAlerts { get; set; }
     public int RefreshIntervalSeconds { get; set; } = 30;
 }
 
@@ -80,22 +70,23 @@ public sealed class PreferenceStore
         File.WriteAllText(Path, JsonSerializer.Serialize(Current, SerializerOptions));
     }
 
-    public void Reset()
-    {
-        Current = new UserPreferences();
-        Save();
-    }
-
     private static UserPreferences Normalize(UserPreferences source)
     {
-        source.DisplayMode = string.Equals(source.DisplayMode, "Orb", StringComparison.OrdinalIgnoreCase)
-            ? "Orb"
-            : "Full";
         source.Language = string.Equals(source.Language, "en-US", StringComparison.OrdinalIgnoreCase)
             ? "en-US"
             : "zh-Hans";
-        source.FullSizePercent = ProductScaleRules.NormalizePercent(source.FullSizePercent);
-        source.RefreshIntervalSeconds = Math.Clamp(source.RefreshIntervalSeconds, 5, 3600);
+        source.RefreshIntervalSeconds = NearestRefreshInterval(source.RefreshIntervalSeconds);
         return source;
+    }
+
+    public static readonly int[] ApprovedRefreshIntervals = [15, 30, 60, 120, 300];
+
+    public static int NearestRefreshInterval(int value)
+    {
+        if (value <= 0) return 30;
+        return ApprovedRefreshIntervals
+            .OrderBy(candidate => Math.Abs(candidate - value))
+            .ThenBy(candidate => candidate)
+            .First();
     }
 }

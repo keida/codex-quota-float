@@ -1,11 +1,17 @@
+using System.IO;
 using System.Text.Json;
 using QuotaFloat;
+using QuotaFloat.Wpf.Interaction;
 using QuotaFloat.Wpf.Resources;
 using QuotaFloat.Wpf.Services;
+using QuotaFloat.Wpf.Platform;
+using QuotaFloat.Wpf.Windows;
 
 var failures = new List<string>();
+var checkCount = 0;
 void Check(bool condition, string label)
 {
+    checkCount++;
     if (!condition) failures.Add(label);
 }
 
@@ -151,9 +157,80 @@ using var rateLimitCancellation = new CancellationTokenSource(250);
 await rateLimitBackoffCoordinator.RunAutoRefreshAsync(() => TimeSpan.FromMilliseconds(20), rateLimitCancellation.Token);
 Check(rateLimitBackoffSource.CallCount >= 2 && rateLimitBackoffSource.CallCount <= 4, "rate-limit retry remains bounded");
 
-string? launched = null;
-var billing = new BillingLauncher(uri => { launched = uri; return true; });
-Check(billing.TryOpenUsageBilling() && launched == BillingLauncher.UsageBillingUri, "billing uses one validated read-only target");
+foreach (var interval in PreferenceStore.ApprovedRefreshIntervals)
+{
+    Check(PreferenceStore.NearestRefreshInterval(interval) == interval, $"approved refresh interval {interval}s remains exact");
+}
+Check(PreferenceStore.NearestRefreshInterval(0) == 30, "missing refresh interval defaults to 30s");
+Check(PreferenceStore.NearestRefreshInterval(44) == 30, "refresh interval migrates to nearest approved value");
+var migrationPath = Path.Combine(Path.GetTempPath(), $"quota-float-migration-{Guid.NewGuid():N}.json");
+File.WriteAllText(migrationPath, "{\"Language\":\"en-US\",\"RefreshIntervalSeconds\":47,\"DisplayMode\":\"Orb\",\"FullSizePercent\":40,\"ClickThrough\":true,\"LowQuotaAlerts\":true}");
+var migrated = PreferenceStore.Load(migrationPath);
+Check(migrated.Current.Language == "en-US" && migrated.Current.RefreshIntervalSeconds == 60, "legacy preferences retain language and normalize interval");
+migrated.Save();
+var persisted = File.ReadAllText(migrationPath);
+Check(!persisted.Contains("DisplayMode", StringComparison.Ordinal) && !persisted.Contains("ClickThrough", StringComparison.Ordinal) && !persisted.Contains("LowQuota", StringComparison.Ordinal), "removed preferences are not persisted");
+File.Delete(migrationPath);
+var appliedStates = new List<WidgetWindowState>();
+var controller = new WidgetWindowController(
+    new WidgetWindowState(WidgetPlacement.Free, TemporaryExpansion.None, WidgetPlan.Plus),
+    appliedStates.Add);
+Check(controller.DisplayMode == WidgetDisplayMode.Full, "free placement derives Full");
+controller.SetPlacement(WidgetPlacement.Left);
+Check(controller.DisplayMode == WidgetDisplayMode.Orb && controller.State.TemporaryExpansion == TemporaryExpansion.None, "edge placement derives Orb");
+controller.SetTemporaryExpansion(TemporaryExpansion.Full);
+Check(controller.DisplayMode == WidgetDisplayMode.Full && appliedStates.Count == 2, "temporary expansion derives Full through ApplyState");
+controller.SetTemporaryExpansion(TemporaryExpansion.None);
+Check(controller.DisplayMode == WidgetDisplayMode.Orb, "temporary expansion restore derives Orb");
+Check(WidgetWindowController.DimensionsFor(new WidgetWindowState(WidgetPlacement.Free, TemporaryExpansion.None, WidgetPlan.Plus)) == new System.Windows.Size(278, 216), "Plus Full dimensions remain frozen");
+Check(WidgetWindowController.DimensionsFor(new WidgetWindowState(WidgetPlacement.Right, TemporaryExpansion.None, WidgetPlan.Plus)) == new System.Windows.Size(74, 84), "Plus Orb dimensions remain frozen");
+Check(WidgetWindowController.DimensionsFor(new WidgetWindowState(WidgetPlacement.Free, TemporaryExpansion.None, WidgetPlan.Pro)) == new System.Windows.Size(278, 156), "Pro Full dimensions remain frozen");
+Check(WidgetWindowController.DimensionsFor(new WidgetWindowState(WidgetPlacement.Right, TemporaryExpansion.None, WidgetPlan.Pro)) == new System.Windows.Size(74, 62), "Pro Orb dimensions remain frozen");
+var clippedRightBounds = new System.Windows.Rect(2549, 785, 278, 216);
+var workArea = new System.Windows.Rect(0, 0, 2560, 1392);
+var clippedRightSnapped = WindowPlacementService.TryGetEdgeSnap(
+    clippedRightBounds, workArea, 96, new System.Windows.Size(74, 84), out var clippedRightEdge, out var clippedRightOrb);
+Check(clippedRightSnapped && clippedRightEdge == OrbEdge.Right && clippedRightOrb.Right == workArea.Right,
+    "edge snap recognizes a Full window dragged past the right work-area edge");
+var leftMonitorWorkArea = new System.Windows.Rect(-2560, 0, 2560, 1392);
+var leftMonitorBounds = new System.Windows.Rect(-4, 393, 278, 216);
+var leftMonitorPlacement = new WindowPlacement((IntPtr)2, leftMonitorBounds, leftMonitorWorkArea, 96);
+var leftMonitorSnapped = WindowPlacementService.TryGetEdgeSnap(
+    leftMonitorBounds, leftMonitorWorkArea, 96, new System.Windows.Size(74, 84), out var leftMonitorEdge, out var leftMonitorOrb);
+var primaryPlacement = new WindowPlacement((IntPtr)1, leftMonitorBounds, workArea, 96);
+var primaryOrb = WindowPlacementService.AnchorOrb(primaryPlacement, OrbEdge.Left, new System.Windows.Size(74, 84));
+var leftOrb = WindowPlacementService.AnchorOrb(leftMonitorPlacement, OrbEdge.Right, new System.Windows.Size(74, 84));
+Check(leftMonitorSnapped && leftMonitorEdge == OrbEdge.Right && leftMonitorOrb.Right == leftMonitorWorkArea.Right,
+    "left-monitor context detects the reached right edge from negative coordinates");
+Check(leftOrb.Right == leftMonitorWorkArea.Right && primaryOrb.Left == workArea.Left && leftOrb.Left != primaryOrb.Left,
+    "frozen monitor context keeps final Orb anchor on the selected monitor");
+var leftSavedOrb = new SavedOrbPosition(new System.Windows.Rect(-74, 711, 74, 84), leftMonitorWorkArea, OrbEdge.Right, (IntPtr)2, 96);
+var primarySavedOrb = new SavedOrbPosition(new System.Windows.Rect(2486, 711, 74, 84), workArea, OrbEdge.Right, (IntPtr)1, 96);
+var leftSavedContext = WindowPlacementService.FromSavedOrb(leftSavedOrb);
+var primarySavedContext = WindowPlacementService.FromSavedOrb(primarySavedOrb);
+var leftTemporaryFull = OrbFullPlacement.ReanchorTemporaryFull(leftSavedOrb, leftSavedContext.WorkArea, new System.Windows.Size(278, 216));
+var primaryTemporaryFull = OrbFullPlacement.ReanchorTemporaryFull(primarySavedOrb, primarySavedContext.WorkArea, new System.Windows.Size(278, 216));
+Check(leftSavedContext.Monitor == (IntPtr)2 && leftTemporaryFull.Left == -278 && leftTemporaryFull.Right == 0,
+    "saved left-monitor context expands Temporary Full inward on the same display");
+Check(primarySavedContext.Monitor == (IntPtr)1 && primaryTemporaryFull.Left == 2282 && primaryTemporaryFull.Right == 2560,
+    "saved primary context expands Temporary Full inward on the same display");
+for (var cycle = 0; cycle < 3; cycle++)
+{
+    var restoredLeft = WindowPlacementService.AnchorOrb(leftSavedContext, leftSavedOrb.Edge, new System.Windows.Size(74, 84));
+    var restoredPrimary = WindowPlacementService.AnchorOrb(primarySavedContext, primarySavedOrb.Edge, new System.Windows.Size(74, 84));
+    Check(restoredLeft == leftSavedOrb.Bounds && restoredPrimary == primarySavedOrb.Bounds,
+        $"saved Orb context restores exact coordinates on repeated cycle {cycle + 1}");
+}
+
+var cornerContract = WindowCornerContract.Civic;
+Check(WindowCornerContract.CivicIdentity == "QF-CORNERS-DWM-ROUNDSMALL-B3-OPAQUE" &&
+      cornerContract.NativeCornerPreference == 3 &&
+      cornerContract.BorderColor == 0x003DADE2,
+    "corner contract exposes the DWM small corner and native amber border");
+var invalidStateRejected = false;
+try { controller.ApplyState(new WidgetWindowState(WidgetPlacement.Free, TemporaryExpansion.Full, WidgetPlan.Plus)); }
+catch (InvalidOperationException) { invalidStateRejected = true; }
+Check(invalidStateRejected, "free plus temporary Full is structurally rejected");
 
 var absence = new CodexAbsenceConfirmation(3);
 Check(!absence.Observe(new(CodexObservationStatus.Unknown, 0, 0)), "failed scan is unknown");
@@ -175,7 +252,7 @@ if (failures.Count > 0)
 }
 
 Console.WriteLine("PASS: QF-WPF-009 focused fixtures and orchestration checks");
-Console.WriteLine($"RESULTS: fixtures=29; activeRequests={source.MaxActive}; refreshCalls={source.CallCount}; backoffCalls={backoffSource.CallCount}; privacy=normalized-values-only");
+Console.WriteLine($"RESULTS: fixtures=31; checks={checkCount}; activeRequests={source.MaxActive}; refreshCalls={source.CallCount}; backoffCalls={backoffSource.CallCount}; privacy=normalized-values-only");
 return 0;
 
 sealed class FakeQuotaSource : IQuotaSource
