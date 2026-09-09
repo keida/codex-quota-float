@@ -4,16 +4,17 @@ Freeze result: **PASS for documentation freeze; publication HOLD**.
 
 ## Frozen candidate
 
-The accepted simplified WPF candidate is now locally committed on branch `codex/wpf-r1-simplification`. The complete source snapshot is recorded at the source snapshot commit below; later documentation-only updates preserve the publication record. No push, merge, tag, Release, or external publication is performed. It is identified by:
+The accepted simplified WPF candidate was merged by PR #2 into `main` at `2db7775723201206a23a12752752368f0a9a25ec`. The v1.1.0 publication candidate is prepared on branch `codex/wpf-r1-v1.1.0-publication`; the complete versioned source snapshot is recorded at the source snapshot commit below, and later documentation-only updates preserve the artifact record. No Release is published. The existing v1.0.0 tag and Draft Release remain historical and are not reused or modified. It is identified by:
 
-- SourceLink-independent clean-path EXE SHA-256 `FF3AFD7A3CDC748D0C4AF15C34C6C7F4533BCC53876869ABE49EF39713CC012F`
-- SourceLink-independent clean-path WPF DLL SHA-256 `DF689E6ABB15B8099A96B81E18B133BBA581D83CCA8CB1371F060AB20505FBD9`
+- Versioned clean-path EXE SHA-256 `322DC1F8ED39A6769CCC1102A6C5D2CABBF088CF2C93003399D50C942CDCE507`
+- Versioned clean-path WPF DLL SHA-256 `E5F50F66903C29F45AEFF799B6738254A8D6CEC0D59A508103B89EC68D250976`
+- Assembly/File/Informational version `1.1.0.0` / `1.1.0.0` / `1.1.0`
 - Windows 100% / 96 DPI native baseline
 - Current WPF source inventory in [`CANDIDATE-MANIFEST.json`](CANDIDATE-MANIFEST.json)
 
-Complete source snapshot SHA is `e08353c8bfdbb1ccb23c65ca3799bb722132d501`. The branch base and immutable comparison base are canonical `origin/main` SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`. The prior `ce9cc923ded971d8aa051ab8d4b69dc065051c8b` is a historical identical-tree baseline, not the complete source snapshot commit. The SourceLink-independent hashes supersede prior path-specific artifact hashes; InformationalVersion is `1.0.0` without SourceRevisionId and SourceLink revision embedding is disabled, so checkout path and documentation-only Git SHA changes do not alter the artifacts. Semantic IL and WPF resource hashes remain unchanged.
+Complete versioned source snapshot SHA is `cb670afbea1391a175e6af1d9f58c4dc903d2988`. The branch base and immutable comparison base are canonical `origin/main` SHA `2db7775723201206a23a12752752368f0a9a25ec`. The v1.0.0 tag remains a historical pre-version-prep record, not the v1.1.0 candidate. The artifacts have no SourceRevisionId, SourceLink revision embedding is disabled, and later documentation-only Git SHA changes do not alter them. Semantic IL and WPF resource hashes remain unchanged.
 
-Boss accepted the simplification and final ApplyState ownership fix. The independent ownership recheck passed, and the Release artifacts now reproduce byte-for-byte across two distinct clean checkout paths and remain independent of later documentation-only Git SHA without embedded SourceLink revision payload. Focused tests passed with 31 fixtures and 58 checks; lightweight runtime smoke passed for Plus Full and Settings at 96 DPI with normal exit and zero residual process. No push, merge, tag, Release, or external GitHub mutation is performed.
+Boss accepted the simplification and final ApplyState ownership fix. The independent ownership recheck passed, and the v1.1.0 Release artifacts reproduce byte-for-byte across two distinct clean checkout paths without embedded SourceLink revision payload. Focused tests passed with 31 fixtures and 58 checks; lightweight runtime smoke passed for Plus Full and Settings at 96 DPI with normal exit and zero residual process. The source simplification is merged; this publication branch is prepared for review. No tag movement or Release publication is performed.
 
 ## Frozen contract
 
@@ -21,7 +22,7 @@ The active contract is [`SIMPLIFICATION-CONTRACT.md`](SIMPLIFICATION-CONTRACT.md
 
 ## Publication gate
 
-Publication is HOLD. [`PUBLICATION-ALLOWLIST-V3.md`](PUBLICATION-ALLOWLIST-V3.md) is the exact locally committed publication scope, not merely a proposal. Its local staging and rebaseline commits are complete; it excludes native dirty work, output evidence, binaries, credentials, runtime state, machine identifiers, and superseded material. No push, merge, tag, Release, or external mutation was performed.
+Publication is HOLD pending review of the v1.1.0 metadata line. [`PUBLICATION-ALLOWLIST-V3.md`](PUBLICATION-ALLOWLIST-V3.md) remains the exact locally committed source-publication scope; the current publication branch adds only the version metadata and these release records. It excludes native dirty work, output evidence, binaries, credentials, runtime state, machine identifiers, and superseded material. The existing v1.0.0 tag and Draft Release are untouched.
 
 ## Unverified scope
 
