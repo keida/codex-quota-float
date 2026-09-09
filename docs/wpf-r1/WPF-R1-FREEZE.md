@@ -21,7 +21,7 @@ The active contract is [`SIMPLIFICATION-CONTRACT.md`](SIMPLIFICATION-CONTRACT.md
 
 ## Publication gate
 
-Publication is HOLD. [`PUBLICATION-ALLOWLIST-V3.md`](PUBLICATION-ALLOWLIST-V3.md) is the only staging proposal. It excludes native dirty work, output evidence, binaries, credentials, runtime state, machine identifiers, and superseded material. No staging or external mutation was performed.
+Publication is HOLD. [`PUBLICATION-ALLOWLIST-V3.md`](PUBLICATION-ALLOWLIST-V3.md) is the exact locally committed publication scope, not merely a proposal. Its local staging and rebaseline commits are complete; it excludes native dirty work, output evidence, binaries, credentials, runtime state, machine identifiers, and superseded material. No push, merge, tag, Release, or external mutation was performed.
 
 ## Unverified scope
 

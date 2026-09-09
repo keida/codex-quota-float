@@ -26,4 +26,4 @@ WPF 工程位于 [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj)。开�
 2. 隔离 Codex `Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery`。
 3. 原生 Windows 125% / 150% DPI 运行验收。
 
-WPF R1 的 Boss PASS 不等于外部发布授权；publication HOLD 必须保持到另行完成 staging、发布审查和外部发布授权。
+WPF R1 的 Boss PASS 不等于外部发布授权；V3 范围已完成本地 staging 和本地提交，publication HOLD 目前仅表示仍需完成提交树完整性复核、发布审查和单独外部发布授权。

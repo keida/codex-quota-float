@@ -63,4 +63,4 @@ The deleted Billing and Product Scale source paths are explicit staging deletion
 
 ## Required pre-publication checks
 
-Before any separately authorized publication, re-check the exact 31-path set against canonical `origin/main` SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`, confirm the index is empty before staging, verify all manifest hashes, scan the selected files for secrets/private paths/identifiers, validate Markdown links and JSON parsing, and confirm no native or output path is staged. This freeze task performed only read-only checks and documentation writes.
+Before any push or separately authorized publication, re-check the exact 31-file committed range against canonical `origin/main` SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`, confirm the index is empty after the local commits, verify all manifest hashes, scan the selected files for secrets/private paths/identifiers, validate Markdown links and JSON parsing, and confirm no native or output path is committed. The V3 scope has completed local staging and rebaseline commits; push, merge, tag, Release, and external publication remain unperformed.

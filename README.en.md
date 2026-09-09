@@ -26,4 +26,4 @@ The verified baseline is Windows 100% / 96 DPI. These items remain explicitly `N
 2. Isolated Codex `Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery`.
 3. Native Windows 125% / 150% DPI runtime acceptance.
 
-Boss PASS does not grant external publication authorization. Publication HOLD remains until staging, publication review, and separate external authorization are completed.
+Boss PASS does not grant external publication authorization. The V3 scope has been locally staged and committed; publication HOLD now means clean committed-tree verification, publication review, and separate external authorization remain.
