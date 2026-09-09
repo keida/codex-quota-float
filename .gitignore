@@ -19,6 +19,9 @@ auth.json
 .env
 .env.*
 diagnostics/
+# Keep the tracked WPF diagnostics helper as source; other diagnostics remain local-only.
+!wpf/Diagnostics/
+!wpf/Diagnostics/EdgeDragDiagnostics.cs
 *.log
 *.pfx
 *.p12
