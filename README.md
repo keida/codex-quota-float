@@ -1,65 +1,29 @@
-# Quote Float — WPF R1
+# Quote Float
 
-中文 · [English](README.en.md)
+Quote Float 的 WPF R1 候选已完成简化冻结。当前状态是 **Boss PASS、publication HOLD**：源码已记录在本地 rebaseline branch 的 Commit 1，文档冻结由 Commit 2 完成；不执行 push、merge、tag、Release 或外部发布。
 
-基于 C# / .NET 8 WPF 的 Windows x64 额度浮窗，读取本机 Codex 会话。WPF R1 已按明确限制完成验收；R1 是验收标识，不是已指定的语义版本号。本文不表示安装器或二进制 Release 已发布。
+## 当前产品契约
 
-## 当前功能
+- 原生 WPF Civic Wayfinding 浮窗，支持 Plus 与 Pro。
+- Full 与 Orb 是由位置、悬停和临时展开状态推导出的显示模式。
+- Settings 是固定 `420 × 296 DIP` 的非模态窗口；用户可选择的设置只有语言和刷新间隔，Done 用于关闭窗口。窗口中的已保存/说明文字不是设置状态，也没有 Settings 内的 Refresh 按钮；唯一的手动 Refresh 在 Full 页脚。Auto Refresh 始终开启，只作为说明文字展示。
+- Refreshing 保留已有额度；没有已有快照时显示 Loading。
+- R1 不包含 Product Scale，也不包含 Billing/Usage 导航、Auto Refresh 开关、Click-through 或主题/行为选择器。
 
-- 单一 Civic Wayfinding 界面，Full 与 Orb 两种形态，独立的中英文布局。
-- 按服务端实际返回的受支持额度窗口显示；当前接受的快照必须含 Weekly 窗口，不支持或只有 5 小时窗口的数据按格式错误处理；没有 5 小时窗口就没有该行，未知额度不显示为零。
-- 显示可用重置机会、最早有效到期时间、同步状态，并提供 Usage & billing 入口。
-- 产品比例只有 40%、70%、100% 三档：70% 为紧凑 Full；40% 常驻 Orb，悬停 300 ms 展开紧凑 Full。产品比例与 Windows DPI 分开处理。
-- 支持置顶、贴边变球、临时悬停展开、设置、单实例激活，以及通知区域的鼠标穿透恢复入口。
-- 已有额度时刷新保留内容并显示“刷新中”；没有历史额度时请求显示 Loading。
+## 运行与开发
 
-设置中仅保存低额度提醒偏好；实际提醒投递尚未实现。没有皮肤/主题选择器、胶囊形态、自动安装器或自动更新服务。
+WPF 工程位于 [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj)。开发说明见 [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)。源码候选、哈希、删除项和证据边界见 [`docs/wpf-r1/CANDIDATE-MANIFEST.json`](docs/wpf-r1/CANDIDATE-MANIFEST.json)。
 
-## 构建与运行
+真实额度模式读取本地 Codex 认证并访问 ChatGPT usage/reset-credit 服务；不要发布认证文件、token、原始响应、账户截图或私人诊断。`--direct` 用于独立启动，`--watch` 用于观察 Codex 存在状态；应用不会终止 Codex。
 
-需要 Windows x64 与 .NET 8 SDK。在仓库根目录运行：
+## 验收状态
 
-```powershell
-dotnet build wpf/QuotaFloat.Wpf.csproj -c Release
-dotnet run --project wpf/QuotaFloat.Wpf.csproj -c Release --no-build -- --direct
-```
+冻结候选的验收摘要见 [`docs/wpf-r1/ACCEPTANCE-SUMMARY.md`](docs/wpf-r1/ACCEPTANCE-SUMMARY.md)，完整契约见 [`docs/wpf-r1/SIMPLIFICATION-CONTRACT.md`](docs/wpf-r1/SIMPLIFICATION-CONTRACT.md)。发布边界见 [`docs/wpf-r1/PUBLICATION-ALLOWLIST-V3.md`](docs/wpf-r1/PUBLICATION-ALLOWLIST-V3.md)。
 
-`--direct` 不依赖 Codex 是否出现；改用 `--watch` 可启用已实现的跟随模式，在连续三次确认 Codex 缺席后退出。它不会启动 Codex，也不是永久后台启动器。更改跟随偏好在下次启动生效。不传模式时使用“跟随 Codex”保存偏好（初始开启）；同时传两个参数时 `--direct` 优先。真实关闭与重启的完整场景仍未验证。
-
-无需账号的合成演示：
-
-```powershell
-dotnet run --project wpf/QuotaFloat.Wpf.csproj -c Release --no-build -- --demo-state plus --demo-language zh --demo-scale 100 --demo-exit-ms 10000
-```
-
-演示模式不会创建真实额度客户端或 Codex 进程观察源。测试说明见[开发文档](docs/DEVELOPMENT.md)。
-
-## 隐私与网络
-
-真实模式由应用读取 `CODEX_HOME` 指向目录中的 `auth.json`，未配置时读取用户目录下的默认 `.codex` 登录文件。应用使用会话 token，通过经过认证的 HTTPS GET 请求访问 `chatgpt.com` 的额度与重置机会接口，因此不是纯离线显示。应用不会替你登录或修改登录文件。
-
-Billing 用默认浏览器打开额度页面；浮窗不购买或兑换重置机会。偏好保存在系统 LocalApplicationData 的 QuotaFloat 目录。不要公开登录文件、token、原始接口响应、账户截图或个人诊断。
-
-## 验收限制
-
-以下三项全部为 `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`：
+已验证基线是 Windows 100% / 96 DPI。以下事项明确保持 `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`：
 
 1. 同一真实 Pro 账户 `Fresh -> SignedOut -> Fresh`。
-2. 隔离 Codex 的 `Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery`。
-3. 原生 Windows 125% / 120 DPI 与 150% / 144 DPI 运行验收。
+2. 隔离 Codex `Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery`。
+3. 原生 Windows 125% / 150% DPI 运行验收。
 
-已原生验证的基线为 Windows 100% / 96 DPI。29 项确定性 fixture 通过，不代表真实登录/退出或完整 Codex 生命周期已经验证。详见[验收摘要](docs/wpf-r1/ACCEPTANCE-SUMMARY.md)、[发行说明](docs/wpf-r1/RELEASE-NOTES-R1.md)与[候选清单](docs/wpf-r1/CANDIDATE-MANIFEST.json)。
-
-## 设计参考
-
-![Civic Wayfinding 中文设计参考](design-preview/wpf-r1/01-civic-full-orb-zh.png)
-
-保留的十张 PNG 是获批静态设计参考，不是最终原生运行截图或可执行程序下载。历史设置图仍画有 40–180 滑块；后续获批的 40/70/100 三档比例及 Minimal Refreshing 规则，覆盖相关历史控件与状态细节。
-
-## 历史实现与署名
-
-`native/` 是历史 WinForms 实现。WPF 自有三份共享逻辑副本，构建不再依赖 native 目录；原有 legacy 修改不在本次发布选择中。
-
-[MIT 许可证](LICENSE)保持不变。[第三方声明](THIRD_PARTY_NOTICES.md)已更新以反映 WPF R1：`native/` WinForms 被明确标为历史实现，同时保留上游项目署名与许可证声明。
-
-本项目非 OpenAI 官方产品，未获其背书。
+WPF R1 的 Boss PASS 不等于外部发布授权；publication HOLD 必须保持到另行完成 staging、发布审查和外部发布授权。
