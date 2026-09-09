@@ -1,42 +1,28 @@
-# Quote Float WPF R1 — release notes
+# WPF R1 Release Notes
 
-Publication-preparation notes for a locally accepted candidate with documented limitations. R1 is an acceptance label; no semantic release version, installer or uploaded binary is asserted.
+Release state: **candidate frozen; publication HOLD**.
 
 ## Included
 
-- Windows x64 .NET 8 WPF implementation with Civic Wayfinding Full/Orb and Chinese/English.
-- Server-returned supported quota windows, reset-credit count and future expiry; unknown values remain unknown.
-- Discrete 40% Orb-first, 70% Compact Full and 100% Full layouts.
-- Settings, topmost, edge/hover behavior, tray recovery and single-instance coordination.
-- Loading without prior quota; Refreshing / 刷新中 while retaining accepted quota.
-- WPF-owned Shared source copies remove the native compilation dependency.
+- Native WPF Plus/Pro widget with accepted Full/Orb geometry and edge behavior.
+- Settings simplification: fixed `420 × 296 DIP` non-modal window with language and refresh interval choices; Done closes it. Saved/explanatory notes are not a sync/freshness setting or status. There is no Settings Refresh button; the sole manual Refresh action is in the Full footer. Auto Refresh is always on and may be shown as an explanatory note.
+- Minimal Refreshing behavior that retains accepted quota and does not invent data while Loading.
+- Unified `WidgetWindowController.ApplyState()` ownership for presentation, native geometry, DWM corners, and topmost state.
+- Tray recovery and single-instance activation with state reapplication.
 
-Real quota mode reads local Codex authentication and makes authenticated HTTPS requests to chatgpt.com. Billing opens the usage page; the widget does not purchase or redeem credits. Low-quota-alert preference storage is present, but notification delivery is not claimed.
+## Removed or superseded
 
-## Acceptance
+- Product Scale and its former scale-specific layout contract.
+- Billing/Usage navigation and `BillingLauncher`.
+- Auto Refresh, Click-through, theme, Mini mode, display-mode, alert, and unrelated behavior selectors.
+- `wpf/Windows/ProductScaleLayout.cs` and other obsolete source paths listed in the candidate manifest.
 
-Earlier final native acceptance was followed by PUB-WPF-001 source detachment: byte-identical copies, Release builds with zero warnings/errors, 29 deterministic fixtures in both current and independent source views, and native 96 DPI Full smoke with normal/automatic clean exits. Unchanged UI/stress evidence was reused. See [acceptance summary](ACCEPTANCE-SUMMARY.md) and [current manifest](CANDIDATE-MANIFEST.json).
+## Evidence
 
-Current candidate SHA-256:
+The accepted candidate passed the Release build, 31-fixture/58-check deterministic suite, targeted native 96 DPI smoke, single-instance activation smoke, and human ownership smoke. See [`ACCEPTANCE-SUMMARY.md`](ACCEPTANCE-SUMMARY.md) and [`CANDIDATE-MANIFEST.json`](CANDIDATE-MANIFEST.json).
 
-- EXE: `77A2E2D531C56E6B5FE2A0E69A4203DD1E667ED61D88BB7FFF80A952E3C11A40`
-- DLL: `CADA7E944A418F080EA43658B6C76ACCE68E05824C050AA7A66C9F0F122256E1`
+## Limitations
 
-The current DLL supersedes the earlier final-recheck candidate. These notes were prepared without a new build or runtime test.
+The verified baseline is Windows 100% / 96 DPI. Same-account Fresh/SignedOut/Fresh, isolated Codex close/absence/response/restart recovery, and native Windows 125% / 150% DPI runtime acceptance remain `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`.
 
-## Mandatory limitations
-
-1. Same real Pro account `Fresh -> SignedOut -> Fresh` — `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`.
-2. Isolated Codex `Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery` — `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`.
-3. Native Windows 125% / 120 DPI and 150% / 144 DPI runtime acceptance — `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`.
-
-Native verified baseline: Windows 100% / 96 DPI.
-
-## Maintenance rule
-
-- Relevant code changed -> rerun the relevant heavy gate.
-- Relevant code unchanged -> reuse accepted evidence plus lightweight smoke.
-
-Reuse requires source/candidate hashes and changed-file analysis that covers dependencies, packaging and runtime configuration.
-
-Static design references retain historical control details overridden by later scale/Refreshing contracts. They are not final native screenshots. Binary distribution, signing, version assignment and publication require their own approval.
+No binary distribution, signing, version assignment, tag movement, Draft Release mutation, or external publication is performed or authorized by these notes.

@@ -6,6 +6,7 @@ using QuotaFloat.Wpf.Interaction;
 namespace QuotaFloat.Wpf.Platform;
 
 internal readonly record struct WindowPlacement(
+    IntPtr Monitor,
     Rect Bounds,
     Rect WorkArea,
     uint Dpi);
@@ -34,6 +35,7 @@ internal static class WindowPlacementService
 
         var dpi = GetDpiForWindow(hwnd);
         placement = new WindowPlacement(
+            monitor,
             new Rect(windowRect.Left, windowRect.Top, windowRect.Right - windowRect.Left, windowRect.Bottom - windowRect.Top),
             new Rect(monitorInfo.Work.Left, monitorInfo.Work.Top, monitorInfo.Work.Right - monitorInfo.Work.Left, monitorInfo.Work.Bottom - monitorInfo.Work.Top),
             dpi == 0 ? 96u : dpi);
@@ -49,12 +51,13 @@ internal static class WindowPlacementService
         out Rect orbBounds)
     {
         var threshold = EdgeSnapLogicalPixels * dpi / DefaultDpi;
+        var clampedBounds = ClampToWorkArea(bounds, workArea);
         var distances = new[]
         {
-            (Edge: OrbEdge.Left, Distance: Math.Abs(bounds.Left - workArea.Left)),
-            (Edge: OrbEdge.Right, Distance: Math.Abs(workArea.Right - bounds.Right)),
-            (Edge: OrbEdge.Top, Distance: Math.Abs(bounds.Top - workArea.Top)),
-            (Edge: OrbEdge.Bottom, Distance: Math.Abs(workArea.Bottom - bounds.Bottom))
+            (Edge: OrbEdge.Left, Distance: Math.Abs(clampedBounds.Left - workArea.Left)),
+            (Edge: OrbEdge.Right, Distance: Math.Abs(workArea.Right - clampedBounds.Right)),
+            (Edge: OrbEdge.Top, Distance: Math.Abs(clampedBounds.Top - workArea.Top)),
+            (Edge: OrbEdge.Bottom, Distance: Math.Abs(workArea.Bottom - clampedBounds.Bottom))
         };
         var nearest = distances[0];
         foreach (var candidate in distances[1..])
@@ -73,27 +76,18 @@ internal static class WindowPlacementService
         }
 
         edge = nearest.Edge;
-        var left = Math.Clamp(bounds.Left, workArea.Left, Math.Max(workArea.Left, workArea.Right - orbSize.Width));
-        var top = Math.Clamp(bounds.Top, workArea.Top, Math.Max(workArea.Top, workArea.Bottom - orbSize.Height));
-        switch (edge)
-        {
-            case OrbEdge.Left:
-                left = workArea.Left;
-                break;
-            case OrbEdge.Right:
-                left = workArea.Right - orbSize.Width;
-                break;
-            case OrbEdge.Top:
-                top = workArea.Top;
-                break;
-            case OrbEdge.Bottom:
-                top = workArea.Bottom - orbSize.Height;
-                break;
-        }
-
-        orbBounds = new Rect(left, top, orbSize.Width, orbSize.Height);
+        orbBounds = AnchorOrb(new WindowPlacement(IntPtr.Zero, bounds, workArea, dpi), edge, orbSize);
         return true;
     }
+
+    internal static Rect AnchorOrb(WindowPlacement placement, OrbEdge edge, Size orbSize) =>
+        OrbFullPlacement.AnchorOrb(
+            new Rect(placement.Bounds.Location, orbSize),
+            placement.WorkArea,
+            edge);
+
+    internal static WindowPlacement FromSavedOrb(SavedOrbPosition saved) =>
+        new(saved.Monitor, saved.Bounds, saved.WorkArea, saved.Dpi);
 
     internal static Rect ClampToWorkArea(Rect bounds, Rect workArea) =>
         new(

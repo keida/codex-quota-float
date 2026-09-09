@@ -49,25 +49,18 @@ public sealed class WpfApplicationCoordinator : IDisposable
         {
             preferences.Current.Language = demoLanguage;
         }
-        if (ParseDemoScale(args) is { } demoScale)
-        {
-            preferences.Current.FullSizePercent = ProductScaleRules.NormalizePercent(demoScale);
-        }
-        LaunchMode = ParseLaunchMode(args, preferences.Current.FollowCodexLifecycle);
+        LaunchMode = ParseLaunchMode(args);
         var demoStatus = ParseDemoStatus(args);
         var demoMode = args.Any(a => string.Equals(a, "--demo-state", StringComparison.OrdinalIgnoreCase)) || demoStatus is not null;
         quota = demoMode ? null : new QuotaRefreshCoordinator(new QuotaClientSource());
         codex = demoMode ? null : new CodexLifecyclePresenceSource();
 
         var demo = ParseDemoState(args);
-        var useOrbPreference = !demo.explicitState && string.Equals(preferences.Current.DisplayMode, "Orb", StringComparison.OrdinalIgnoreCase);
         window = new MainWindow(
             demo.pro,
-            demo.explicitState ? demo.orb : useOrbPreference,
-            ParseProductTopmost(args, preferences.Current.AlwaysOnTop),
+            demo.explicitState && demo.orb,
             preferences,
             quota,
-            new BillingLauncher(),
             RequestExit,
             RefreshSettings);
         window.Closed += Window_OnClosed;
@@ -87,10 +80,7 @@ public sealed class WpfApplicationCoordinator : IDisposable
             var demoExit = ParseMilliseconds(args, "--demo-exit-ms");
             if (demoExit > 0) window.ScheduleDemoExit(demoExit);
         }
-        var topmostToggle = ParseMilliseconds(args, "--topmost-toggle-ms");
-        if (topmostToggle > 0) window.ScheduleProductTopmostToggle(topmostToggle);
-
-        _ = StartBackgroundWorkAsync(preferences.Current.AutoRefresh, preferences.Current.RefreshIntervalSeconds);
+        _ = StartBackgroundWorkAsync(preferences.Current.RefreshIntervalSeconds);
         return true;
     }
 
@@ -113,7 +103,7 @@ public sealed class WpfApplicationCoordinator : IDisposable
     public void RefreshSettings()
     {
         if (window is null) return;
-        ConfigureAutoRefresh(window.Preferences.Current.AutoRefresh, window.Preferences.Current.RefreshIntervalSeconds);
+        ConfigureAutoRefresh(window.Preferences.Current.RefreshIntervalSeconds);
     }
 
     public void Dispose()
@@ -129,13 +119,13 @@ public sealed class WpfApplicationCoordinator : IDisposable
         lifetime.Dispose();
     }
 
-    private async Task StartBackgroundWorkAsync(bool autoRefresh, int refreshIntervalSeconds)
+    private async Task StartBackgroundWorkAsync(int refreshIntervalSeconds)
     {
         if (quota is null || codex is null) return;
         try
         {
             _ = quota.RefreshAsync(lifetime.Token);
-            ConfigureAutoRefresh(autoRefresh, refreshIntervalSeconds);
+            ConfigureAutoRefresh(refreshIntervalSeconds);
 
             if (LaunchMode == WpfLaunchMode.Watch)
             {
@@ -145,16 +135,16 @@ public sealed class WpfApplicationCoordinator : IDisposable
         catch (OperationCanceledException) when (lifetime.IsCancellationRequested) { }
     }
 
-    private void ConfigureAutoRefresh(bool enabled, int fallbackSeconds)
+    private void ConfigureAutoRefresh(int fallbackSeconds)
     {
         autoRefreshLifetime?.Cancel();
         autoRefreshLifetime?.Dispose();
         autoRefreshLifetime = null;
-        if (!enabled || quota is null) return;
+        if (quota is null) return;
         autoRefreshLifetime = CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token);
         var token = autoRefreshLifetime.Token;
         _ = quota.RunAutoRefreshAsync(
-            () => TimeSpan.FromSeconds(Math.Clamp(window?.Preferences.Current.RefreshIntervalSeconds ?? fallbackSeconds, 5, 3600)),
+            () => TimeSpan.FromSeconds(PreferenceStore.NearestRefreshInterval(window?.Preferences.Current.RefreshIntervalSeconds ?? fallbackSeconds)),
             token);
     }
 
@@ -188,9 +178,7 @@ public sealed class WpfApplicationCoordinator : IDisposable
             if (window is not { IsVisible: true }) return;
             if (window.WindowState == WindowState.Minimized) window.WindowState = WindowState.Normal;
             window.Activate();
-            window.Topmost = window.ProductTopmostEnabled;
-            window.Topmost = false;
-            window.Topmost = window.ProductTopmostEnabled;
+            window.ReapplyCurrentState();
         }), DispatcherPriority.Input);
     }
 
@@ -201,11 +189,11 @@ public sealed class WpfApplicationCoordinator : IDisposable
         Application.Current.Shutdown();
     }
 
-    private static WpfLaunchMode ParseLaunchMode(string[] args, bool followPreference)
+    private static WpfLaunchMode ParseLaunchMode(string[] args)
     {
         if (args.Any(a => string.Equals(a, "--direct", StringComparison.OrdinalIgnoreCase))) return WpfLaunchMode.Direct;
         if (args.Any(a => string.Equals(a, "--watch", StringComparison.OrdinalIgnoreCase))) return WpfLaunchMode.Watch;
-        return followPreference ? WpfLaunchMode.Watch : WpfLaunchMode.Direct;
+        return WpfLaunchMode.Watch;
     }
 
     private static int ParseMilliseconds(string[] args, string option)
@@ -215,22 +203,9 @@ public sealed class WpfApplicationCoordinator : IDisposable
             if (string.Equals(args[i], option, StringComparison.OrdinalIgnoreCase)
                 && int.TryParse(args[i + 1], out var value)
                 && value > 0)
-            {
                 return Math.Min(value, 30_000);
-            }
         }
         return 0;
-    }
-
-    private static bool ParseProductTopmost(string[] args, bool defaultValue)
-    {
-        for (var i = 0; i < args.Length - 1; i++)
-        {
-            if (!string.Equals(args[i], "--topmost", StringComparison.OrdinalIgnoreCase)) continue;
-            if (args[i + 1] is "off" or "false" or "0") return false;
-            if (args[i + 1] is "on" or "true" or "1") return true;
-        }
-        return defaultValue;
     }
 
     private static (bool pro, bool orb, bool explicitState) ParseDemoState(string[] args)
@@ -286,19 +261,4 @@ public sealed class WpfApplicationCoordinator : IDisposable
         return null;
     }
 
-    private static int? ParseDemoScale(string[] args)
-    {
-        for (var i = 0; i < args.Length - 1; i++)
-        {
-            if (!string.Equals(args[i], "--demo-scale", StringComparison.OrdinalIgnoreCase)
-                || !int.TryParse(args[i + 1], out var value))
-            {
-                continue;
-            }
-
-            return ProductScaleRules.NormalizePercent(value);
-        }
-
-        return null;
-    }
 }

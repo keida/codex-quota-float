@@ -1,65 +1,29 @@
-# Quote Float — WPF R1
+# Quote Float
 
-[中文](README.md) · English
+The WPF R1 candidate is simplified and frozen. Its status is **Boss PASS, publication HOLD**: the complete source snapshot and subsequent documentation updates are recorded in the local rebaseline branch; no push, merge, tag, Release, or external publication is performed.
 
-A Windows x64 quota widget for a local Codex session, built with C# / .NET 8 WPF. WPF R1 is **accepted with documented limitations**. R1 is an acceptance label, not an assigned semantic release version. No installer or binary publication is claimed.
+## Current product contract
 
-## Current behavior
+- Native WPF Civic Wayfinding widget for Plus and Pro plans.
+- Full and Orb are derived display modes from placement, hover, and temporary expansion state.
+- Settings is a fixed `420 × 296 DIP` non-modal window. The only user-selectable settings are language and refresh interval; Done closes the window. Saved/explanatory notes are not a settings status, and Settings has no Refresh button. The sole manual Refresh action is in the Full footer. Auto Refresh is always on and is shown only as an explanatory note.
+- Refreshing retains accepted quota; without a prior snapshot the active request shows Loading.
+- R1 excludes Product Scale, Billing/Usage navigation, the Auto Refresh toggle, Click-through, and theme/behavior selectors.
 
-- One Civic Wayfinding interface, with Full and Orb modes and separate Chinese/English layouts.
-- Supported quota windows come from the service response; the accepted snapshot requires a Weekly window. Unsupported or 5-hour-only data is treated as malformed. A missing 5-hour window produces no row; unknown quota is not displayed as zero.
-- Available reset-credit count and earliest future expiry, refresh status and a Usage & billing action.
-- Product Scale selects exactly 40%, 70% or 100%: 70% uses Compact Full; 40% rests as Orb and a 300 ms hover opens Compact Full. Product scale is independent of Windows DPI.
-- Always-on-top, edge-to-Orb, temporary hover expansion, Settings, single-instance activation and notification-area click-through recovery.
-- Refresh retains accepted quota while showing Refreshing; a request without prior quota shows Loading.
+## Running and development
 
-Settings stores a low-quota-alert preference; actual alert delivery is not implemented. There is no skin/theme selector, capsule mode, automatic installer or update service.
+The WPF project is [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj). Development guidance is in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md). Candidate source, hashes, deletions, and evidence boundaries are recorded in [`docs/wpf-r1/CANDIDATE-MANIFEST.json`](docs/wpf-r1/CANDIDATE-MANIFEST.json).
 
-## Build and run
+Real quota mode reads local Codex authentication and calls the ChatGPT usage/reset-credit services. Never publish authentication files, tokens, raw responses, account screenshots, or private diagnostics. `--direct` starts independently; `--watch` observes Codex presence. The application does not terminate Codex.
 
-Use Windows x64 with the .NET 8 SDK. Run from the repository root:
+## Acceptance status
 
-```powershell
-dotnet build wpf/QuotaFloat.Wpf.csproj -c Release
-dotnet run --project wpf/QuotaFloat.Wpf.csproj -c Release --no-build -- --direct
-```
+See [`docs/wpf-r1/ACCEPTANCE-SUMMARY.md`](docs/wpf-r1/ACCEPTANCE-SUMMARY.md) for the freeze evidence, [`docs/wpf-r1/SIMPLIFICATION-CONTRACT.md`](docs/wpf-r1/SIMPLIFICATION-CONTRACT.md) for the contract, and [`docs/wpf-r1/PUBLICATION-ALLOWLIST-V3.md`](docs/wpf-r1/PUBLICATION-ALLOWLIST-V3.md) for publication boundaries.
 
-`--direct` starts the widget independently of Codex presence. For the implemented presence-following mode, use `--watch` instead: it observes Codex and exits after three confirmed absences. It does not start Codex and is not a permanent background launcher. Changes to the follow preference take effect at the next launch. With no mode argument, the saved Follow Codex preference selects the mode (initially enabled); `--direct` takes precedence if both switches are present. The complete real close/restart scenario remains unverified.
+The verified baseline is Windows 100% / 96 DPI. These items remain explicitly `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`:
 
-For an account-free synthetic demo:
+1. The same real Pro account `Fresh -> SignedOut -> Fresh`.
+2. Isolated Codex `Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery`.
+3. Native Windows 125% / 150% DPI runtime acceptance.
 
-```powershell
-dotnet run --project wpf/QuotaFloat.Wpf.csproj -c Release --no-build -- --demo-state plus --demo-language en --demo-scale 100 --demo-exit-ms 10000
-```
-
-Demo mode does not create the real quota client or Codex presence source. See [Development](docs/DEVELOPMENT.md) for tests and layout details.
-
-## Privacy and network
-
-The app reads local `auth.json` from the configured `CODEX_HOME` directory, or the default user-profile `.codex` directory. In real mode it uses the session token in authenticated HTTPS GET requests to the ChatGPT usage and reset-credit endpoints on `chatgpt.com`. This is network access, not an offline-only quota display. Authentication is handled by the app; it does not sign you in or modify the login file.
-
-Billing opens the usage page in the default browser; the widget does not buy or redeem credits. Preferences are stored locally under the platform's LocalApplicationData QuotaFloat directory. Never publish login files, tokens, raw API responses, account screenshots or personal diagnostics.
-
-## Acceptance limits
-
-1. Same real Pro account `Fresh -> SignedOut -> Fresh` — `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`.
-2. Isolated Codex `Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery` — `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`.
-3. Native Windows 125% / 120 DPI and 150% / 144 DPI runtime acceptance — `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`.
-
-Native verified baseline: Windows 100% / 96 DPI.
-
-The 29 focused deterministic fixtures are not proof of real login/logout or Codex lifecycle completion. See the self-contained [acceptance summary](docs/wpf-r1/ACCEPTANCE-SUMMARY.md), [release notes](docs/wpf-r1/RELEASE-NOTES-R1.md) and [candidate manifest](docs/wpf-r1/CANDIDATE-MANIFEST.json).
-
-## Design reference
-
-![Civic Wayfinding English design reference](design-preview/wpf-r1/02-civic-full-orb-en.png)
-
-The ten retained PNGs are approved static design references, not final native captures or executable downloads. Historical Settings images show a 40–180 slider; the later accepted discrete 40/70/100 scale and Minimal Refreshing contracts supersede affected historical control/status details.
-
-## Legacy and attribution
-
-`native/` is the historical WinForms implementation. WPF owns its three shared source copies and builds without the native directory. Existing legacy changes are outside the WPF R1 publication selection.
-
-[MIT license](LICENSE) remains unchanged. [Third-party notices](THIRD_PARTY_NOTICES.md) have been updated for WPF R1: the `native/` WinForms implementation is identified as historical, while upstream attribution and license notices are retained.
-
-This is an unofficial project, not affiliated with or endorsed by OpenAI.
+Boss PASS does not grant external publication authorization. The V3 scope has been locally staged and committed; publication HOLD now means clean committed-tree verification, publication review, and separate external authorization remain.

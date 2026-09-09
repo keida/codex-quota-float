@@ -8,7 +8,6 @@
     <SolidColorBrush x:Key="CivicInactiveMeterBrush" Color="#3A4961" />
     <SolidColorBrush x:Key="CivicSyncBrush" Color="#35BCA4" />
     <Thickness x:Key="CivicBorderThickness">2</Thickness>
-    <CornerRadius x:Key="CivicCornerRadius">2</CornerRadius>
 
     <Style x:Key="CivicShellButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="#15233C" />

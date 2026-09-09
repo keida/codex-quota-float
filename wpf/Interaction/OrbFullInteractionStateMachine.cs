@@ -1,14 +1,7 @@
 using System.Windows;
+using QuotaFloat.Wpf.Windows;
 
 namespace QuotaFloat.Wpf.Interaction;
-
-internal enum WidgetInteractionState
-{
-    ManualFull,
-    Orb,
-    HoverPending,
-    TemporaryFull
-}
 
 internal enum OrbEdge
 {
@@ -22,7 +15,30 @@ internal enum OrbEdge
 internal readonly record struct SavedOrbPosition(
     Rect Bounds,
     Rect WorkArea,
-    OrbEdge Edge);
+    OrbEdge Edge,
+    IntPtr Monitor = default,
+    uint Dpi = 96);
+
+internal static class OrbEdgeMapping
+{
+    internal static WidgetPlacement ToPlacement(this OrbEdge edge) => edge switch
+    {
+        OrbEdge.Left => WidgetPlacement.Left,
+        OrbEdge.Right => WidgetPlacement.Right,
+        OrbEdge.Top => WidgetPlacement.Top,
+        OrbEdge.Bottom => WidgetPlacement.Bottom,
+        _ => WidgetPlacement.Free
+    };
+
+    internal static OrbEdge ToOrbEdge(this WidgetPlacement placement) => placement switch
+    {
+        WidgetPlacement.Left => OrbEdge.Left,
+        WidgetPlacement.Right => OrbEdge.Right,
+        WidgetPlacement.Top => OrbEdge.Top,
+        WidgetPlacement.Bottom => OrbEdge.Bottom,
+        _ => OrbEdge.Free
+    };
+}
 
 internal static class OrbFullPlacement
 {
