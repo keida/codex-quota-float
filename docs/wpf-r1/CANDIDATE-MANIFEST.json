@@ -4,19 +4,19 @@
   "branch": "codex/wpf-r1-simplification",
   "base_commit": "d86e21e01d3e1ed389cb53afa7f327184a345c3a",
   "prior_working_tree_base": "ce9cc923ded971d8aa051ab8d4b69dc065051c8b (identical tree; historical source baseline, not the simplified candidate commit)",
-  "source_snapshot_commit": "1089a13bfb67549fabafedb83f11a022dfbf7784",
-  "candidate_state": "complete WPF source snapshot with revision-independent reproducible Release artifacts recorded at source_snapshot_commit; subsequent documentation-only Git SHA changes do not alter the artifacts; no push, merge, tag, Release, or external publication",
+  "source_snapshot_commit": "e08353c8bfdbb1ccb23c65ca3799bb722132d501",
+  "candidate_state": "complete WPF source snapshot with checkout- and revision-independent reproducible Release artifacts recorded at source_snapshot_commit; subsequent documentation-only Git SHA changes do not alter the artifacts; no push, merge, tag, Release, or external publication",
   "hash_basis": "source_inventory, config_inventory, and documentation_inventory SHA-256/byte counts use canonical Git blob bytes at their recorded commits; checkout EOL conversion is not the identity basis",
   "comparison_base": "origin/main",
   "comparison_base_sha": "d86e21e01d3e1ed389cb53afa7f327184a345c3a",
   "verified_native_baseline": "Windows 100% / 96 DPI",
   "candidate_artifacts": {
     "exe_sha256": "FF3AFD7A3CDC748D0C4AF15C34C6C7F4533BCC53876869ABE49EF39713CC012F",
-    "wpf_dll_sha256": "2BBFE2AC0FCE9AD99B89EFE5447E3E5DF624B399641B3E469591A44D0097E0BB"
+    "wpf_dll_sha256": "DF689E6ABB15B8099A96B81E18B133BBA581D83CCA8CB1371F060AB20505FBD9"
   },
   "accepted_evidence": {
     "build": "Release build PASS in two distinct clean checkout paths; zero warnings; zero errors; EXE and DLL SHA-256 byte-identical",
-    "reproducible_artifacts": "PASS; revision-independent clean-path artifacts supersede prior path-specific hashes; InformationalVersion=1.0.0 with no SourceRevisionId; later documentation-only Git SHA changes do not alter artifacts; semantic IL hash F3FE74405E9097C0A314AEAD9769B284D35746E542AE078BEFE5C30D3B38F4F0; WPF g.resources hash F3D6FD202A9543800A3695851807BDF45470047A80A2784868BC41B81484E72E; runtime types 125",
+    "reproducible_artifacts": "PASS; checkout- and revision-independent clean-path artifacts supersede prior path-specific hashes; InformationalVersion=1.0.0 with no SourceRevisionId; EnableSourceLink=false and no embedded raw.githubusercontent revision URL; later documentation-only Git SHA changes do not alter artifacts; semantic IL hash F3FE74405E9097C0A314AEAD9769B284D35746E542AE078BEFE5C30D3B38F4F0; WPF g.resources hash F3D6FD202A9543800A3695851807BDF45470047A80A2784868BC41B81484E72E; runtime types 125",
     "focused_tests": "PASS; 31 fixtures; 58 checks; activeRequests=1; refreshCalls=1; backoffCalls=3; privacy=normalized-values-only",
     "native_smoke": "PASS; Plus/Pro Full and Orb at 96 DPI with accepted geometry, DWM corner behavior, Topmost, clean exit, and zero residual process",
     "single_instance": "PASS; second launch exits cleanly, one process remains, current state is reapplied",
@@ -42,7 +42,7 @@
     {"path":"wpf/Platform/WindowCornerContract.cs","sha256":"6FA1FD3726712375F698920B67FFBA2C1AA0160E3EDABCB2AABD313F0349B315","bytes":516},
     {"path":"wpf/Platform/WindowPlacementService.cs","sha256":"6C1BAAC8EF8B30FC608B5C572FDC35C4998C9CB41496E7981A1A05480873380E","bytes":5401},
     {"path":"wpf/Properties/AssemblyInfo.cs","sha256":"BE10F95593054E53FC4C46472B45D13CC3BE578AE9C93315D22C3C63AF8647F3","bytes":157},
-    {"path":"wpf/QuotaFloat.Wpf.csproj","sha256":"376BFD11EEBE66BBC391420F0C1C532615BDD88E1C514CA525C6D5B49339549A","bytes":938},
+    {"path":"wpf/QuotaFloat.Wpf.csproj","sha256":"AE72B370382A950303D78E718FAFAB427E44E6AE46C98AD96ECD776FD6E8EC97","bytes":985},
     {"path":"wpf/Resources/CivicWayfinding.xaml","sha256":"4CF1E9E98DBEA0BDC48E692EEA05888774ED7DFF1BC8F017D2DED8358478D0D5","bytes":1366},
     {"path":"wpf/Resources/UiText.cs","sha256":"9735942BB9DE97563DF08F4E81F917BCDFF8D49E875A5048311AAFBCA0CA5A8E","bytes":4242},
     {"path":"wpf/Services/CodexPresenceService.cs","sha256":"A85FB8C6A0E1CF62A550ED1A73B6982265B7DC15437FCC8248AA7A2A3AB3CC87","bytes":2949},
