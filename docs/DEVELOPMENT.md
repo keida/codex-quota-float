@@ -9,7 +9,7 @@ The accepted WPF state owner is `WidgetWindowController`; visual changes are app
 ## Product rules
 
 - Settings is non-modal, single-instance, and `420 × 296 DIP` at the verified 96 DPI baseline.
-- Settings exposes language and refresh interval only. Done closes the window; saved, sync/freshness, and auto-refresh text is explanatory. Settings has no Refresh button; the sole manual Refresh action is in the Full footer.
+- Settings exposes language and refresh interval only. Done closes the window; saved-state and auto-refresh text is explanatory. Settings has no sync/freshness control and no Refresh button; the sole manual Refresh action is in the Full footer.
 - Billing/Usage navigation, Product Scale, Auto Refresh, Click-through, themes, and behavior selectors are removed from the R1 surface.
 - Full/Orb geometry, edge/work-area anchoring, DWM corners, topmost ownership, tray recovery, and single-instance activation are separate acceptance concerns.
 - Refreshing retains accepted quota; Loading is used only when no prior accepted quota exists.
