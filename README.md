@@ -1,50 +1,54 @@
 # Quote Float
 
-**语言 / Language:** 中文（当前） · [English](README.en.md)
+**Language / 语言:** English (current) · [简体中文](README.zh-CN.md)
 
-[![WPF CI 状态](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml/badge.svg?branch=main)](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml)
+[![WPF CI status](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml/badge.svg?branch=main)](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml)
 
-Quote Float 的 WPF R1 简化版本已完成冻结并发布。当前状态是 **Boss PASS、v1.1.0 RELEASED / LATEST**：版本发布到 Windows x64 framework-dependent 包，并要求 `.NET 8 Desktop Runtime`。
+![Quote Float WPF R1 actual WPF client-area renders](docs/assets/quote-float-overview-en.png)
 
-## 当前产品契约
+_Figure: actual WPF client-area renders with illustrative sample quota values; native DWM border/corners are not captured._
 
-- 原生 WPF Civic Wayfinding 浮窗，支持 Plus 与 Pro。
-- Full 与 Orb 是由位置、悬停和临时展开状态推导出的显示模式。
-- Settings 是固定 `420 × 296 DIP` 的非模态窗口；用户可选择的设置只有语言和刷新间隔，Done 用于关闭窗口。窗口中的已保存/说明文字不是设置状态，也没有 Settings 内的 Refresh 按钮；唯一的手动 Refresh 在 Full 页脚。Auto Refresh 始终开启，只作为说明文字展示。
-- Refreshing 保留已有额度；没有已有快照时显示 Loading。
-- R1 不包含 Product Scale，也不包含 Billing/Usage 导航、Auto Refresh 开关、Click-through 或主题/行为选择器。
+The WPF R1 simplification is frozen and released. Its status is **Boss PASS, v1.1.0 RELEASED / LATEST**: the release is a Windows x64 framework-dependent package and requires the `.NET 8 Desktop Runtime`.
 
-## 运行与开发
+## Current product contract
 
-WPF 工程位于 [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj)。开发说明见 [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)。当前源码、哈希、删除项和证据边界见 [`docs/wpf-r1/CANDIDATE-MANIFEST.json`](docs/wpf-r1/CANDIDATE-MANIFEST.json)。
+- Native WPF Civic Wayfinding widget for Plus and Pro plans.
+- Full and Orb are derived display modes from placement, hover, and temporary expansion state.
+- Settings is a fixed `420 × 296 DIP` non-modal window. The only user-selectable settings are language and refresh interval; Done closes the window. Saved/explanatory notes are not a settings status, and Settings has no Refresh button. The sole manual Refresh action is in the Full footer. Auto Refresh is always on and is shown only as an explanatory note.
+- Refreshing retains accepted quota; without a prior snapshot the active request shows Loading.
+- R1 excludes Product Scale, Billing/Usage navigation, the Auto Refresh toggle, Click-through, and theme/behavior selectors.
 
-真实额度模式读取本地 Codex 认证并访问 ChatGPT usage/reset-credit 服务；不要发布认证文件、token、原始响应、账户截图或私人诊断。`--direct` 用于独立启动，`--watch` 用于观察 Codex 存在状态；应用不会终止 Codex。
+## Running and development
 
-## 仓库结构
+The WPF project is [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj). Development guidance is in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md). Current source, hashes, deletions, and evidence boundaries are recorded in [`docs/wpf-r1/CANDIDATE-MANIFEST.json`](docs/wpf-r1/CANDIDATE-MANIFEST.json).
 
-- `wpf/`：当前 WPF 产品实现及其 WPF 测试。
-- `docs/`：公开技术记录、契约、验收证据摘要和发布记录。
-- `native/`：历史 WinForms 实现，保留作历史参考，不是当前 WPF 产品实现。
+Real quota mode reads local Codex authentication and calls the ChatGPT usage/reset-credit services. Never publish authentication files, tokens, raw responses, account screenshots, or private diagnostics. `--direct` starts independently; `--watch` observes Codex presence. The application does not terminate Codex.
 
-过时的 `design-preview/` 设计预览已移除，不是当前产品截图或发布资产。
+## Repository layout
 
-## 验收状态
+- `wpf/`: current WPF product implementation and WPF tests.
+- `docs/`: public technical records, contracts, acceptance evidence summaries, and release records.
+- `native/`: historical WinForms implementation kept for reference; it is not the current WPF product implementation.
 
-冻结候选的验收摘要见 [`docs/wpf-r1/ACCEPTANCE-SUMMARY.md`](docs/wpf-r1/ACCEPTANCE-SUMMARY.md)，完整契约见 [`docs/wpf-r1/SIMPLIFICATION-CONTRACT.md`](docs/wpf-r1/SIMPLIFICATION-CONTRACT.md)。发布边界见 [`docs/wpf-r1/PUBLICATION-ALLOWLIST-V3.md`](docs/wpf-r1/PUBLICATION-ALLOWLIST-V3.md)。
+The obsolete `design-preview/` design previews were removed; they are not current product screenshots or release assets.
 
-已验证基线是 Windows 100% / 96 DPI。以下事项明确保持 `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`：
+## Acceptance status
 
-1. 同一真实 Pro 账户 `Fresh -> SignedOut -> Fresh`。
-2. 隔离 Codex `Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery`。
-3. 原生 Windows 125% / 150% DPI 运行验收。
+See [`docs/wpf-r1/ACCEPTANCE-SUMMARY.md`](docs/wpf-r1/ACCEPTANCE-SUMMARY.md) for the freeze evidence, [`docs/wpf-r1/SIMPLIFICATION-CONTRACT.md`](docs/wpf-r1/SIMPLIFICATION-CONTRACT.md) for the contract, and [`docs/wpf-r1/PUBLICATION-ALLOWLIST-V3.md`](docs/wpf-r1/PUBLICATION-ALLOWLIST-V3.md) for publication boundaries.
 
-## 已发布版本
+The verified baseline is Windows 100% / 96 DPI. These items remain explicitly `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`:
+
+1. The same real Pro account `Fresh -> SignedOut -> Fresh`.
+2. Isolated Codex `Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery`.
+3. Native Windows 125% / 150% DPI runtime acceptance.
+
+## Published release
 
 - [v1.1.0 Release](https://github.com/keida/codex-quota-float/releases/tag/v1.1.0)
-- [下载 Windows x64 ZIP](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/QuoteFloat-WPF-R1-v1.1.0-win-x64.zip)
+- [Download the Windows x64 ZIP](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/QuoteFloat-WPF-R1-v1.1.0-win-x64.zip)
 - [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/SHA256SUMS.txt)
-- EXE SHA-256：`322DC1F8ED39A6769CCC1102A6C5D2CABBF088CF2C93003399D50C942CDCE507`
-- WPF DLL SHA-256：`E5F50F66903C29F45AEFF799B6738254A8D6CEC0D59A508103B89EC68D250976`
-- ZIP SHA-256：`8B6D4AB34A39F9D466A499150968AEA4DDD344FAC1B33B5CDA1696AE5F40024D`
+- EXE SHA-256: `322DC1F8ED39A6769CCC1102A6C5D2CABBF088CF2C93003399D50C942CDCE507`
+- WPF DLL SHA-256: `E5F50F66903C29F45AEFF799B6738254A8D6CEC0D59A508103B89EC68D250976`
+- ZIP SHA-256: `8B6D4AB34A39F9D466A499150968AEA4DDD344FAC1B33B5CDA1696AE5F40024D`
 
-V3 源码范围已经完成合并，v1.1.0 tag 和 Latest Release 已发布。历史 v1.0.0 tag/Draft Release 保持不变。
+The V3 source scope has been merged, and the v1.1.0 tag and Latest Release are published. The historical v1.0.0 tag and Draft Release remain unchanged.
