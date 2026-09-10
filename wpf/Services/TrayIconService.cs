@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -29,6 +30,7 @@ public sealed class TrayIconService : IDisposable
     private readonly Action exitApplication;
     private readonly HwndSource hwndSource;
     private readonly uint iconId = 0x5146;
+    private IntPtr productIcon;
     private bool disposed;
     private bool iconAdded;
 
@@ -41,7 +43,15 @@ public sealed class TrayIconService : IDisposable
         hwndSource = HwndSource.FromHwnd(hwnd)
             ?? throw new InvalidOperationException("Unable to attach the WPF tray message hook.");
         hwndSource.AddHook(WindowMessageHook);
-        AddIcon(hwnd);
+        try
+        {
+            AddIcon(hwnd);
+        }
+        catch
+        {
+            hwndSource.RemoveHook(WindowMessageHook);
+            throw;
+        }
     }
 
     public void Dispose()
@@ -59,15 +69,24 @@ public sealed class TrayIconService : IDisposable
             iconAdded = false;
         }
 
+        if (productIcon != IntPtr.Zero)
+        {
+            DestroyIcon(productIcon);
+            productIcon = IntPtr.Zero;
+        }
+
         hwndSource.RemoveHook(WindowMessageHook);
         GC.SuppressFinalize(this);
     }
 
     private void AddIcon(IntPtr hwnd)
     {
+        productIcon = LoadProductIcon();
         var data = CreateIconData(hwnd, NifMessage | NifIcon | NifTip);
         if (!Shell_NotifyIcon(NimAdd, ref data))
         {
+            DestroyIcon(productIcon);
+            productIcon = IntPtr.Zero;
             throw new InvalidOperationException("Unable to create the Windows notification-area icon.");
         }
 
@@ -81,9 +100,26 @@ public sealed class TrayIconService : IDisposable
         uID = iconId,
         uFlags = flags,
         uCallbackMessage = WmTrayCallback,
-        hIcon = LoadIcon(IntPtr.Zero, new IntPtr(32512)),
+        hIcon = productIcon,
         szTip = "Quota Float"
     };
+
+    private static IntPtr LoadProductIcon()
+    {
+        var executable = Process.GetCurrentProcess().MainModule?.FileName;
+        if (string.IsNullOrWhiteSpace(executable))
+        {
+            throw new InvalidOperationException("Unable to locate the Quote Float executable icon.");
+        }
+
+        var small = new IntPtr[1];
+        if (ExtractIconEx(executable, 0, null, small, 1) == 0 || small[0] == IntPtr.Zero)
+        {
+            throw new InvalidOperationException("Unable to load the Quote Float executable icon.");
+        }
+
+        return small[0];
+    }
 
     private IntPtr WindowMessageHook(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
@@ -155,8 +191,12 @@ public sealed class TrayIconService : IDisposable
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool Shell_NotifyIcon(uint message, ref NOTIFYICONDATA data);
 
-    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-    private static extern IntPtr LoadIcon(IntPtr instance, IntPtr iconName);
+    [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+    private static extern uint ExtractIconEx(string fileName, int iconIndex, IntPtr[]? largeIcons, IntPtr[]? smallIcons, uint iconCount);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool DestroyIcon(IntPtr icon);
 
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     private static extern IntPtr CreatePopupMenu();

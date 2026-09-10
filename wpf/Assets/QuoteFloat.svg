@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <rect width="256" height="256" fill="#0B1730"/>
+  <g fill="#F3B63F">
+    <path d="M0 0h13l9 8-9 8H0l7-8z" transform="translate(18 108) rotate(-28 128 116)"/>
+    <path d="M0 0h13l9 8-9 8H0l7-8z" transform="translate(40 108) rotate(-28 128 116)"/>
+    <path d="M0 0h13l9 8-9 8H0l7-8z" transform="translate(62 108) rotate(-28 128 116)"/>
+    <path d="M0 0h13l9 8-9 8H0l7-8z" transform="translate(84 108) rotate(-28 128 116)"/>
+    <path d="M0 0h13l9 8-9 8H0l7-8z" transform="translate(106 108) rotate(-28 128 116)"/>
+    <path d="M0 0h13l9 8-9 8H0l7-8z" transform="translate(128 108) rotate(-28 128 116)"/>
+    <path d="M0 0h13l9 8-9 8H0l7-8z" transform="translate(150 108) rotate(-28 128 116)"/>
+    <path d="M0 0h13l9 8-9 8H0l7-8z" transform="translate(172 108) rotate(-28 128 116)"/>
+    <path d="M0 0h13l9 8-9 8H0l7-8z" transform="translate(194 108) rotate(-28 128 116)"/>
+    <path d="M0 0h13l9 8-9 8H0l7-8z" transform="translate(216 108) rotate(-28 128 116)"/>
+  </g>
+</svg>

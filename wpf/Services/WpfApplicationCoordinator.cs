@@ -5,15 +5,10 @@ using QuotaFloat.Wpf.Windows;
 
 namespace QuotaFloat.Wpf.Services;
 
-public enum WpfLaunchMode
-{
-    Direct,
-    Watch
-}
-
 public sealed class WpfApplicationCoordinator : IDisposable
 {
     private static readonly TimeSpan PresenceInterval = TimeSpan.FromSeconds(1);
+    private static readonly TimeSpan CodexStartupVisibilityGrace = TimeSpan.FromSeconds(10);
     private const int RequiredConsecutiveAbsences = 3;
 
     private readonly Dispatcher dispatcher;
@@ -25,6 +20,7 @@ public sealed class WpfApplicationCoordinator : IDisposable
     private CancellationTokenSource? autoRefreshLifetime;
     private bool stopping;
     private bool disposed;
+    private bool launchCodexIfMissing;
 
     public WpfApplicationCoordinator(Dispatcher dispatcher)
     {
@@ -33,7 +29,7 @@ public sealed class WpfApplicationCoordinator : IDisposable
 
     public MainWindow? Window => window;
     public QuotaRefreshCoordinator? Quota => quota;
-    public WpfLaunchMode LaunchMode { get; private set; } = WpfLaunchMode.Direct;
+    public WpfLaunchMode LaunchMode { get; private set; } = WpfLaunchMode.LaunchAndWatch;
 
     public bool Start(string[] args)
     {
@@ -49,7 +45,15 @@ public sealed class WpfApplicationCoordinator : IDisposable
         {
             preferences.Current.Language = demoLanguage;
         }
-        LaunchMode = ParseLaunchMode(args);
+        var options = LaunchOptions.Parse(args);
+        if (!options.IsValid)
+        {
+            MessageBox.Show(options.Error!, "Quote Float", MessageBoxButton.OK, MessageBoxImage.Error);
+            return false;
+        }
+
+        LaunchMode = options.Mode;
+        launchCodexIfMissing = options.LaunchCodexIfMissing;
         var demoStatus = ParseDemoStatus(args);
         var demoMode = args.Any(a => string.Equals(a, "--demo-state", StringComparison.OrdinalIgnoreCase)) || demoStatus is not null;
         quota = demoMode ? null : new QuotaRefreshCoordinator(new QuotaClientSource());
@@ -127,9 +131,9 @@ public sealed class WpfApplicationCoordinator : IDisposable
             _ = quota.RefreshAsync(lifetime.Token);
             ConfigureAutoRefresh(refreshIntervalSeconds);
 
-            if (LaunchMode == WpfLaunchMode.Watch)
+            if (LaunchMode is WpfLaunchMode.Watch or WpfLaunchMode.LaunchAndWatch)
             {
-                await WatchCodexAsync(codex, lifetime.Token).ConfigureAwait(false);
+                await WatchCodexAsync(codex, launchCodexIfMissing, lifetime.Token).ConfigureAwait(false);
             }
         }
         catch (OperationCanceledException) when (lifetime.IsCancellationRequested) { }
@@ -148,15 +152,19 @@ public sealed class WpfApplicationCoordinator : IDisposable
             token);
     }
 
-    private async Task WatchCodexAsync(ICodexPresenceSource source, CancellationToken cancellationToken)
+    private async Task WatchCodexAsync(ICodexPresenceSource source, bool launchIfMissing, CancellationToken cancellationToken)
     {
-        var absence = new CodexAbsenceConfirmation(RequiredConsecutiveAbsences);
-        var initial = await source.AttachAndSampleAsync(cancellationToken).ConfigureAwait(false);
+        var watch = new CodexWatchSession(
+            launchIfMissing,
+            CodexStartupVisibilityGrace,
+            TimeProvider.System,
+            RequiredConsecutiveAbsences);
+        var initial = await source.AttachAndSampleAsync(launchIfMissing, cancellationToken).ConfigureAwait(false);
         while (!cancellationToken.IsCancellationRequested)
         {
             var observation = initial;
             initial = new(CodexObservationStatus.Unknown, 0, 0);
-            if (absence.Observe(observation))
+            if (watch.Observe(observation))
             {
                 _ = dispatcher.BeginInvoke(new Action(RequestExit), DispatcherPriority.ApplicationIdle);
                 return;
@@ -165,7 +173,7 @@ public sealed class WpfApplicationCoordinator : IDisposable
             try
             {
                 await Task.Delay(PresenceInterval, cancellationToken).ConfigureAwait(false);
-                initial = await source.SampleAsync(cancellationToken).ConfigureAwait(false);
+                initial = await source.SampleAsync(launchIfMissing, cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) { return; }
         }
@@ -187,13 +195,6 @@ public sealed class WpfApplicationCoordinator : IDisposable
         if (!stopping) RequestExit();
         Dispose();
         Application.Current.Shutdown();
-    }
-
-    private static WpfLaunchMode ParseLaunchMode(string[] args)
-    {
-        if (args.Any(a => string.Equals(a, "--direct", StringComparison.OrdinalIgnoreCase))) return WpfLaunchMode.Direct;
-        if (args.Any(a => string.Equals(a, "--watch", StringComparison.OrdinalIgnoreCase))) return WpfLaunchMode.Watch;
-        return WpfLaunchMode.Watch;
     }
 
     private static int ParseMilliseconds(string[] args, string option)
@@ -261,4 +262,53 @@ public sealed class WpfApplicationCoordinator : IDisposable
         return null;
     }
 
+}
+
+public sealed class CodexWatchSession
+{
+    private readonly bool startupGraceEnabled;
+    private readonly TimeSpan startupGrace;
+    private readonly TimeProvider timeProvider;
+    private readonly CodexAbsenceConfirmation absence;
+    private DateTimeOffset? startupGraceDeadline;
+    private bool observedPresent;
+
+    public CodexWatchSession(
+        bool launchIfMissing,
+        TimeSpan startupGrace,
+        TimeProvider? timeProvider = null,
+        int requiredAbsences = 3)
+    {
+        if (startupGrace <= TimeSpan.Zero) throw new ArgumentOutOfRangeException(nameof(startupGrace));
+        startupGraceEnabled = launchIfMissing;
+        this.startupGrace = startupGrace;
+        this.timeProvider = timeProvider ?? TimeProvider.System;
+        absence = new CodexAbsenceConfirmation(requiredAbsences);
+    }
+
+    public bool Observe(CodexObservation observation)
+    {
+        if (observation.Status == CodexObservationStatus.Present)
+        {
+            observedPresent = true;
+            startupGraceDeadline = null;
+            return absence.Observe(observation);
+        }
+
+        if (!observedPresent && startupGraceEnabled && observation.Status == CodexObservationStatus.Absent)
+        {
+            var now = timeProvider.GetUtcNow();
+            if (startupGraceDeadline is null && observation.ProcessCount > 0)
+            {
+                startupGraceDeadline = now + startupGrace;
+            }
+
+            if (startupGraceDeadline is { } deadline && now < deadline)
+            {
+                return false;
+            }
+        }
+
+        return absence.Observe(observation);
+    }
 }
