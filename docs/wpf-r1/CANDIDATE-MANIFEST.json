@@ -1,22 +1,22 @@
 {
   "schema": "quote-float-wpf-r1-candidate-v3",
-  "status": "BOSS PASS; publication HOLD",
-  "branch": "codex/wpf-r1-simplification",
-  "base_commit": "d86e21e01d3e1ed389cb53afa7f327184a345c3a",
+  "status": "BOSS PASS; v1.1.0 candidate; publication HOLD",
+  "branch": "codex/wpf-r1-v1.1.0-publication",
+  "base_commit": "2db7775723201206a23a12752752368f0a9a25ec",
   "prior_working_tree_base": "ce9cc923ded971d8aa051ab8d4b69dc065051c8b (identical tree; historical source baseline, not the simplified candidate commit)",
-  "source_snapshot_commit": "e08353c8bfdbb1ccb23c65ca3799bb722132d501",
-  "candidate_state": "complete WPF source snapshot with checkout- and revision-independent reproducible Release artifacts recorded at source_snapshot_commit; subsequent documentation-only Git SHA changes do not alter the artifacts; no push, merge, tag, Release, or external publication",
+  "source_snapshot_commit": "cb670afbea1391a175e6af1d9f58c4dc903d2988",
+  "candidate_state": "v1.1.0 publication candidate with version metadata on the merged WPF source; PR #2 is merged into main at 2db7775723201206a23a12752752368f0a9a25ec; subsequent documentation-only Git SHA changes do not alter the artifacts; the historical v1.0.0 tag and Draft Release are not reused or modified; no Release is published",
   "hash_basis": "source_inventory, config_inventory, and documentation_inventory SHA-256/byte counts use canonical Git blob bytes at their recorded commits; checkout EOL conversion is not the identity basis",
   "comparison_base": "origin/main",
-  "comparison_base_sha": "d86e21e01d3e1ed389cb53afa7f327184a345c3a",
+  "comparison_base_sha": "2db7775723201206a23a12752752368f0a9a25ec",
   "verified_native_baseline": "Windows 100% / 96 DPI",
   "candidate_artifacts": {
-    "exe_sha256": "FF3AFD7A3CDC748D0C4AF15C34C6C7F4533BCC53876869ABE49EF39713CC012F",
-    "wpf_dll_sha256": "DF689E6ABB15B8099A96B81E18B133BBA581D83CCA8CB1371F060AB20505FBD9"
+    "exe_sha256": "322DC1F8ED39A6769CCC1102A6C5D2CABBF088CF2C93003399D50C942CDCE507",
+    "wpf_dll_sha256": "E5F50F66903C29F45AEFF799B6738254A8D6CEC0D59A508103B89EC68D250976"
   },
   "accepted_evidence": {
     "build": "Release build PASS in two distinct clean checkout paths; zero warnings; zero errors; EXE and DLL SHA-256 byte-identical",
-    "reproducible_artifacts": "PASS; checkout- and revision-independent clean-path artifacts supersede prior path-specific hashes; InformationalVersion=1.0.0 with no SourceRevisionId; EnableSourceLink=false and no embedded raw.githubusercontent revision URL; later documentation-only Git SHA changes do not alter artifacts; semantic IL hash F3FE74405E9097C0A314AEAD9769B284D35746E542AE078BEFE5C30D3B38F4F0; WPF g.resources hash F3D6FD202A9543800A3695851807BDF45470047A80A2784868BC41B81484E72E; runtime types 125",
+    "reproducible_artifacts": "PASS; checkout- and revision-independent clean-path artifacts; AssemblyVersion=1.1.0.0; FileVersion=1.1.0.0; InformationalVersion=1.1.0 with no SourceRevisionId; EnableSourceLink=false and no embedded raw.githubusercontent revision URL; later documentation-only Git SHA changes do not alter artifacts; semantic IL hash F3FE74405E9097C0A314AEAD9769B284D35746E542AE078BEFE5C30D3B38F4F0; WPF g.resources hash F3D6FD202A9543800A3695851807BDF45470047A80A2784868BC41B81484E72E; runtime types 125",
     "focused_tests": "PASS; 31 fixtures; 58 checks; activeRequests=1; refreshCalls=1; backoffCalls=3; privacy=normalized-values-only",
     "native_smoke": "PASS; Plus/Pro Full and Orb at 96 DPI with accepted geometry, DWM corner behavior, Topmost, clean exit, and zero residual process",
     "single_instance": "PASS; second launch exits cleanly, one process remains, current state is reapplied",
@@ -33,7 +33,7 @@
     "state_owner": "wpf/Windows/WidgetWindowController.cs"
   },
   "source_inventory": [
-    {"path":"wpf/app.manifest","sha256":"CF44A87DD9DB916FD332BDE6C6469481710F0C915274D7FC00EC13C5EC217397","bytes":747},
+    {"path":"wpf/app.manifest","sha256":"E47EEE48BD699F0E357570B556FAC5972BCAC866E61FDB54A72B53C2C651E27C","bytes":747},
     {"path":"wpf/App.xaml","sha256":"F9A3116A80EC5A0A0A2F9BC856ED5B070C94A99643BB75FB8C2C467A2D2196F9","bytes":281},
     {"path":"wpf/App.xaml.cs","sha256":"C56EF21FF29DC0B36D477DAD7DBF5451B207FBE5EBBA79EE98BFAD379CE069AA","bytes":819},
     {"path":"wpf/Diagnostics/EdgeDragDiagnostics.cs","sha256":"D695FB0450F44C6DADF04960395E2225A0243AB1A59EDAD3C1CE656B2C27B4F5","bytes":6992},
@@ -42,7 +42,7 @@
     {"path":"wpf/Platform/WindowCornerContract.cs","sha256":"6FA1FD3726712375F698920B67FFBA2C1AA0160E3EDABCB2AABD313F0349B315","bytes":516},
     {"path":"wpf/Platform/WindowPlacementService.cs","sha256":"6C1BAAC8EF8B30FC608B5C572FDC35C4998C9CB41496E7981A1A05480873380E","bytes":5401},
     {"path":"wpf/Properties/AssemblyInfo.cs","sha256":"BE10F95593054E53FC4C46472B45D13CC3BE578AE9C93315D22C3C63AF8647F3","bytes":157},
-    {"path":"wpf/QuotaFloat.Wpf.csproj","sha256":"AE72B370382A950303D78E718FAFAB427E44E6AE46C98AD96ECD776FD6E8EC97","bytes":985},
+    {"path":"wpf/QuotaFloat.Wpf.csproj","sha256":"E987219A463E773432EEC209382C8F386E9F319A701E1E668B170C24E530E2E3","bytes":1155},
     {"path":"wpf/Resources/CivicWayfinding.xaml","sha256":"4CF1E9E98DBEA0BDC48E692EEA05888774ED7DFF1BC8F017D2DED8358478D0D5","bytes":1366},
     {"path":"wpf/Resources/UiText.cs","sha256":"9735942BB9DE97563DF08F4E81F917BCDFF8D49E875A5048311AAFBCA0CA5A8E","bytes":4242},
     {"path":"wpf/Services/CodexPresenceService.cs","sha256":"A85FB8C6A0E1CF62A550ED1A73B6982265B7DC15437FCC8248AA7A2A3AB3CC87","bytes":2949},
