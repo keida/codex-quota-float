@@ -42,8 +42,8 @@ public sealed class CodexAbsenceConfirmation
 
 public interface ICodexPresenceSource : IDisposable
 {
-    Task<CodexObservation> AttachAndSampleAsync(CancellationToken cancellationToken);
-    Task<CodexObservation> SampleAsync(CancellationToken cancellationToken);
+    Task<CodexObservation> AttachAndSampleAsync(bool launchIfMissing, CancellationToken cancellationToken);
+    Task<CodexObservation> SampleAsync(bool launchIfMissing, CancellationToken cancellationToken);
 }
 
 public sealed class CodexLifecyclePresenceSource : ICodexPresenceSource
@@ -51,11 +51,11 @@ public sealed class CodexLifecyclePresenceSource : ICodexPresenceSource
     private readonly CodexLifecycle lifecycle = new();
     private bool attached;
 
-    public async Task<CodexObservation> AttachAndSampleAsync(CancellationToken cancellationToken)
+    public async Task<CodexObservation> AttachAndSampleAsync(bool launchIfMissing, CancellationToken cancellationToken)
     {
         try
         {
-            attached = await lifecycle.AttachOrLaunchAsync(false, cancellationToken).ConfigureAwait(false);
+            attached = await lifecycle.AttachOrLaunchAsync(launchIfMissing, cancellationToken).ConfigureAwait(false);
             if (!attached)
             {
                 return lifecycle.Status.Contains("not running", StringComparison.OrdinalIgnoreCase)
@@ -72,9 +72,9 @@ public sealed class CodexLifecyclePresenceSource : ICodexPresenceSource
         }
     }
 
-    public async Task<CodexObservation> SampleAsync(CancellationToken cancellationToken)
+    public async Task<CodexObservation> SampleAsync(bool launchIfMissing, CancellationToken cancellationToken)
     {
-        if (!attached) return await AttachAndSampleAsync(cancellationToken).ConfigureAwait(false);
+        if (!attached) return await AttachAndSampleAsync(launchIfMissing, cancellationToken).ConfigureAwait(false);
         try { return ToObservation(lifecycle.RefreshPresence()); }
         catch (Exception)
         {

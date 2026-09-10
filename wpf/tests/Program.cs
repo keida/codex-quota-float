@@ -239,6 +239,19 @@ Check(!absence.Observe(new(CodexObservationStatus.Absent, 0, 0)), "second absenc
 Check(absence.Observe(new(CodexObservationStatus.Absent, 0, 0)), "third consecutive absence confirms close");
 Check(!absence.Observe(new(CodexObservationStatus.Present, 1, 1)), "presence clears confirmation");
 
+var launchAndWatch = LaunchOptions.Parse(Array.Empty<string>());
+Check(launchAndWatch.Mode == WpfLaunchMode.LaunchAndWatch && launchAndWatch.LaunchCodexIfMissing,
+    "no arguments launch and watch through Codex activation");
+var passiveWatch = LaunchOptions.Parse(new[] { "--watch" });
+Check(passiveWatch.Mode == WpfLaunchMode.Watch && !passiveWatch.LaunchCodexIfMissing,
+    "--watch remains passive");
+var direct = LaunchOptions.Parse(new[] { "--direct" });
+Check(direct.Mode == WpfLaunchMode.Direct && !direct.LaunchCodexIfMissing,
+    "--direct remains independent");
+var conflicting = LaunchOptions.Parse(new[] { "--watch", "--direct" });
+Check(!conflicting.IsValid && conflicting.Mode == WpfLaunchMode.Invalid,
+    "conflicting launch modes fail deterministically");
+
 using (var primary = SingleInstanceService.Acquire(() => { }))
 using (var secondary = SingleInstanceService.Acquire(() => { }))
 {

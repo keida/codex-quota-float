@@ -5,12 +5,6 @@ using QuotaFloat.Wpf.Windows;
 
 namespace QuotaFloat.Wpf.Services;
 
-public enum WpfLaunchMode
-{
-    Direct,
-    Watch
-}
-
 public sealed class WpfApplicationCoordinator : IDisposable
 {
     private static readonly TimeSpan PresenceInterval = TimeSpan.FromSeconds(1);
@@ -25,6 +19,7 @@ public sealed class WpfApplicationCoordinator : IDisposable
     private CancellationTokenSource? autoRefreshLifetime;
     private bool stopping;
     private bool disposed;
+    private bool launchCodexIfMissing;
 
     public WpfApplicationCoordinator(Dispatcher dispatcher)
     {
@@ -33,7 +28,7 @@ public sealed class WpfApplicationCoordinator : IDisposable
 
     public MainWindow? Window => window;
     public QuotaRefreshCoordinator? Quota => quota;
-    public WpfLaunchMode LaunchMode { get; private set; } = WpfLaunchMode.Direct;
+    public WpfLaunchMode LaunchMode { get; private set; } = WpfLaunchMode.LaunchAndWatch;
 
     public bool Start(string[] args)
     {
@@ -49,7 +44,15 @@ public sealed class WpfApplicationCoordinator : IDisposable
         {
             preferences.Current.Language = demoLanguage;
         }
-        LaunchMode = ParseLaunchMode(args);
+        var options = LaunchOptions.Parse(args);
+        if (!options.IsValid)
+        {
+            MessageBox.Show(options.Error!, "Quote Float", MessageBoxButton.OK, MessageBoxImage.Error);
+            return false;
+        }
+
+        LaunchMode = options.Mode;
+        launchCodexIfMissing = options.LaunchCodexIfMissing;
         var demoStatus = ParseDemoStatus(args);
         var demoMode = args.Any(a => string.Equals(a, "--demo-state", StringComparison.OrdinalIgnoreCase)) || demoStatus is not null;
         quota = demoMode ? null : new QuotaRefreshCoordinator(new QuotaClientSource());
@@ -127,9 +130,9 @@ public sealed class WpfApplicationCoordinator : IDisposable
             _ = quota.RefreshAsync(lifetime.Token);
             ConfigureAutoRefresh(refreshIntervalSeconds);
 
-            if (LaunchMode == WpfLaunchMode.Watch)
+            if (LaunchMode is WpfLaunchMode.Watch or WpfLaunchMode.LaunchAndWatch)
             {
-                await WatchCodexAsync(codex, lifetime.Token).ConfigureAwait(false);
+                await WatchCodexAsync(codex, launchCodexIfMissing, lifetime.Token).ConfigureAwait(false);
             }
         }
         catch (OperationCanceledException) when (lifetime.IsCancellationRequested) { }
@@ -148,10 +151,10 @@ public sealed class WpfApplicationCoordinator : IDisposable
             token);
     }
 
-    private async Task WatchCodexAsync(ICodexPresenceSource source, CancellationToken cancellationToken)
+    private async Task WatchCodexAsync(ICodexPresenceSource source, bool launchIfMissing, CancellationToken cancellationToken)
     {
         var absence = new CodexAbsenceConfirmation(RequiredConsecutiveAbsences);
-        var initial = await source.AttachAndSampleAsync(cancellationToken).ConfigureAwait(false);
+        var initial = await source.AttachAndSampleAsync(launchIfMissing, cancellationToken).ConfigureAwait(false);
         while (!cancellationToken.IsCancellationRequested)
         {
             var observation = initial;
@@ -165,7 +168,7 @@ public sealed class WpfApplicationCoordinator : IDisposable
             try
             {
                 await Task.Delay(PresenceInterval, cancellationToken).ConfigureAwait(false);
-                initial = await source.SampleAsync(cancellationToken).ConfigureAwait(false);
+                initial = await source.SampleAsync(launchIfMissing, cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) { return; }
         }
@@ -187,13 +190,6 @@ public sealed class WpfApplicationCoordinator : IDisposable
         if (!stopping) RequestExit();
         Dispose();
         Application.Current.Shutdown();
-    }
-
-    private static WpfLaunchMode ParseLaunchMode(string[] args)
-    {
-        if (args.Any(a => string.Equals(a, "--direct", StringComparison.OrdinalIgnoreCase))) return WpfLaunchMode.Direct;
-        if (args.Any(a => string.Equals(a, "--watch", StringComparison.OrdinalIgnoreCase))) return WpfLaunchMode.Watch;
-        return WpfLaunchMode.Watch;
     }
 
     private static int ParseMilliseconds(string[] args, string option)
