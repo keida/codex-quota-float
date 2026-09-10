@@ -2,6 +2,8 @@
 
 **语言 / Language:** 中文（当前） · [English](README.en.md)
 
+[![WPF CI 状态](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml/badge.svg?branch=main)](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml)
+
 Quote Float 的 WPF R1 简化版本已完成冻结并发布。当前状态是 **Boss PASS、v1.1.0 RELEASED / LATEST**：版本发布到 Windows x64 framework-dependent 包，并要求 `.NET 8 Desktop Runtime`。
 
 ## 当前产品契约

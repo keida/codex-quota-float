@@ -2,6 +2,8 @@
 
 **Language / 语言:** [中文](README.md) · English (current)
 
+[![WPF CI status](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml/badge.svg?branch=main)](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml)
+
 The WPF R1 simplification is frozen and released. Its status is **Boss PASS, v1.1.0 RELEASED / LATEST**: the release is a Windows x64 framework-dependent package and requires the `.NET 8 Desktop Runtime`.
 
 ## Current product contract
