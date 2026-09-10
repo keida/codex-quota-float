@@ -8,6 +8,7 @@ namespace QuotaFloat.Wpf.Services;
 public sealed class WpfApplicationCoordinator : IDisposable
 {
     private static readonly TimeSpan PresenceInterval = TimeSpan.FromSeconds(1);
+    private static readonly TimeSpan CodexStartupVisibilityGrace = TimeSpan.FromSeconds(10);
     private const int RequiredConsecutiveAbsences = 3;
 
     private readonly Dispatcher dispatcher;
@@ -153,13 +154,17 @@ public sealed class WpfApplicationCoordinator : IDisposable
 
     private async Task WatchCodexAsync(ICodexPresenceSource source, bool launchIfMissing, CancellationToken cancellationToken)
     {
-        var absence = new CodexAbsenceConfirmation(RequiredConsecutiveAbsences);
+        var watch = new CodexWatchSession(
+            launchIfMissing,
+            CodexStartupVisibilityGrace,
+            TimeProvider.System,
+            RequiredConsecutiveAbsences);
         var initial = await source.AttachAndSampleAsync(launchIfMissing, cancellationToken).ConfigureAwait(false);
         while (!cancellationToken.IsCancellationRequested)
         {
             var observation = initial;
             initial = new(CodexObservationStatus.Unknown, 0, 0);
-            if (absence.Observe(observation))
+            if (watch.Observe(observation))
             {
                 _ = dispatcher.BeginInvoke(new Action(RequestExit), DispatcherPriority.ApplicationIdle);
                 return;
@@ -257,4 +262,53 @@ public sealed class WpfApplicationCoordinator : IDisposable
         return null;
     }
 
+}
+
+public sealed class CodexWatchSession
+{
+    private readonly bool startupGraceEnabled;
+    private readonly TimeSpan startupGrace;
+    private readonly TimeProvider timeProvider;
+    private readonly CodexAbsenceConfirmation absence;
+    private DateTimeOffset? startupGraceDeadline;
+    private bool observedPresent;
+
+    public CodexWatchSession(
+        bool launchIfMissing,
+        TimeSpan startupGrace,
+        TimeProvider? timeProvider = null,
+        int requiredAbsences = 3)
+    {
+        if (startupGrace <= TimeSpan.Zero) throw new ArgumentOutOfRangeException(nameof(startupGrace));
+        startupGraceEnabled = launchIfMissing;
+        this.startupGrace = startupGrace;
+        this.timeProvider = timeProvider ?? TimeProvider.System;
+        absence = new CodexAbsenceConfirmation(requiredAbsences);
+    }
+
+    public bool Observe(CodexObservation observation)
+    {
+        if (observation.Status == CodexObservationStatus.Present)
+        {
+            observedPresent = true;
+            startupGraceDeadline = null;
+            return absence.Observe(observation);
+        }
+
+        if (!observedPresent && startupGraceEnabled && observation.Status == CodexObservationStatus.Absent)
+        {
+            var now = timeProvider.GetUtcNow();
+            if (startupGraceDeadline is null && observation.ProcessCount > 0)
+            {
+                startupGraceDeadline = now + startupGrace;
+            }
+
+            if (startupGraceDeadline is { } deadline && now < deadline)
+            {
+                return false;
+            }
+        }
+
+        return absence.Observe(observation);
+    }
 }

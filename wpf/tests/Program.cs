@@ -239,6 +239,33 @@ Check(!absence.Observe(new(CodexObservationStatus.Absent, 0, 0)), "second absenc
 Check(absence.Observe(new(CodexObservationStatus.Absent, 0, 0)), "third consecutive absence confirms close");
 Check(!absence.Observe(new(CodexObservationStatus.Present, 1, 1)), "presence clears confirmation");
 
+var startupClock = new ManualTimeProvider(DateTimeOffset.UnixEpoch);
+var startupWatch = new CodexWatchSession(true, TimeSpan.FromSeconds(5), startupClock);
+Check(!startupWatch.Observe(new(CodexObservationStatus.Absent, 0, 1)), "launch root before visible window does not confirm close");
+Check(!startupWatch.Observe(new(CodexObservationStatus.Absent, 0, 1)), "startup visibility grace does not consume absences");
+Check(!startupWatch.Observe(new(CodexObservationStatus.Present, 1, 1)), "first visible window arms normal absence confirmation");
+
+var armedWatch = new CodexWatchSession(true, TimeSpan.FromSeconds(5), startupClock);
+armedWatch.Observe(new(CodexObservationStatus.Present, 1, 1));
+Check(!armedWatch.Observe(new(CodexObservationStatus.Absent, 0, 0))
+      && !armedWatch.Observe(new(CodexObservationStatus.Absent, 0, 0))
+      && armedWatch.Observe(new(CodexObservationStatus.Absent, 0, 0)),
+    "three absences after observed presence confirm close");
+
+var noWindowWatch = new CodexWatchSession(true, TimeSpan.FromSeconds(5), startupClock);
+noWindowWatch.Observe(new(CodexObservationStatus.Absent, 0, 1));
+startupClock.Advance(TimeSpan.FromSeconds(5));
+Check(!noWindowWatch.Observe(new(CodexObservationStatus.Absent, 0, 0))
+      && !noWindowWatch.Observe(new(CodexObservationStatus.Absent, 0, 0))
+      && noWindowWatch.Observe(new(CodexObservationStatus.Absent, 0, 0)),
+    "bounded startup grace eventually confirms no-window close");
+
+var passiveWatchSession = new CodexWatchSession(false, TimeSpan.FromSeconds(5), startupClock);
+Check(!passiveWatchSession.Observe(new(CodexObservationStatus.Absent, 0, 1))
+      && !passiveWatchSession.Observe(new(CodexObservationStatus.Absent, 0, 1))
+      && passiveWatchSession.Observe(new(CodexObservationStatus.Absent, 0, 1)),
+    "passive watch keeps existing absence semantics");
+
 var launchAndWatch = LaunchOptions.Parse(Array.Empty<string>());
 Check(launchAndWatch.Mode == WpfLaunchMode.LaunchAndWatch && launchAndWatch.LaunchCodexIfMissing,
     "no arguments launch and watch through Codex activation");
@@ -265,8 +292,19 @@ if (failures.Count > 0)
 }
 
 Console.WriteLine("PASS: QF-WPF-009 focused fixtures and orchestration checks");
-Console.WriteLine($"RESULTS: fixtures=31; checks={checkCount}; activeRequests={source.MaxActive}; refreshCalls={source.CallCount}; backoffCalls={backoffSource.CallCount}; privacy=normalized-values-only");
+Console.WriteLine($"RESULTS: fixtures=35; checks={checkCount}; activeRequests={source.MaxActive}; refreshCalls={source.CallCount}; backoffCalls={backoffSource.CallCount}; privacy=normalized-values-only");
 return 0;
+
+sealed class ManualTimeProvider : TimeProvider
+{
+    private DateTimeOffset now;
+
+    public ManualTimeProvider(DateTimeOffset initial) => now = initial;
+
+    public override DateTimeOffset GetUtcNow() => now;
+
+    public void Advance(TimeSpan amount) => now += amount;
+}
 
 sealed class FakeQuotaSource : IQuotaSource
 {

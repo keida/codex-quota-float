@@ -62,7 +62,7 @@ public sealed class CodexLifecyclePresenceSource : ICodexPresenceSource
                     ? new(CodexObservationStatus.Absent, 0, 0)
                     : new(CodexObservationStatus.Unknown, 0, 0);
             }
-            return ToObservation(lifecycle.RefreshPresence());
+            return ToObservation(lifecycle.RefreshPresence(), lifecycle.DesktopProcessId is not null);
         }
         catch (OperationCanceledException) { throw; }
         catch (Exception)
@@ -75,7 +75,7 @@ public sealed class CodexLifecyclePresenceSource : ICodexPresenceSource
     public async Task<CodexObservation> SampleAsync(bool launchIfMissing, CancellationToken cancellationToken)
     {
         if (!attached) return await AttachAndSampleAsync(launchIfMissing, cancellationToken).ConfigureAwait(false);
-        try { return ToObservation(lifecycle.RefreshPresence()); }
+        try { return ToObservation(lifecycle.RefreshPresence(), lifecycle.DesktopProcessId is not null); }
         catch (Exception)
         {
             attached = false;
@@ -85,8 +85,8 @@ public sealed class CodexLifecyclePresenceSource : ICodexPresenceSource
 
     public void Dispose() => lifecycle.Dispose();
 
-    private static CodexObservation ToObservation(CodexPresence presence) =>
+    private static CodexObservation ToObservation(CodexPresence presence, bool rootProcessAttached) =>
         new(presence.IsPresent ? CodexObservationStatus.Present : CodexObservationStatus.Absent,
             presence.VisibleWindowCount,
-            presence.ProcessIds.Count);
+            rootProcessAttached ? 1 : 0);
 }
