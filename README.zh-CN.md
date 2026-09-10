@@ -4,11 +4,29 @@
 
 [![WPF CI 状态](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml/badge.svg?branch=main)](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml)
 
+Quote Float 是一个原生 Windows WPF 浮窗，让 Codex Plus/Pro 的额度状态以紧凑的 Full 或 Orb 视图保持可见。
+
 ![Quote Float WPF R1 实际 WPF 客户区渲染](docs/assets/quote-float-overview-zh.png)
 
 _图示：实际 WPF 客户区渲染，额度数值为示例；未捕获原生 DWM 边框/圆角。_
 
 Quote Float 的 WPF R1 简化版本已完成冻结并发布。当前状态是 **Boss PASS、v1.1.0 RELEASED / LATEST**：版本发布到 Windows x64 framework-dependent 包，并要求 `.NET 8 Desktop Runtime`。
+
+## 快速开始
+
+1. 在 Windows x64 上安装官方 [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0/runtime)。
+2. 下载 [v1.1.0 Windows x64 ZIP](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/QuoteFloat-WPF-R1-v1.1.0-win-x64.zip) 和 [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/SHA256SUMS.txt)。
+3. 解压 ZIP。
+4. 运行 `QuotaFloat.Wpf.exe`。
+5. 可选：在下载的 ZIP 与 `SHA256SUMS.txt` 所在目录中，用 PowerShell 校验 ZIP：
+
+   ```powershell
+   $line = Get-Content .\SHA256SUMS.txt | Where-Object { $_ -match 'QuoteFloat-WPF-R1-v1.1.0-win-x64\.zip$' }
+   $expected = ($line -split '\s+')[0]
+   $actual = (Get-FileHash .\QuoteFloat-WPF-R1-v1.1.0-win-x64.zip -Algorithm SHA256).Hash
+   if ($actual -ne $expected) { throw 'Checksum mismatch' }
+   "SHA-256 OK: $actual"
+   ```
 
 ## 当前产品契约
 
@@ -20,7 +38,7 @@ Quote Float 的 WPF R1 简化版本已完成冻结并发布。当前状态是 **
 
 ## 运行与开发
 
-WPF 工程位于 [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj)。开发说明见 [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)。当前源码、哈希、删除项和证据边界见 [`docs/wpf-r1/CANDIDATE-MANIFEST.json`](docs/wpf-r1/CANDIDATE-MANIFEST.json)。
+WPF 工程位于 [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj)。开发说明见 [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)，安全报告说明见 [`SECURITY.md`](SECURITY.md)。当前源码、哈希、删除项和证据边界见 [`docs/wpf-r1/CANDIDATE-MANIFEST.json`](docs/wpf-r1/CANDIDATE-MANIFEST.json)。
 
 真实额度模式读取本地 Codex 认证并访问 ChatGPT usage/reset-credit 服务；不要发布认证文件、token、原始响应、账户截图或私人诊断。`--direct` 用于独立启动，`--watch` 用于观察 Codex 存在状态；应用不会终止 Codex。
 

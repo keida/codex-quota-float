@@ -4,11 +4,29 @@
 
 [![WPF CI status](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml/badge.svg?branch=main)](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml)
 
+Quote Float is a native Windows WPF widget that keeps Codex Plus/Pro quota status visible in compact Full or Orb views.
+
 ![Quote Float WPF R1 actual WPF client-area renders](docs/assets/quote-float-overview-en.png)
 
 _Figure: actual WPF client-area renders with illustrative sample quota values; native DWM border/corners are not captured._
 
 The WPF R1 simplification is frozen and released. Its status is **Boss PASS, v1.1.0 RELEASED / LATEST**: the release is a Windows x64 framework-dependent package and requires the `.NET 8 Desktop Runtime`.
+
+## Quick start
+
+1. On Windows x64, install the official [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0/runtime).
+2. Download the [v1.1.0 Windows x64 ZIP](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/QuoteFloat-WPF-R1-v1.1.0-win-x64.zip) and [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/SHA256SUMS.txt).
+3. Extract the ZIP.
+4. Run `QuotaFloat.Wpf.exe`.
+5. Optional: from the folder containing the downloaded ZIP and `SHA256SUMS.txt`, verify the ZIP with PowerShell:
+
+   ```powershell
+   $line = Get-Content .\SHA256SUMS.txt | Where-Object { $_ -match 'QuoteFloat-WPF-R1-v1.1.0-win-x64\.zip$' }
+   $expected = ($line -split '\s+')[0]
+   $actual = (Get-FileHash .\QuoteFloat-WPF-R1-v1.1.0-win-x64.zip -Algorithm SHA256).Hash
+   if ($actual -ne $expected) { throw 'Checksum mismatch' }
+   "SHA-256 OK: $actual"
+   ```
 
 ## Current product contract
 
@@ -20,7 +38,7 @@ The WPF R1 simplification is frozen and released. Its status is **Boss PASS, v1.
 
 ## Running and development
 
-The WPF project is [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj). Development guidance is in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md). Current source, hashes, deletions, and evidence boundaries are recorded in [`docs/wpf-r1/CANDIDATE-MANIFEST.json`](docs/wpf-r1/CANDIDATE-MANIFEST.json).
+The WPF project is [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj). Development guidance is in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md), and security reporting guidance is in [`SECURITY.md`](SECURITY.md). Current source, hashes, deletions, and evidence boundaries are recorded in [`docs/wpf-r1/CANDIDATE-MANIFEST.json`](docs/wpf-r1/CANDIDATE-MANIFEST.json).
 
 Real quota mode reads local Codex authentication and calls the ChatGPT usage/reset-credit services. Never publish authentication files, tokens, raw responses, account screenshots, or private diagnostics. `--direct` starts independently; `--watch` observes Codex presence. The application does not terminate Codex.
 
