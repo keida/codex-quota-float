@@ -9,11 +9,9 @@
 
 ## Reporting a concern / 报告安全问题
 
-Private vulnerability reporting is not currently enabled for this repository. Do not put tokens, cookies, `auth.json`, account payloads, raw API responses, account screenshots, or machine-local diagnostics in a public issue.
+Private vulnerability reporting is enabled for this repository. If you find a possible security issue, use the [Report a vulnerability form](https://github.com/keida/codex-quota-float/security/advisories/new). Do not open a public issue for a vulnerability or include tokens, cookies, `auth.json`, account payloads, raw API responses, account screenshots, machine-local diagnostics, credentials, or a sensitive proof of concept in any public report.
 
-If you find a possible security issue, open a minimal public issue without sensitive details to request a private contact path, or contact the maintainer through the [GitHub profile](https://github.com/keida). Do not include credentials, private account data, or a sensitive proof of concept. We will review the report and provide next steps when a private contact path is available; no fixed response-time SLA is promised.
-
-如果你发现潜在安全问题，请创建不含敏感信息的最小公开 issue，以请求私下沟通渠道，或通过维护者的 [GitHub 个人主页](https://github.com/keida) 联系。不要在公开 issue 中提交 token、cookie、`auth.json`、账户数据、原始响应、账户截图或机器本地诊断信息。仓库目前未启用 GitHub 的私密漏洞报告入口，也不承诺固定响应时限。
+本仓库已启用私密漏洞报告。如果发现潜在安全问题，请使用 [Report a vulnerability 表单](https://github.com/keida/codex-quota-float/security/advisories/new)。不要为漏洞创建公开 issue，也不要在任何公开报告中提交 token、cookie、`auth.json`、账户数据、原始响应、账户截图、机器本地诊断信息、凭据或敏感的概念验证。
 
 ## Data boundary at v1.1.0 / v1.1.0 数据边界
 
