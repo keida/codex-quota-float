@@ -1,5 +1,7 @@
 # Quote Float
 
+**语言 / Language:** 中文（当前） · [English](README.en.md)
+
 Quote Float 的 WPF R1 简化版本已完成冻结并发布。当前状态是 **Boss PASS、v1.1.0 RELEASED / LATEST**：版本发布到 Windows x64 framework-dependent 包，并要求 `.NET 8 Desktop Runtime`。
 
 ## 当前产品契约
@@ -12,9 +14,17 @@ Quote Float 的 WPF R1 简化版本已完成冻结并发布。当前状态是 **
 
 ## 运行与开发
 
-WPF 工程位于 [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj)。开发说明见 [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)。源码候选、哈希、删除项和证据边界见 [`docs/wpf-r1/CANDIDATE-MANIFEST.json`](docs/wpf-r1/CANDIDATE-MANIFEST.json)。
+WPF 工程位于 [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj)。开发说明见 [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)。当前源码、哈希、删除项和证据边界见 [`docs/wpf-r1/CANDIDATE-MANIFEST.json`](docs/wpf-r1/CANDIDATE-MANIFEST.json)。
 
 真实额度模式读取本地 Codex 认证并访问 ChatGPT usage/reset-credit 服务；不要发布认证文件、token、原始响应、账户截图或私人诊断。`--direct` 用于独立启动，`--watch` 用于观察 Codex 存在状态；应用不会终止 Codex。
+
+## 仓库结构
+
+- `wpf/`：当前 WPF 产品实现及其 WPF 测试。
+- `docs/`：公开技术记录、契约、验收证据摘要和发布记录。
+- `native/`：历史 WinForms 实现，保留作历史参考，不是当前 WPF 产品实现。
+
+过时的 `design-preview/` 设计预览已移除，不是当前产品截图或发布资产。
 
 ## 验收状态
 

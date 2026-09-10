@@ -1,5 +1,7 @@
 # Quote Float
 
+**Language / 语言:** [中文](README.md) · English (current)
+
 The WPF R1 simplification is frozen and released. Its status is **Boss PASS, v1.1.0 RELEASED / LATEST**: the release is a Windows x64 framework-dependent package and requires the `.NET 8 Desktop Runtime`.
 
 ## Current product contract
@@ -12,9 +14,17 @@ The WPF R1 simplification is frozen and released. Its status is **Boss PASS, v1.
 
 ## Running and development
 
-The WPF project is [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj). Development guidance is in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md). Candidate source, hashes, deletions, and evidence boundaries are recorded in [`docs/wpf-r1/CANDIDATE-MANIFEST.json`](docs/wpf-r1/CANDIDATE-MANIFEST.json).
+The WPF project is [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj). Development guidance is in [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md). Current source, hashes, deletions, and evidence boundaries are recorded in [`docs/wpf-r1/CANDIDATE-MANIFEST.json`](docs/wpf-r1/CANDIDATE-MANIFEST.json).
 
 Real quota mode reads local Codex authentication and calls the ChatGPT usage/reset-credit services. Never publish authentication files, tokens, raw responses, account screenshots, or private diagnostics. `--direct` starts independently; `--watch` observes Codex presence. The application does not terminate Codex.
+
+## Repository layout
+
+- `wpf/`: current WPF product implementation and WPF tests.
+- `docs/`: public technical records, contracts, acceptance evidence summaries, and release records.
+- `native/`: historical WinForms implementation kept for reference; it is not the current WPF product implementation.
+
+The obsolete `design-preview/` design previews were removed; they are not current product screenshots or release assets.
 
 ## Acceptance status
 
