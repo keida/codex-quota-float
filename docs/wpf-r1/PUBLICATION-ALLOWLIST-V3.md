@@ -1,8 +1,8 @@
 # WPF R1 Publication Allowlist V3
 
-Status: **exact local publication set; publication HOLD**.
+Status: **historical exact 34-path source publication set; v1.1.0 source publication COMPLETE**.
 
-Rebaseline branch: `codex/wpf-r1-simplification`. Complete source snapshot SHA: `e08353c8bfdbb1ccb23c65ca3799bb722132d501`. Comparison base: canonical `origin/main` at immutable SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`. Expected staging set: **34 paths** — **20 WPF product/source/test paths**, **1 repository config path**, and **13 public documentation paths**. Optional public artifacts: **0**. Reproducible clean-path EXE/DLL hashes supersede prior path-specific artifact hashes; artifacts are independent of checkout path and subsequent documentation-only Git SHA, with SourceLink revision embedding disabled; accepted runtime semantics and WPF resources are unchanged. No push, merge, tag, Release mutation, or external publication is authorized by this allowlist.
+Historical rebaseline branch: `codex/wpf-r1-simplification`. Complete source snapshot SHA: `e08353c8bfdbb1ccb23c65ca3799bb722132d501`. Comparison base: canonical `origin/main` at immutable SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`. The original staging set was **34 paths** — **20 WPF product/source/test paths**, **1 repository config path**, and **13 public documentation paths** — and that source scope was completed through PR #2. Optional public artifacts in this repository source set: **0**. Reproducible clean-path EXE/DLL hashes supersede prior path-specific artifact hashes; artifacts are independent of checkout path and subsequent documentation-only Git SHA, with SourceLink revision embedding disabled; accepted runtime semantics and WPF resources are unchanged. The v1.1.0 version metadata, tag, and release assets were published separately; this document remains the historical exact source-publication boundary.
 
 ## A. PUBLICATION REQUIRED — WPF delta (20)
 
@@ -69,4 +69,4 @@ The deleted Billing and Product Scale source paths are explicit staging deletion
 
 ## Required pre-publication checks
 
-Before any push or separately authorized publication, re-check the exact 34-file committed range against canonical `origin/main` SHA `d86e21e01d3e1ed389cb53afa7f327184a345c3a`, confirm the index is empty after the local commits, verify canonical Git blob hashes and byte counts, scan the selected files for secrets/private paths/identifiers, validate Markdown links and JSON parsing, and confirm no native or output path is committed. The V3 scope has completed local staging and rebaseline commits; push, merge, tag, Release, and external publication remain unperformed.
+Completed checks for the 34-file source scope included exact committed-range review against the canonical comparison base, empty-index confirmation, canonical Git blob hashes and byte counts, secret/private-path/identifier scanning, Markdown link validation, JSON parsing, and confirmation that no native or output path was committed. The source scope was merged through PR #2; v1.1.0 version metadata and the published tag/release were completed separately without expanding this historical allowlist.

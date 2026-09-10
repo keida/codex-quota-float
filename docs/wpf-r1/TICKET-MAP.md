@@ -1,6 +1,6 @@
 # WPF R1 Ticket Map
 
-Status: **simplification and final ownership fix accepted — Boss PASS**. Publication: **HOLD**.
+Status: **simplification and final ownership fix accepted — Boss PASS**. Publication: **v1.1.0 RELEASED / LATEST**.
 
 | Work item | Current status |
 | --- | --- |
@@ -11,9 +11,9 @@ Status: **simplification and final ownership fix accepted — Boss PASS**. Publi
 | WPF-R1-SIMPLIFICATION | Settings/footer/state/corner simplification — BOSS PASS |
 | WPF-R1-SIMPLIFICATION-FINAL-FIX | ApplyState ownership correction — BOSS PASS |
 | WPF-R1-SIMPLIFICATION-FREEZE | Candidate docs, manifest and V3 allowlist — this packet |
-| PUBLICATION | HOLD; requires exact staging review and separate external authorization |
+| PUBLICATION | COMPLETE; v1.1.0 tag and Latest Release published |
 
-The existing tag and Draft Release are historical pre-simplification artifacts. They must not be moved, reused, or treated as the simplified R1 publication.
+The v1.0.0 tag and Draft Release are historical pre-simplification artifacts and remain unchanged. The simplified R1 publication is v1.1.0: [Latest Release](https://github.com/keida/codex-quota-float/releases/tag/v1.1.0).
 
 R1 scope exclusions remain:
 

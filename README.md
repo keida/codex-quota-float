@@ -1,6 +1,6 @@
 # Quote Float
 
-Quote Float 的 WPF R1 候选已完成简化冻结。当前状态是 **Boss PASS、publication HOLD**：完整源代码快照和后续文档更新已记录在本地 rebaseline branch；不执行 push、merge、tag、Release 或外部发布。
+Quote Float 的 WPF R1 简化版本已完成冻结并发布。当前状态是 **Boss PASS、v1.1.0 RELEASED / LATEST**：版本发布到 Windows x64 framework-dependent 包，并要求 `.NET 8 Desktop Runtime`。
 
 ## 当前产品契约
 
@@ -26,4 +26,13 @@ WPF 工程位于 [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj)。开�
 2. 隔离 Codex `Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery`。
 3. 原生 Windows 125% / 150% DPI 运行验收。
 
-WPF R1 的 Boss PASS 不等于外部发布授权；V3 范围已完成本地 staging 和本地提交，publication HOLD 目前仅表示仍需完成提交树完整性复核、发布审查和单独外部发布授权。
+## 已发布版本
+
+- [v1.1.0 Release](https://github.com/keida/codex-quota-float/releases/tag/v1.1.0)
+- [下载 Windows x64 ZIP](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/QuoteFloat-WPF-R1-v1.1.0-win-x64.zip)
+- [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/SHA256SUMS.txt)
+- EXE SHA-256：`322DC1F8ED39A6769CCC1102A6C5D2CABBF088CF2C93003399D50C942CDCE507`
+- WPF DLL SHA-256：`E5F50F66903C29F45AEFF799B6738254A8D6CEC0D59A508103B89EC68D250976`
+- ZIP SHA-256：`8B6D4AB34A39F9D466A499150968AEA4DDD344FAC1B33B5CDA1696AE5F40024D`
+
+V3 源码范围已经完成合并，v1.1.0 tag 和 Latest Release 已发布。历史 v1.0.0 tag/Draft Release 保持不变。

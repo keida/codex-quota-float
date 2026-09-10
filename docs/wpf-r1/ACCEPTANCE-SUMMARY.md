@@ -1,11 +1,15 @@
 # WPF R1 Acceptance Summary
 
-Status: **BOSS PASS** for the simplified candidate. Publication: **HOLD**.
+Status: **BOSS PASS** for the simplified release. v1.1.0: **RELEASED / LATEST**.
 
 ## Candidate identity
 
-- Candidate executable SHA-256: `075A2BDB318C0FDAC70BE83DDE059DAAF1F51BABF34BB552442003B12596130A`
-- Candidate WPF DLL SHA-256: `3B31E7773F2FC3C7ED06343564BBA3E07843B22162501DA274CFA87428F941D1`
+- Released executable SHA-256: `322DC1F8ED39A6769CCC1102A6C5D2CABBF088CF2C93003399D50C942CDCE507`
+- Released WPF DLL SHA-256: `E5F50F66903C29F45AEFF799B6738254A8D6CEC0D59A508103B89EC68D250976`
+- Released ZIP SHA-256: `8B6D4AB34A39F9D466A499150968AEA4DDD344FAC1B33B5CDA1696AE5F40024D`
+- SHA256SUMS.txt SHA-256: `E1AB8016C66F417AE003109981115798B761500C6AE796107F618EC5F0985A96`
+- Tag: `v1.1.0` at `fc8e2749e7661b19509ee0bb924f04d204779420`; published latest release: [Quote Float WPF R1 v1.1.0](https://github.com/keida/codex-quota-float/releases/tag/v1.1.0)
+- Package: [Windows x64 framework-dependent ZIP](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/QuoteFloat-WPF-R1-v1.1.0-win-x64.zip); requires `.NET 8 Desktop Runtime`.
 - Verified native baseline: Windows 100% / 96 DPI.
 - Source inventory and hashes: [`CANDIDATE-MANIFEST.json`](CANDIDATE-MANIFEST.json).
 
@@ -18,7 +22,7 @@ Status: **BOSS PASS** for the simplified candidate. Publication: **HOLD**.
 - Human ownership smoke: border/corners/no clipping, Full-to-edge Orb, short hover, long hover temporary Full, pointer-leave restoration, and topmost against a normal competing window — PASS.
 - Independent source/ownership review: PASS; only `ApplyState()` owns the relevant Topmost and DWM scheduling paths, and activation routes through state reapplication.
 
-The freeze task reused this accepted evidence and did not build or run product tests.
+The freeze task reused this accepted evidence; the published package was then rebuilt and smoke-tested from isolated clean tag worktrees.
 
 ## Contract result
 

@@ -1,18 +1,22 @@
 {
   "schema": "quote-float-wpf-r1-candidate-v3",
-  "status": "BOSS PASS; v1.1.0 candidate; publication HOLD",
-  "branch": "codex/wpf-r1-v1.1.0-publication",
+  "status": "BOSS PASS; v1.1.0 RELEASED / LATEST",
+  "branch": "main",
   "base_commit": "2db7775723201206a23a12752752368f0a9a25ec",
   "prior_working_tree_base": "ce9cc923ded971d8aa051ab8d4b69dc065051c8b (identical tree; historical source baseline, not the simplified candidate commit)",
   "source_snapshot_commit": "cb670afbea1391a175e6af1d9f58c4dc903d2988",
-  "candidate_state": "v1.1.0 publication candidate with version metadata on the merged WPF source; PR #2 is merged into main at 2db7775723201206a23a12752752368f0a9a25ec; subsequent documentation-only Git SHA changes do not alter the artifacts; the historical v1.0.0 tag and Draft Release are not reused or modified; no Release is published",
+  "candidate_state": "v1.1.0 released from the merged WPF source; PR #2 is merged into main at 2db7775723201206a23a12752752368f0a9a25ec; the v1.1.0 annotated tag peels to fc8e2749e7661b19509ee0bb924f04d204779420 and is the Latest Release; subsequent documentation-only Git SHA changes do not alter the artifacts; the historical v1.0.0 tag and Draft Release are not reused or modified",
   "hash_basis": "source_inventory, config_inventory, and documentation_inventory SHA-256/byte counts use canonical Git blob bytes at their recorded commits; checkout EOL conversion is not the identity basis",
   "comparison_base": "origin/main",
   "comparison_base_sha": "2db7775723201206a23a12752752368f0a9a25ec",
   "verified_native_baseline": "Windows 100% / 96 DPI",
   "candidate_artifacts": {
     "exe_sha256": "322DC1F8ED39A6769CCC1102A6C5D2CABBF088CF2C93003399D50C942CDCE507",
-    "wpf_dll_sha256": "E5F50F66903C29F45AEFF799B6738254A8D6CEC0D59A508103B89EC68D250976"
+    "wpf_dll_sha256": "E5F50F66903C29F45AEFF799B6738254A8D6CEC0D59A508103B89EC68D250976",
+    "zip_filename": "QuoteFloat-WPF-R1-v1.1.0-win-x64.zip",
+    "zip_sha256": "8B6D4AB34A39F9D466A499150968AEA4DDD344FAC1B33B5CDA1696AE5F40024D",
+    "sha256sums_sha256": "E1AB8016C66F417AE003109981115798B761500C6AE796107F618EC5F0985A96",
+    "framework": "Windows x64 framework-dependent; .NET 8 Desktop Runtime required"
   },
   "accepted_evidence": {
     "build": "Release build PASS in two distinct clean checkout paths; zero warnings; zero errors; EXE and DLL SHA-256 byte-identical",
@@ -80,10 +84,15 @@
     "Native Windows 125% / 150% DPI runtime acceptance: NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE"
   ],
   "publication": {
-    "status": "HOLD",
+    "status": "RELEASED / LATEST",
     "allowlist": "docs/wpf-r1/PUBLICATION-ALLOWLIST-V3.md",
     "local_output_excluded": true,
     "native_dirty_tree_excluded": true,
-    "external_mutation_performed": false
+    "external_mutation_performed": true,
+    "tag": "v1.1.0",
+    "tag_object": "055a9f1eb79cf9911671fe9bafd69eaea87ed98d",
+    "release_url": "https://github.com/keida/codex-quota-float/releases/tag/v1.1.0",
+    "published_at": "2026-09-10T00:14:34Z",
+    "latest": true
   }
 }

@@ -1,6 +1,6 @@
 # Quote Float
 
-The WPF R1 candidate is simplified and frozen. Its status is **Boss PASS, publication HOLD**: the complete source snapshot and subsequent documentation updates are recorded in the local rebaseline branch; no push, merge, tag, Release, or external publication is performed.
+The WPF R1 simplification is frozen and released. Its status is **Boss PASS, v1.1.0 RELEASED / LATEST**: the release is a Windows x64 framework-dependent package and requires the `.NET 8 Desktop Runtime`.
 
 ## Current product contract
 
@@ -26,4 +26,13 @@ The verified baseline is Windows 100% / 96 DPI. These items remain explicitly `N
 2. Isolated Codex `Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery`.
 3. Native Windows 125% / 150% DPI runtime acceptance.
 
-Boss PASS does not grant external publication authorization. The V3 scope has been locally staged and committed; publication HOLD now means clean committed-tree verification, publication review, and separate external authorization remain.
+## Published release
+
+- [v1.1.0 Release](https://github.com/keida/codex-quota-float/releases/tag/v1.1.0)
+- [Download the Windows x64 ZIP](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/QuoteFloat-WPF-R1-v1.1.0-win-x64.zip)
+- [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/SHA256SUMS.txt)
+- EXE SHA-256: `322DC1F8ED39A6769CCC1102A6C5D2CABBF088CF2C93003399D50C942CDCE507`
+- WPF DLL SHA-256: `E5F50F66903C29F45AEFF799B6738254A8D6CEC0D59A508103B89EC68D250976`
+- ZIP SHA-256: `8B6D4AB34A39F9D466A499150968AEA4DDD344FAC1B33B5CDA1696AE5F40024D`
+
+The V3 source scope has been merged, and the v1.1.0 tag and Latest Release are published. The historical v1.0.0 tag and Draft Release remain unchanged.
