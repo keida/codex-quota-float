@@ -45,6 +45,16 @@ Check(expirySnapshot.EarliestFutureExpiry(expiryNow) == expiryNow.AddDays(1), "e
 
 Check(QuotaDisplayState.LoadingState.Status == QuotaUiStatus.Loading && QuotaDisplayState.LoadingState.ActiveRequests == 1, "loading state is explicit");
 Check(WidgetText.For("en-US").Status(QuotaUiStatus.Stale, true) == "Refreshing" && WidgetText.For("zh-Hans").Status(QuotaUiStatus.Stale, true) == "刷新中", "refreshing copy is localized");
+var trayLanguage = "zh-Hans";
+Func<WidgetText> trayText = () => WidgetText.For(trayLanguage);
+Check(trayText().TrayOpenSettings == "打开设置" && trayText().TrayExit == "退出 Quote Float",
+    "Chinese tray labels are exact");
+trayLanguage = "en-US";
+Check(trayText().TrayOpenSettings == "Open Settings" && trayText().TrayExit == "Exit Quote Float",
+    "English tray labels are exact");
+trayLanguage = "zh-Hans";
+Check(trayText().TrayOpenSettings == "打开设置" && trayText().TrayExit == "退出 Quote Float",
+    "tray labels refresh dynamically from current language");
 
 var refreshingSnapshot = new QuotaSnapshot("Plus", new QuotaWindow(72, DateTimeOffset.UtcNow.AddHours(1), 18000, "5h"), new QuotaWindow(38, DateTimeOffset.UtcNow.AddDays(2), 604800, "Weekly"), 2, Array.Empty<DateTimeOffset>(), DateTimeOffset.UtcNow);
 using var refreshingSource = new GateAfterFirstSource(refreshingSnapshot);
@@ -292,7 +302,7 @@ if (failures.Count > 0)
 }
 
 Console.WriteLine("PASS: QF-WPF-009 focused fixtures and orchestration checks");
-Console.WriteLine($"RESULTS: fixtures=35; checks={checkCount}; activeRequests={source.MaxActive}; refreshCalls={source.CallCount}; backoffCalls={backoffSource.CallCount}; privacy=normalized-values-only");
+Console.WriteLine($"RESULTS: fixtures=36; checks={checkCount}; activeRequests={source.MaxActive}; refreshCalls={source.CallCount}; backoffCalls={backoffSource.CallCount}; privacy=normalized-values-only");
 return 0;
 
 sealed class ManualTimeProvider : TimeProvider
