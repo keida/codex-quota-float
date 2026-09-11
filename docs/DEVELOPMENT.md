@@ -18,7 +18,7 @@ The accepted WPF state owner is `WidgetWindowController`; visual changes are app
 
 Static inspection, compilation, deterministic tests, native smoke, and human interaction are separate evidence levels. The accepted freeze evidence is reused here; this documentation freeze performs no product build or test run.
 
-The focused test evidence is `31 fixtures; 58 checks; activeRequests=1; refreshCalls=1; backoffCalls=3; privacy=normalized-values-only`. The accepted Release build had zero warnings and zero errors. Native evidence is limited to the Windows 100% / 96 DPI baseline and the candidate identity in [`CANDIDATE-MANIFEST.json`](wpf-r1/CANDIDATE-MANIFEST.json).
+The focused test evidence is `36 fixtures; 71 checks; activeRequests=1; refreshCalls=1; backoffCalls=4; privacy=normalized-values-only`. The accepted Release build and WPF CI build had zero warnings and zero errors. Native evidence is limited to the Windows 100% / 96 DPI baseline, direct single-file startup, safe single-instance behavior, normal exit, and the candidate identity in [`CANDIDATE-MANIFEST.json`](wpf-r1/CANDIDATE-MANIFEST.json). The current tray menu follows the selected ZH/EN language in human interaction testing.
 
 Do not use real authentication or terminate user processes for deterministic tests. Do not record tokens, response bodies, cookies, account data, machine identifiers, PID/HWND values, or absolute personal paths in public artifacts.
 
@@ -39,4 +39,4 @@ dotnet run --project wpf/tests/QuotaFloat.Wpf.Tests.csproj --configuration Relea
 2. Isolated Codex close/absence/response/restart recovery: `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`.
 3. Native Windows 125% / 150% DPI runtime acceptance: `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`.
 
-Version 1.1.0 is published and is the latest release. For future publication, use the exact staging boundaries in [`PUBLICATION-ALLOWLIST-V3.md`](wpf-r1/PUBLICATION-ALLOWLIST-V3.md) and exclude credentials, machine-local state, generated output, release binaries, and unrelated historical or native changes from source commits.
+Version 1.1.2 is published as the Latest Release and is a self-contained Windows x64 single-file application; no separate .NET installation is required. For future publication, use the exact staging boundaries in [`PUBLICATION-ALLOWLIST-V3.md`](wpf-r1/PUBLICATION-ALLOWLIST-V3.md) and exclude credentials, machine-local state, generated output, release binaries, and unrelated historical or native changes from source commits.
