@@ -37,7 +37,7 @@ Quote Float reads the local Codex `auth.json` under `CODEX_HOME` or the user's `
 - `https://chatgpt.com/backend-api/wham/usage`
 - `https://chatgpt.com/backend-api/wham/rate-limit-reset-credits`
 
-The current source does not read chat content, define a telemetry or analytics endpoint, or write the Codex token to Quote Float preferences. Quote Float stores only its own language and refresh-interval preferences locally at `%LOCALAPPDATA%\QuotaFloat\preferences.json`. Never attach `auth.json`, tokens, cookies, raw responses, account screenshots, or private diagnostics to a public issue.
+The current source does not read chat content, define a telemetry or analytics endpoint, or write the Codex token to Quote Float preferences. Quote Float stores its language and refresh-interval preferences locally at `%LOCALAPPDATA%\QuotaFloat\preferences.json`. Optional Edge Drag diagnostics are off by default; only `QF_EDGE_DRAG_LOG` writes to the user-selected local file. That file may include timestamps, window/display bounds, and window handles; it is never auto-uploaded. Inspect and redact it before public sharing. Never attach `auth.json`, tokens, cookies, raw responses, account screenshots, or private diagnostics to a public issue.
 
 ## Verify the download
 

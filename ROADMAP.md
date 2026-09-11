@@ -8,8 +8,8 @@ For the supporting discovery and launch work, see the [Growth Plan](docs/GROWTH-
 
 ## Near-term discovery and trust
 
-- **Planned — Demo GIF:** publish a short, truthful Full → edge snap → Orb → hover expansion → ZH/EN switch demonstration.
-- **Planned — Social Preview:** create a 1280 × 640 or larger, under-1 MB preview image that leads with “Codex Quota Float for Windows”.
+- **Committed in PR — Demo GIF:** the short, truthful Full → edge snap → Orb → hover expansion → ZH/EN switch demonstration is committed here and will be displayed by the repository README after merge.
+- **Committed candidate — Social Preview:** the 1280 × 640, under-1 MB preview image is committed here, but applying it in GitHub Repository Social Preview settings remains a separate step.
 - **Planned — Code signing:** evaluate signing options for future Windows binaries. The current v1.1.2 EXE is unsigned.
 - **Planned — Installation channels:** evaluate Scoop and WinGet packaging without implying support until a real package and update path exist.
 - **Under consideration — Automatic updates:** define an update and rollback model before implementing any updater.
