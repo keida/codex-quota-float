@@ -1,0 +1,85 @@
+name: Bug report
+description: Report a reproducible problem with Codex Quota Float for Windows.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve Codex Quota Float for Windows.
+
+        **Never include tokens, `auth.json`, cookies, raw API responses, account screenshots, or private diagnostics.** Redact sensitive values before attaching screenshots or logs.
+  - type: input
+    id: version
+    attributes:
+      label: Quote Float version
+      description: Use the release version shown in the official download, for example v1.1.2.
+      placeholder: v1.1.2
+    validations:
+      required: true
+  - type: dropdown
+    id: windows-version
+    attributes:
+      label: Windows version
+      options:
+        - Windows 11 x64
+        - Windows 10 x64
+        - Other or unknown
+    validations:
+      required: true
+  - type: dropdown
+    id: dpi
+    attributes:
+      label: Display scale
+      description: The 100% / 96 DPI baseline is verified. 125% and 150% are not currently verified for native runtime acceptance.
+      options:
+        - 100% / 96 DPI
+        - 125% (not verified)
+        - 150% (not verified)
+        - Other or unknown
+    validations:
+      required: true
+  - type: dropdown
+    id: launch-mode
+    attributes:
+      label: Launch mode
+      options:
+        - LaunchAndWatch (default)
+        - --watch
+        - --direct
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the smallest repeatable sequence, including the starting state.
+      placeholder: |
+        1. Start from ...
+        2. Select ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Actual and expected result
+      description: Tell us what happened and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence
+      description: Attach a redacted screenshot or log excerpt if useful. Remove tokens, cookies, account data, raw responses, and local absolute paths first.
+      placeholder: Paste only sanitized evidence here.
+    validations:
+      required: false
+  - type: checkboxes
+    id: redaction
+    attributes:
+      label: Privacy check
+      options:
+        - label: I removed tokens, auth files, cookies, account data, raw API responses, and private diagnostics from this report.
+          required: true

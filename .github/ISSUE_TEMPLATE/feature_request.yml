@@ -1,0 +1,57 @@
+name: Feature request
+description: Suggest a focused improvement for Codex Quota Float for Windows.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea. Please describe the user problem before the proposed solution.
+
+        Do not attach tokens, `auth.json`, cookies, raw API responses, account screenshots, or private diagnostics.
+  - type: input
+    id: summary
+    attributes:
+      label: Short summary
+      description: Describe the requested improvement in one sentence.
+      placeholder: Make it easier to ...
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: Who needs this, and what are they trying to accomplish?
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform scope
+      options:
+        - Windows x64
+        - Other platform or cross-platform idea
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Explain the smallest useful behavior and how you would know it works.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What do you use today, or what workaround have you tried?
+    validations:
+      required: false
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I have not included tokens, auth files, cookies, account data, raw API responses, or private diagnostics.
+          required: true
