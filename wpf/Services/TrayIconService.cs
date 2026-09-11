@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using QuotaFloat.Wpf.Resources;
 
 namespace QuotaFloat.Wpf.Services;
 
@@ -28,16 +29,18 @@ public sealed class TrayIconService : IDisposable
 
     private readonly Action openSettings;
     private readonly Action exitApplication;
+    private readonly Func<WidgetText> textProvider;
     private readonly HwndSource hwndSource;
     private readonly uint iconId = 0x5146;
     private IntPtr productIcon;
     private bool disposed;
     private bool iconAdded;
 
-    public TrayIconService(Window owner, Action openSettings, Action exitApplication)
+    public TrayIconService(Window owner, Action openSettings, Action exitApplication, Func<WidgetText> textProvider)
     {
         this.openSettings = openSettings;
         this.exitApplication = exitApplication;
+        this.textProvider = textProvider;
 
         var hwnd = new WindowInteropHelper(owner).Handle;
         hwndSource = HwndSource.FromHwnd(hwnd)
@@ -153,8 +156,9 @@ public sealed class TrayIconService : IDisposable
 
         try
         {
-            AppendMenu(menu, MfString | MfEnabled, OpenSettingsCommandId, "打开设置");
-            AppendMenu(menu, MfString | MfEnabled, ExitCommandId, "退出 Quote Float");
+            var text = textProvider();
+            AppendMenu(menu, MfString | MfEnabled, OpenSettingsCommandId, text.TrayOpenSettings);
+            AppendMenu(menu, MfString | MfEnabled, ExitCommandId, text.TrayExit);
             SetForegroundWindow(hwnd);
             if (!GetCursorPos(out var point))
             {

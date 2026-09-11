@@ -84,7 +84,8 @@ public partial class MainWindow : Window
         var hwnd = new WindowInteropHelper(this).Handle;
         hwndSource = HwndSource.FromHwnd(hwnd);
         hwndSource?.AddHook(MainWindowWndProc);
-        trayIconService = new TrayIconService(this, ShowSettings, ExitApplication);
+        trayIconService = new TrayIconService(this, ShowSettings, ExitApplication,
+            () => WidgetText.For(preferenceStore.Current.Language));
         widgetController.ApplyState(widgetController.State);
     }
 
