@@ -1,28 +1,26 @@
 # WPF R1 Acceptance Summary
 
-Status: **BOSS PASS** for the simplified release. v1.1.0: **RELEASED / LATEST**.
+Status: **BOSS PASS** for the simplified release. v1.1.2: **RELEASED / LATEST**.
 
 ## Candidate identity
 
-- Released executable SHA-256: `322DC1F8ED39A6769CCC1102A6C5D2CABBF088CF2C93003399D50C942CDCE507`
-- Released WPF DLL SHA-256: `E5F50F66903C29F45AEFF799B6738254A8D6CEC0D59A508103B89EC68D250976`
-- Released ZIP SHA-256: `8B6D4AB34A39F9D466A499150968AEA4DDD344FAC1B33B5CDA1696AE5F40024D`
-- SHA256SUMS.txt SHA-256: `E1AB8016C66F417AE003109981115798B761500C6AE796107F618EC5F0985A96`
-- Tag: `v1.1.0` at `fc8e2749e7661b19509ee0bb924f04d204779420`; published latest release: [Quote Float WPF R1 v1.1.0](https://github.com/keida/codex-quota-float/releases/tag/v1.1.0)
-- Package: [Windows x64 framework-dependent ZIP](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/QuoteFloat-WPF-R1-v1.1.0-win-x64.zip); requires `.NET 8 Desktop Runtime`.
+- Released executable: [Quote-Float-v1.1.2-win-x64.exe](https://github.com/keida/codex-quota-float/releases/download/v1.1.2/Quote-Float-v1.1.2-win-x64.exe), 71,675,147 bytes, self-contained Windows x64 single-file; no separate .NET installation required.
+- Released executable SHA-256: `2FFF59F1B79E232C7ADBA88C49D57332ECA19EE2BE4FCC9E60195B5898D9E9DF`
+- SHA256SUMS.txt: [download](https://github.com/keida/codex-quota-float/releases/download/v1.1.2/SHA256SUMS.txt); SHA-256: `3E278A81B55341D57F8635B68A681F126110688E575A313B8E287FA30E7A968A`
+- Tag: `v1.1.2` annotated object `b7cf6651a6f683d9e46ff0b2e7a51e26d4ab1877`, peeled to `8ea5e0c5d06c2141754af57ef9c9ab27edba04bc`; published latest release: [Quote Float WPF R1 v1.1.2](https://github.com/keida/codex-quota-float/releases/tag/v1.1.2)
 - Verified native baseline: Windows 100% / 96 DPI.
 - Source inventory and hashes: [`CANDIDATE-MANIFEST.json`](CANDIDATE-MANIFEST.json).
 
 ## Accepted evidence
 
 - Release build: PASS, zero warnings and zero errors.
-- Focused deterministic tests: PASS, `31 fixtures; 58 checks; activeRequests=1; refreshCalls=1; backoffCalls=3; privacy=normalized-values-only`.
-- Targeted native smoke: Plus Full `278 × 216`, Plus Orb `74 × 84`, Pro Full `278 × 156`, Pro Orb `74 × 62`; effective DPI 96; Topmost true; DWM corner contract observed; no non-zero region; clean exit and no residual process.
+- Focused deterministic tests: PASS, `36 fixtures; 71 checks; activeRequests=1; refreshCalls=1; backoffCalls=4; privacy=normalized-values-only`.
+- Targeted native smoke: Plus Full `278 × 216` and Pro Full `278 × 156` at effective DPI 96; direct/demo startup visible, safe single-instance behavior, clean exit, and no residual process.
 - Single-instance activation: second launch exited cleanly, one process remained, and the first window reapplied the current state.
-- Human ownership smoke: border/corners/no clipping, Full-to-edge Orb, short hover, long hover temporary Full, pointer-leave restoration, and topmost against a normal competing window — PASS.
-- Independent source/ownership review: PASS; only `ApplyState()` owns the relevant Topmost and DWM scheduling paths, and activation routes through state reapplication.
+- Human interaction: prior WPF R1 border/corners, edge/hover/topmost behavior remained accepted; v1.1.2 ZH→EN→ZH tray menu localization audit — PASS.
+- PR #12 WPF CI and GitGuardian checks — PASS.
 
-The freeze task reused this accepted evidence; the published package was then rebuilt and smoke-tested from isolated clean tag worktrees.
+The v1.1.2 package was published from the exact merged source commit above; release asset size, digest, and downloadability were independently verified after publication. v1.1.0 remains the prior published release, while v1.1.1 is an unpublished superseded tag.
 
 ## Contract result
 

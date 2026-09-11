@@ -1,20 +1,21 @@
 # WPF R1 Freeze Record
 
-Freeze result: **PASS; v1.1.0 RELEASED / LATEST**.
+Freeze result: **PASS; v1.1.2 RELEASED / LATEST**.
 
 ## Frozen candidate
 
-The accepted simplified WPF source was merged by PR #2 into `main` at `2db7775723201206a23a12752752368f0a9a25ec`. The complete versioned source snapshot is recorded at the source snapshot commit below, and later documentation-only updates preserve the artifact record. v1.1.0 is tagged at `fc8e2749e7661b19509ee0bb924f04d204779420` and published as the [Latest Release](https://github.com/keida/codex-quota-float/releases/tag/v1.1.0). The existing v1.0.0 tag and Draft Release remain historical and are not reused or modified. It is identified by:
+The accepted WPF source was merged by PR #12 into `main` at `8ea5e0c5d06c2141754af57ef9c9ab27edba04bc`. The annotated `v1.1.2` tag object is `b7cf6651a6f683d9e46ff0b2e7a51e26d4ab1877` and peels to that merge commit. v1.1.0 remains the prior published release; v1.1.1 is an unpublished superseded tag. The existing v1.0.0 tag and Draft Release remain historical and are not reused or modified.
 
-- Versioned clean-path EXE SHA-256 `322DC1F8ED39A6769CCC1102A6C5D2CABBF088CF2C93003399D50C942CDCE507`
-- Versioned clean-path WPF DLL SHA-256 `E5F50F66903C29F45AEFF799B6738254A8D6CEC0D59A508103B89EC68D250976`
-- Assembly/File/Informational version `1.1.0.0` / `1.1.0.0` / `1.1.0`
+It is identified by:
+
+- Self-contained Windows x64 single-file EXE, 71,675,147 bytes, with no separate .NET installation required
+- EXE SHA-256 `2FFF59F1B79E232C7ADBA88C49D57332ECA19EE2BE4FCC9E60195B5898D9E9DF`
+- `SHA256SUMS.txt` SHA-256 `3E278A81B55341D57F8635B68A681F126110688E575A313B8E287FA30E7A968A`
+- Assembly/Product/File version `1.1.2.0` / `1.1.2` / `1.1.2.0`
 - Windows 100% / 96 DPI native baseline
 - Current WPF source inventory in [`CANDIDATE-MANIFEST.json`](CANDIDATE-MANIFEST.json)
 
-Complete versioned source snapshot SHA is `cb670afbea1391a175e6af1d9f58c4dc903d2988`. The branch base and immutable comparison base are canonical `origin/main` SHA `2db7775723201206a23a12752752368f0a9a25ec`. The v1.0.0 tag remains a historical pre-version-prep record, not the v1.1.0 candidate. The artifacts have no SourceRevisionId, SourceLink revision embedding is disabled, and later documentation-only Git SHA changes do not alter them. Semantic IL and WPF resource hashes remain unchanged.
-
-Boss accepted the simplification and final ApplyState ownership fix. The independent ownership recheck passed, and the v1.1.0 Release artifacts reproduce byte-for-byte across isolated clean tag worktrees without embedded SourceLink revision payload. Focused tests passed with 31 fixtures and 58 checks; extracted-package runtime smoke passed for Plus Full and Settings at 96 DPI with normal exit, tray cleanup, and zero residual process. The source simplification is merged, and v1.1.0 is published as Latest. The historical v1.0.0 tag and Draft Release remain untouched.
+The source snapshot SHA, comparison base, and release identity are recorded in the current candidate manifest. Release build and WPF CI passed with zero warnings and zero errors; the deterministic suite passed with 36 fixtures and 71 checks. The v1.1.2 human ZH→EN→ZH tray localization audit passed, and the published asset digest and downloadability were verified after release.
 
 ## Frozen contract
 
@@ -22,8 +23,12 @@ The active contract is [`SIMPLIFICATION-CONTRACT.md`](SIMPLIFICATION-CONTRACT.md
 
 ## Publication gate
 
-Publication is COMPLETE for v1.1.0. [`PUBLICATION-ALLOWLIST-V3.md`](PUBLICATION-ALLOWLIST-V3.md) remains the exact historical source-publication scope; the v1.1.0 version metadata and release records were published separately, while release assets remain outside the repository source set. The allowlist excludes native dirty work, output evidence, binaries, credentials, runtime state, machine identifiers, and superseded material. The existing v1.0.0 tag and Draft Release are untouched.
+Publication is COMPLETE for v1.1.2: [Latest Release](https://github.com/keida/codex-quota-float/releases/tag/v1.1.2). [`PUBLICATION-ALLOWLIST-V3.md`](PUBLICATION-ALLOWLIST-V3.md) remains the exact historical source-publication scope; release assets remain outside the repository source set. The allowlist excludes native dirty work, output evidence, binaries, credentials, runtime state, machine identifiers, and superseded material. The existing v1.0.0 tag and Draft Release are untouched.
 
 ## Unverified scope
 
-Same real Pro account Fresh/SignedOut/Fresh, isolated Codex close/absence/response/restart recovery, and native 125% / 150% DPI remain `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`.
+The following remain `NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE`:
+
+1. Same real Pro account Fresh/SignedOut/Fresh.
+2. Isolated Codex close/absence/response/restart recovery.
+3. Native Windows 125% / 150% DPI runtime acceptance.

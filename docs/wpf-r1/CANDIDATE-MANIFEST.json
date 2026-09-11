@@ -1,31 +1,31 @@
 {
   "schema": "quote-float-wpf-r1-candidate-v3",
-  "status": "BOSS PASS; v1.1.0 RELEASED / LATEST",
+  "status": "BOSS PASS; v1.1.2 RELEASED / LATEST",
   "branch": "main",
-  "base_commit": "2db7775723201206a23a12752752368f0a9a25ec",
-  "prior_working_tree_base": "ce9cc923ded971d8aa051ab8d4b69dc065051c8b (identical tree; historical source baseline, not the simplified candidate commit)",
-  "source_snapshot_commit": "cb670afbea1391a175e6af1d9f58c4dc903d2988",
-  "candidate_state": "v1.1.0 released from the merged WPF source; PR #2 is merged into main at 2db7775723201206a23a12752752368f0a9a25ec; the v1.1.0 annotated tag peels to fc8e2749e7661b19509ee0bb924f04d204779420 and is the Latest Release; subsequent documentation-only Git SHA changes do not alter the artifacts; the historical v1.0.0 tag and Draft Release are not reused or modified",
-  "hash_basis": "source_inventory, config_inventory, and documentation_inventory SHA-256/byte counts use canonical Git blob bytes at their recorded commits; checkout EOL conversion is not the identity basis",
+  "base_commit": "8ea5e0c5d06c2141754af57ef9c9ab27edba04bc",
+  "source_snapshot_commit": "8ea5e0c5d06c2141754af57ef9c9ab27edba04bc",
+  "candidate_state": "v1.1.2 released from the merged WPF source at the canonical main commit; the v1.1.2 annotated tag is the Latest Release; v1.1.0 remains the prior published release; the v1.1.1 tag is unpublished and superseded; the historical v1.0.0 tag and Draft Release are not reused or modified",
+  "hash_basis": "source_inventory, config_inventory, and documentation_inventory SHA-256/byte counts use canonical Git blob bytes at the current main commit; checkout EOL conversion is not the identity basis",
   "comparison_base": "origin/main",
-  "comparison_base_sha": "2db7775723201206a23a12752752368f0a9a25ec",
+  "comparison_base_sha": "8ea5e0c5d06c2141754af57ef9c9ab27edba04bc",
   "verified_native_baseline": "Windows 100% / 96 DPI",
   "candidate_artifacts": {
-    "exe_sha256": "322DC1F8ED39A6769CCC1102A6C5D2CABBF088CF2C93003399D50C942CDCE507",
-    "wpf_dll_sha256": "E5F50F66903C29F45AEFF799B6738254A8D6CEC0D59A508103B89EC68D250976",
-    "zip_filename": "QuoteFloat-WPF-R1-v1.1.0-win-x64.zip",
-    "zip_sha256": "8B6D4AB34A39F9D466A499150968AEA4DDD344FAC1B33B5CDA1696AE5F40024D",
-    "sha256sums_sha256": "E1AB8016C66F417AE003109981115798B761500C6AE796107F618EC5F0985A96",
-    "framework": "Windows x64 framework-dependent; .NET 8 Desktop Runtime required"
+    "exe_filename": "Quote-Float-v1.1.2-win-x64.exe",
+    "exe_bytes": 71675147,
+    "exe_sha256": "2FFF59F1B79E232C7ADBA88C49D57332ECA19EE2BE4FCC9E60195B5898D9E9DF",
+    "sha256sums_filename": "SHA256SUMS.txt",
+    "sha256sums_sha256": "3E278A81B55341D57F8635B68A681F126110688E575A313B8E287FA30E7A968A",
+    "framework": "Windows x64 self-contained single-file; no separate .NET installation required",
+    "product_version": "1.1.2",
+    "file_version": "1.1.2.0"
   },
   "accepted_evidence": {
-    "build": "Release build PASS in two distinct clean checkout paths; zero warnings; zero errors; EXE and DLL SHA-256 byte-identical",
-    "reproducible_artifacts": "PASS; checkout- and revision-independent clean-path artifacts; AssemblyVersion=1.1.0.0; FileVersion=1.1.0.0; InformationalVersion=1.1.0 with no SourceRevisionId; EnableSourceLink=false and no embedded raw.githubusercontent revision URL; later documentation-only Git SHA changes do not alter artifacts; semantic IL hash F3FE74405E9097C0A314AEAD9769B284D35746E542AE078BEFE5C30D3B38F4F0; WPF g.resources hash F3D6FD202A9543800A3695851807BDF45470047A80A2784868BC41B81484E72E; runtime types 125",
-    "focused_tests": "PASS; 31 fixtures; 58 checks; activeRequests=1; refreshCalls=1; backoffCalls=3; privacy=normalized-values-only",
-    "native_smoke": "PASS; Plus/Pro Full and Orb at 96 DPI with accepted geometry, DWM corner behavior, Topmost, clean exit, and zero residual process",
-    "single_instance": "PASS; second launch exits cleanly, one process remains, current state is reapplied",
-    "human_ownership": "PASS; Full border/corners, edge Orb, short hover, long hover temporary Full, pointer-leave restoration, and topmost competition",
-    "independent_review": "PASS; ApplyState ownership and activation/state routing rechecked read-only"
+    "build": "PASS; WPF Release build and PR #12 WPF CI completed with zero warnings and zero errors; GitGuardian PASS",
+    "focused_tests": "PASS; 36 fixtures; 71 checks; activeRequests=1; refreshCalls=1; backoffCalls=4; privacy=normalized-values-only",
+    "native_smoke": "PASS for the accepted R1 baseline; direct/demo startup visible, Plus Full 278 x 216 and Pro Full 278 x 156 at 96 DPI, clean exit, and zero residual process",
+    "single_instance": "PASS; second launch exits cleanly, one process remains, and current state is reapplied",
+    "human_interaction": "PASS; prior R1 border/corners, edge/hover/topmost behavior accepted; v1.1.2 ZH -> EN -> ZH tray localization audit passed",
+    "release_verification": "PASS; non-draft, non-prerelease Latest Release with exactly two uploaded assets; remote digests, sizes, and HTTP 200 downloads match the published candidate"
   },
   "scope_contract": {
     "settings": "420 x 296 DIP non-modal window",
@@ -37,7 +37,9 @@
     "state_owner": "wpf/Windows/WidgetWindowController.cs"
   },
   "source_inventory": [
-    {"path":"wpf/app.manifest","sha256":"E47EEE48BD699F0E357570B556FAC5972BCAC866E61FDB54A72B53C2C651E27C","bytes":747},
+    {"path":"wpf/app.manifest","sha256":"EEAD382C59A56FA7BAB0385742B75B830533AB399D1A6DC69B799D5C214B3722","bytes":747},
+    {"path":"wpf/Assets/QuoteFloat.ico","sha256":"5624B89C1326D7CD1D5867B14DB2E40EF74C8BFB21364CA4F0B8F2466E12DAA4","bytes":7766},
+    {"path":"wpf/Assets/QuoteFloat.svg","sha256":"69E8A3650DD26E1E0CB2578304B70EEFB348F637D2072ECE86F311E679C13098","bytes":1069},
     {"path":"wpf/App.xaml","sha256":"F9A3116A80EC5A0A0A2F9BC856ED5B070C94A99643BB75FB8C2C467A2D2196F9","bytes":281},
     {"path":"wpf/App.xaml.cs","sha256":"C56EF21FF29DC0B36D477DAD7DBF5451B207FBE5EBBA79EE98BFAD379CE069AA","bytes":819},
     {"path":"wpf/Diagnostics/EdgeDragDiagnostics.cs","sha256":"D695FB0450F44C6DADF04960395E2225A0243AB1A59EDAD3C1CE656B2C27B4F5","bytes":6992},
@@ -46,16 +48,18 @@
     {"path":"wpf/Platform/WindowCornerContract.cs","sha256":"6FA1FD3726712375F698920B67FFBA2C1AA0160E3EDABCB2AABD313F0349B315","bytes":516},
     {"path":"wpf/Platform/WindowPlacementService.cs","sha256":"6C1BAAC8EF8B30FC608B5C572FDC35C4998C9CB41496E7981A1A05480873380E","bytes":5401},
     {"path":"wpf/Properties/AssemblyInfo.cs","sha256":"BE10F95593054E53FC4C46472B45D13CC3BE578AE9C93315D22C3C63AF8647F3","bytes":157},
-    {"path":"wpf/QuotaFloat.Wpf.csproj","sha256":"E987219A463E773432EEC209382C8F386E9F319A701E1E668B170C24E530E2E3","bytes":1155},
+    {"path":"wpf/Properties/PublishProfiles/WinX64SingleFile.pubxml","sha256":"3733704578D23F760779614FA54B2A2D51419AD26DEB81C7DBB670BDBFE40089","bytes":594},
+    {"path":"wpf/QuotaFloat.Wpf.csproj","sha256":"C1C0E5674B827CA2FB50C7421758DF370BAC510CDE7FE20A1733A7087753EF51","bytes":1216},
     {"path":"wpf/Resources/CivicWayfinding.xaml","sha256":"4CF1E9E98DBEA0BDC48E692EEA05888774ED7DFF1BC8F017D2DED8358478D0D5","bytes":1366},
-    {"path":"wpf/Resources/UiText.cs","sha256":"9735942BB9DE97563DF08F4E81F917BCDFF8D49E875A5048311AAFBCA0CA5A8E","bytes":4242},
-    {"path":"wpf/Services/CodexPresenceService.cs","sha256":"A85FB8C6A0E1CF62A550ED1A73B6982265B7DC15437FCC8248AA7A2A3AB3CC87","bytes":2949},
+    {"path":"wpf/Resources/UiText.cs","sha256":"BD5ADDCE74284CBEFE325E64A749E35D14388381FDB19B2D18BFCF85040D9586","bytes":4455},
+    {"path":"wpf/Services/CodexPresenceService.cs","sha256":"2D26DAA2FD082902023004847CF2E139A331FB189AA19BEE7C80E194CF1A8AFD","bytes":3172},
+    {"path":"wpf/Services/LaunchOptions.cs","sha256":"D0D967DADBAF52727E66C594BB1B4C2473A30376EA0E7D5E7CA5B932721BF3D3","bytes":925},
     {"path":"wpf/Services/PreferenceStore.cs","sha256":"CCFE724ABFD24F1A1F398ABADAFC66190F1AF50AFE829DCFEFBBE6F3E26BA8D8","bytes":2874},
     {"path":"wpf/Services/QuotaRefreshCoordinator.cs","sha256":"24D69EA29078CC0402CA834135065F02463C4DA68502669728EF171B60307F63","bytes":8677},
     {"path":"wpf/Services/QuotaState.cs","sha256":"A4423B03165CFCE314072017C332BB844BEBC8B6AABFED7F1BDCB7B74C46D475","bytes":1660},
     {"path":"wpf/Services/SingleInstanceService.cs","sha256":"2D35498AE271F024F4D606488FCCD42D3413E5AD6C602FE3FB8B971E840FB5E1","bytes":2821},
-    {"path":"wpf/Services/TrayIconService.cs","sha256":"66391A624E7046DFDFCA0F8AFC8E2A7E60F1A00AF4BC30B16D9A1B803FB2461D","bytes":6494},
-    {"path":"wpf/Services/WpfApplicationCoordinator.cs","sha256":"6CB9321B27BD709AA4136B4F2172D668691792A7DCA32683176E2F4DA29E3AA9","bytes":8896},
+    {"path":"wpf/Services/TrayIconService.cs","sha256":"F4D701AFF8665FB8897D15D28B167B14AE908FD0C43E024A99C5954B25BE549E","bytes":7889},
+    {"path":"wpf/Services/WpfApplicationCoordinator.cs","sha256":"1DCB55F36FD6A34F8AEE12FA59065389EC00D79A1630661B4C35ED2F54E040D7","bytes":10749},
     {"path":"wpf/Shared/CodexLifecycle.cs","sha256":"8A8B60B5E8A47E553B1552CF93F5B74DEFBD0B1F153ED71200A2C0C9EEEE43E6","bytes":36930},
     {"path":"wpf/Shared/QuotaClient.cs","sha256":"5123482D6B149AEA71A9FC05BD405EA62113AF65F36EE5DA6E42A6DE61F59CD2","bytes":6985},
     {"path":"wpf/Shared/QuotaData.cs","sha256":"B179F2003AAF106CBD58FE46924EBFA70B59CEAFF310602FE2D46FF4664AA17F","bytes":9837},
@@ -63,10 +67,10 @@
     {"path":"wpf/Skins/CivicWayfinding/CivicWayfindingSkin.cs","sha256":"806C058B70E3A577A31132B82E57006FB77A9404116F4DCE548C497A3BB38B52","bytes":341},
     {"path":"wpf/Skins/IWidgetSkin.cs","sha256":"477993657DCC46B108CE02C5561AC59F62F0FD7DB39FBA72732712F637009357","bytes":156},
     {"path":"wpf/Skins/WidgetSkinRegistry.cs","sha256":"FA5876975E3E527557DE41D4BD6E40890CCB475321229AE1CA50714132185686","bytes":201},
-    {"path":"wpf/tests/Program.cs","sha256":"148868133D5FBCDA40E883AEC945DF1437DD1BA6F806244E908DF3B696F09188","bytes":23138},
+    {"path":"wpf/tests/Program.cs","sha256":"72C52518728005B6F744AAC0C78639B18BAD69273AE4B606945327E3D4712449","bytes":26606},
     {"path":"wpf/tests/QuotaFloat.Wpf.Tests.csproj","sha256":"6E3BC7CBC7E3FC2B45E4E3B4E4AE1CC475DD4EBB6B9AAF4733E6C2FC1B61E129","bytes":401},
     {"path":"wpf/Windows/MainWindow.xaml","sha256":"1B1EC0307685350DC186A530D62A28C8081CC5C897C562841A62959D5127ED41","bytes":27936},
-    {"path":"wpf/Windows/MainWindow.xaml.cs","sha256":"9CC22FB326A1BA820CB7F5DF7873B20CF61442B0BD8EA651197C4FC96079DAF3","bytes":27492},
+    {"path":"wpf/Windows/MainWindow.xaml.cs","sha256":"33AA37BA0199919F07ED0DDA7BED49393EE9D00326129346509AB14ACE4FD184","bytes":27560},
     {"path":"wpf/Windows/SettingsWindow.xaml","sha256":"F52CA04B201F61523A3065F151706D462CDD6DEC812D20C9A04BC0798DA81CDF","bytes":9380},
     {"path":"wpf/Windows/SettingsWindow.xaml.cs","sha256":"801B5F91EEA7EB5C9777F8F36C88C9E0EC0D80DCAAE4F7E772AEBACDD79E10EC","bytes":7158},
     {"path":"wpf/Windows/WidgetWindowController.cs","sha256":"F835E7A579B470A72DEBB44EC41927C381A375987A8546C1FDC24311F9B19FF9","bytes":2109}
@@ -75,7 +79,7 @@
     {"path":"docs/wpf-r1/SIMPLIFICATION-CONTRACT.md","sha256":"7E35DC131AC50EE8D752EC0EDD065466E63C5DC0FD0A53668C74F4EBE5A5D606","bytes":3276}
   ],
   "config_inventory": [
-    {"path":".gitignore","sha256":"1B52A90BD6C3EF55728D4CFB4F22CD83654F5891C7EDEA9A6DBBCBB14E1C94EC","bytes":1658}
+    {"path":".gitignore","sha256":"1D5E07F9FB7B7D5237C250397B526FD5D09E93557CB91FB1E256FDA1E5006885","bytes":992}
   ],
   "deleted_obsolete_sources": ["wpf/Services/BillingLauncher.cs", "wpf/Windows/ProductScaleLayout.cs"],
   "limitations": [
@@ -89,10 +93,16 @@
     "local_output_excluded": true,
     "native_dirty_tree_excluded": true,
     "external_mutation_performed": true,
-    "tag": "v1.1.0",
-    "tag_object": "055a9f1eb79cf9911671fe9bafd69eaea87ed98d",
-    "release_url": "https://github.com/keida/codex-quota-float/releases/tag/v1.1.0",
-    "published_at": "2026-09-10T00:14:34Z",
-    "latest": true
+    "tag": "v1.1.2",
+    "tag_object": "b7cf6651a6f683d9e46ff0b2e7a51e26d4ab1877",
+    "peeled_commit": "8ea5e0c5d06c2141754af57ef9c9ab27edba04bc",
+    "release_id": 386716403,
+    "release_url": "https://github.com/keida/codex-quota-float/releases/tag/v1.1.2",
+    "published_at": "2026-09-11T00:54:02Z",
+    "latest": true,
+    "assets": [
+      {"name":"Quote-Float-v1.1.2-win-x64.exe","bytes":71675147,"sha256":"2FFF59F1B79E232C7ADBA88C49D57332ECA19EE2BE4FCC9E60195B5898D9E9DF"},
+      {"name":"SHA256SUMS.txt","bytes":97,"sha256":"3E278A81B55341D57F8635B68A681F126110688E575A313B8E287FA30E7A968A"}
+    ]
   }
 }

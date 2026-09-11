@@ -10,20 +10,18 @@ Quote Float is a native Windows WPF widget that keeps Codex Plus/Pro quota statu
 
 _Figure: actual WPF client-area renders with illustrative sample quota values; native DWM border/corners are not captured._
 
-The WPF R1 simplification is frozen and released. Its status is **Boss PASS, v1.1.0 RELEASED / LATEST**: the release is a Windows x64 framework-dependent package and requires the `.NET 8 Desktop Runtime`.
+The WPF R1 simplification is frozen and released. Its status is **Boss PASS, v1.1.2 RELEASED / LATEST**: the release is a self-contained Windows x64 single-file application and does not require a separate .NET installation.
 
 ## Quick start
 
-1. On Windows x64, install the official [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0/runtime).
-2. Download the [v1.1.0 Windows x64 ZIP](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/QuoteFloat-WPF-R1-v1.1.0-win-x64.zip) and [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/SHA256SUMS.txt).
-3. Extract the ZIP.
-4. Run `QuotaFloat.Wpf.exe`.
-5. Optional: from the folder containing the downloaded ZIP and `SHA256SUMS.txt`, verify the ZIP with PowerShell:
+1. Download the [v1.1.2 Windows x64 single-file EXE](https://github.com/keida/codex-quota-float/releases/download/v1.1.2/Quote-Float-v1.1.2-win-x64.exe) and [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.2/SHA256SUMS.txt).
+2. Run `Quote-Float-v1.1.2-win-x64.exe` directly. No separate .NET installation is required.
+3. Optional: from the folder containing the downloaded EXE and `SHA256SUMS.txt`, verify the EXE with PowerShell:
 
    ```powershell
-   $line = Get-Content .\SHA256SUMS.txt | Where-Object { $_ -match 'QuoteFloat-WPF-R1-v1.1.0-win-x64\.zip$' }
+   $line = Get-Content .\SHA256SUMS.txt | Where-Object { $_ -match 'Quote-Float-v1.1.2-win-x64\.exe$' }
    $expected = ($line -split '\s+')[0]
-   $actual = (Get-FileHash .\QuoteFloat-WPF-R1-v1.1.0-win-x64.zip -Algorithm SHA256).Hash
+   $actual = (Get-FileHash .\Quote-Float-v1.1.2-win-x64.exe -Algorithm SHA256).Hash
    if ($actual -ne $expected) { throw 'Checksum mismatch' }
    "SHA-256 OK: $actual"
    ```
@@ -62,11 +60,12 @@ The verified baseline is Windows 100% / 96 DPI. These items remain explicitly `N
 
 ## Published release
 
-- [v1.1.0 Release](https://github.com/keida/codex-quota-float/releases/tag/v1.1.0)
-- [Download the Windows x64 ZIP](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/QuoteFloat-WPF-R1-v1.1.0-win-x64.zip)
-- [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/SHA256SUMS.txt)
-- EXE SHA-256: `322DC1F8ED39A6769CCC1102A6C5D2CABBF088CF2C93003399D50C942CDCE507`
-- WPF DLL SHA-256: `E5F50F66903C29F45AEFF799B6738254A8D6CEC0D59A508103B89EC68D250976`
-- ZIP SHA-256: `8B6D4AB34A39F9D466A499150968AEA4DDD344FAC1B33B5CDA1696AE5F40024D`
+- [v1.1.2 Latest Release](https://github.com/keida/codex-quota-float/releases/tag/v1.1.2)
+- [Download the Windows x64 single-file EXE](https://github.com/keida/codex-quota-float/releases/download/v1.1.2/Quote-Float-v1.1.2-win-x64.exe)
+- [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.2/SHA256SUMS.txt)
+- EXE SHA-256: `2FFF59F1B79E232C7ADBA88C49D57332ECA19EE2BE4FCC9E60195B5898D9E9DF`
+- SHA256SUMS.txt SHA-256: `3E278A81B55341D57F8635B68A681F126110688E575A313B8E287FA30E7A968A`
+- Product: self-contained Windows x64 single-file application; no separate .NET installation is required.
+- Tray menu labels follow the current ZH/EN language.
 
-The V3 source scope has been merged, and the v1.1.0 tag and Latest Release are published. The historical v1.0.0 tag and Draft Release remain unchanged.
+The V3 source scope and v1.1.2 tray localization fix are merged. v1.1.0 remains the prior published release; the v1.1.1 tag is unpublished and superseded. The historical v1.0.0 tag and Draft Release remain unchanged.

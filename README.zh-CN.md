@@ -10,20 +10,18 @@ Quote Float 是一个原生 Windows WPF 浮窗，让 Codex Plus/Pro 的额度状
 
 _图示：实际 WPF 客户区渲染，额度数值为示例；未捕获原生 DWM 边框/圆角。_
 
-Quote Float 的 WPF R1 简化版本已完成冻结并发布。当前状态是 **Boss PASS、v1.1.0 RELEASED / LATEST**：版本发布到 Windows x64 framework-dependent 包，并要求 `.NET 8 Desktop Runtime`。
+Quote Float 的 WPF R1 简化版本已完成冻结并发布。当前状态是 **Boss PASS、v1.1.2 RELEASED / LATEST**：版本是自包含的 Windows x64 单文件应用，无需单独安装 .NET。
 
 ## 快速开始
 
-1. 在 Windows x64 上安装官方 [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0/runtime)。
-2. 下载 [v1.1.0 Windows x64 ZIP](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/QuoteFloat-WPF-R1-v1.1.0-win-x64.zip) 和 [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/SHA256SUMS.txt)。
-3. 解压 ZIP。
-4. 运行 `QuotaFloat.Wpf.exe`。
-5. 可选：在下载的 ZIP 与 `SHA256SUMS.txt` 所在目录中，用 PowerShell 校验 ZIP：
+1. 下载 [v1.1.2 Windows x64 单文件 EXE](https://github.com/keida/codex-quota-float/releases/download/v1.1.2/Quote-Float-v1.1.2-win-x64.exe) 和 [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.2/SHA256SUMS.txt)。
+2. 直接运行 `Quote-Float-v1.1.2-win-x64.exe`，无需单独安装 .NET。
+3. 可选：在下载的 EXE 与 `SHA256SUMS.txt` 所在目录中，用 PowerShell 校验 EXE：
 
    ```powershell
-   $line = Get-Content .\SHA256SUMS.txt | Where-Object { $_ -match 'QuoteFloat-WPF-R1-v1.1.0-win-x64\.zip$' }
+   $line = Get-Content .\SHA256SUMS.txt | Where-Object { $_ -match 'Quote-Float-v1.1.2-win-x64\.exe$' }
    $expected = ($line -split '\s+')[0]
-   $actual = (Get-FileHash .\QuoteFloat-WPF-R1-v1.1.0-win-x64.zip -Algorithm SHA256).Hash
+   $actual = (Get-FileHash .\Quote-Float-v1.1.2-win-x64.exe -Algorithm SHA256).Hash
    if ($actual -ne $expected) { throw 'Checksum mismatch' }
    "SHA-256 OK: $actual"
    ```
@@ -62,11 +60,12 @@ WPF 工程位于 [`wpf/QuotaFloat.Wpf.csproj`](wpf/QuotaFloat.Wpf.csproj)。开�
 
 ## 已发布版本
 
-- [v1.1.0 Release](https://github.com/keida/codex-quota-float/releases/tag/v1.1.0)
-- [下载 Windows x64 ZIP](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/QuoteFloat-WPF-R1-v1.1.0-win-x64.zip)
-- [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.0/SHA256SUMS.txt)
-- EXE SHA-256：`322DC1F8ED39A6769CCC1102A6C5D2CABBF088CF2C93003399D50C942CDCE507`
-- WPF DLL SHA-256：`E5F50F66903C29F45AEFF799B6738254A8D6CEC0D59A508103B89EC68D250976`
-- ZIP SHA-256：`8B6D4AB34A39F9D466A499150968AEA4DDD344FAC1B33B5CDA1696AE5F40024D`
+- [v1.1.2 Latest Release](https://github.com/keida/codex-quota-float/releases/tag/v1.1.2)
+- [下载 Windows x64 单文件 EXE](https://github.com/keida/codex-quota-float/releases/download/v1.1.2/Quote-Float-v1.1.2-win-x64.exe)
+- [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.2/SHA256SUMS.txt)
+- EXE SHA-256：`2FFF59F1B79E232C7ADBA88C49D57332ECA19EE2BE4FCC9E60195B5898D9E9DF`
+- SHA256SUMS.txt SHA-256：`3E278A81B55341D57F8635B68A681F126110688E575A313B8E287FA30E7A968A`
+- 产品：自包含的 Windows x64 单文件应用，无需单独安装 .NET。
+- 托盘菜单跟随当前中英文语言设置。
 
-V3 源码范围已经完成合并，v1.1.0 tag 和 Latest Release 已发布。历史 v1.0.0 tag/Draft Release 保持不变。
+V3 源码范围和 v1.1.2 托盘本地化修复已经完成合并。v1.1.0 是之前的已发布版本；v1.1.1 tag 未发布且已被 v1.1.2 取代。历史 v1.0.0 tag/Draft Release 保持不变。
