@@ -58,7 +58,7 @@ Suggested body:
 >
 > 已验证的原生基线是 Windows 100% / 96 DPI；125% 和 150% DPI 尚未完成原生运行验收。隐私边界也写在 README：源码只读取本地 Codex auth 数据来完成两个额度请求，不读取聊天内容，没有 telemetry/analytics endpoint，也不会把 Codex token 写入 Quote Float 偏好设置。可选的 Edge Drag 诊断默认关闭；只有 `QF_EDGE_DRAG_LOG` 才会写入用户选择的本地文件，文件可能包含时间戳、窗口/显示器边界和窗口句柄，不会自动上传；公开分享前请先检查并脱敏。
 >
-> 欢迎反馈安装、Full/Orb 交互、托盘中英文切换和不同 Windows 显示比例下的实际体验。可选的 Edge Drag 诊断默认关闭；只有 `QF_EDGE_DRAG_LOG` 才会写入用户选择的本地文件，文件可能包含时间戳、窗口/显示器边界和窗口句柄，不会自动上传；公开分享前请先检查并脱敏。请不要上传 token、auth.json、cookie、账户信息、原始响应或私人诊断。
+> 欢迎反馈安装、Full/Orb 交互、托盘中英文切换和不同 Windows 显示比例下的实际体验。请不要上传 token、auth.json、cookie、账户信息、原始响应或私人诊断。
 
 ## Show HN — English draft
 
@@ -78,11 +78,11 @@ Suggested body:
 >
 > The release is a self-contained single-file EXE, but it is currently unsigned and SmartScreen may warn. Verify the SHA-256 from the official Release before running it. The verified native baseline is Windows 100% / 96 DPI; 125% / 150% DPI and two real lifecycle scenarios remain out of scope for the current acceptance.
 >
-> I would especially value feedback on whether the installation path, privacy explanation, and Full → edge → Orb → hover flow are clear. Optional Edge Drag diagnostics are off by default; only `QF_EDGE_DRAG_LOG` writes a user-selected local file, which may include timestamps, window/display bounds, and window handles. It is never auto-uploaded, so inspect and redact it before public sharing. No vote request; the goal is honest early feedback on a Windows-only tool.
+> I would especially value feedback on whether the installation path, privacy explanation, and Full → edge → Orb → hover flow are clear. No vote request; the goal is honest early feedback on a Windows-only tool.
 
 ## X — short draft
 
-> Codex Quota Float for Windows is a native WPF Full/Orb quota widget for Codex Plus/Pro: Windows x64, Codex-only, English/中文, local-first. v1.1.2 is a self-contained single-file EXE. Unsigned/SmartScreen and 125%/150% DPI limits are disclosed; verify SHA-256 first. Optional Edge Drag diagnostics are off by default; only `QF_EDGE_DRAG_LOG` writes a user-selected local file containing possible timestamps, window/display bounds, and window handles; it is never auto-uploaded, so inspect and redact before public sharing. https://github.com/keida/codex-quota-float/releases/tag/v1.1.2
+> Codex Quota Float for Windows: native WPF Full/Orb widget for Codex Plus/Pro on Windows x64. v1.1.2 is an unsigned single-file EXE. Download from the official Release and verify SHA-256: https://github.com/keida/codex-quota-float/releases/tag/v1.1.2
 
 ## Posting checklist
 
