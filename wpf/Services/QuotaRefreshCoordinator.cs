@@ -8,6 +8,8 @@ public sealed class QuotaRefreshCoordinator : IDisposable
     private readonly object sync = new();
     private readonly CancellationTokenSource lifetime = new();
     private readonly TimeSpan maximumBackoff;
+    private TaskCompletionSource<bool> successfulRefresh = NewRefreshSignal();
+    private long successfulRefreshGeneration;
     private Task<QuotaDisplayState>? inFlight;
     private QuotaSnapshot? safeSnapshot;
     private DateTimeOffset? lastFreshAt;
@@ -34,33 +36,76 @@ public sealed class QuotaRefreshCoordinator : IDisposable
 
     public Task<QuotaDisplayState> RefreshAsync(CancellationToken cancellationToken = default)
     {
+        CancellationTokenSource? linked;
+        TaskCompletionSource<QuotaDisplayState>? completion;
+        Task<QuotaDisplayState> task;
         lock (sync)
         {
-            ObjectDisposedException.ThrowIf(disposed, this);
-            if (inFlight is not null)
-            {
-                return AwaitWithCancellation(inFlight, cancellationToken);
-            }
+            task = GetOrStartRefreshLocked(out linked, out completion);
+        }
 
-            var linked = CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token);
-            var task = RefreshCoreAsync(linked);
-            inFlight = task;
-            _ = task.ContinueWith(
-                completed =>
-                {
-                    linked.Dispose();
-                    lock (sync)
-                    {
-                        if (ReferenceEquals(inFlight, completed))
-                        {
-                            inFlight = null;
-                        }
-                    }
-                },
-                CancellationToken.None,
-                TaskContinuationOptions.ExecuteSynchronously,
-                TaskScheduler.Default);
-            return AwaitWithCancellation(task, cancellationToken);
+        StartRefresh(linked, completion);
+        return AwaitWithCancellation(task, cancellationToken);
+    }
+
+    private Task<QuotaDisplayState> GetOrStartRefreshLocked(
+        out CancellationTokenSource? linked,
+        out TaskCompletionSource<QuotaDisplayState>? completion)
+    {
+        ObjectDisposedException.ThrowIf(disposed, this);
+        if (inFlight is not null)
+        {
+            linked = null;
+            completion = null;
+            return inFlight;
+        }
+
+        linked = CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token);
+        completion = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        inFlight = completion.Task;
+        return inFlight;
+    }
+
+    private void StartRefresh(CancellationTokenSource? linked, TaskCompletionSource<QuotaDisplayState>? completion)
+    {
+        if (linked is not null && completion is not null)
+        {
+            _ = CompleteRefreshAsync(linked, completion);
+        }
+    }
+
+    private async Task CompleteRefreshAsync(CancellationTokenSource linked, TaskCompletionSource<QuotaDisplayState> completion)
+    {
+        try
+        {
+            var result = await RefreshCoreAsync(linked).ConfigureAwait(false);
+            ClearInFlight(completion.Task);
+            completion.TrySetResult(result);
+        }
+        catch (OperationCanceledException exception)
+        {
+            ClearInFlight(completion.Task);
+            completion.TrySetCanceled(exception.CancellationToken);
+        }
+        catch (Exception exception)
+        {
+            ClearInFlight(completion.Task);
+            completion.TrySetException(exception);
+        }
+        finally
+        {
+            linked.Dispose();
+        }
+    }
+
+    private void ClearInFlight(Task<QuotaDisplayState> completed)
+    {
+        lock (sync)
+        {
+            if (ReferenceEquals(inFlight, completed))
+            {
+                inFlight = null;
+            }
         }
     }
 
@@ -73,14 +118,55 @@ public sealed class QuotaRefreshCoordinator : IDisposable
     {
         var failureCount = 0;
         TimeSpan? serverRetryAfter = null;
+        long observedSuccessGeneration = 0;
         while (!cancellationToken.IsCancellationRequested && !lifetime.IsCancellationRequested)
         {
-            var delay = Backoff(intervalProvider(), failureCount, serverRetryAfter);
-            serverRetryAfter = null;
             try
             {
-                await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
-                var result = await RefreshAsync(cancellationToken).ConfigureAwait(false);
+                var configuredInterval = intervalProvider();
+                TimeSpan delay;
+                Task resetSchedule;
+                lock (sync)
+                {
+                    if (successfulRefreshGeneration != observedSuccessGeneration)
+                    {
+                        observedSuccessGeneration = successfulRefreshGeneration;
+                        failureCount = 0;
+                        serverRetryAfter = null;
+                    }
+
+                    delay = Backoff(configuredInterval, failureCount, serverRetryAfter);
+                    serverRetryAfter = null;
+                    resetSchedule = successfulRefresh.Task;
+                }
+
+                using var delayCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                var delayTask = Task.Delay(delay, delayCancellation.Token);
+                var completedDelay = await Task.WhenAny(delayTask, resetSchedule).ConfigureAwait(false);
+                if (completedDelay != delayTask)
+                {
+                    delayCancellation.Cancel();
+                    try { await delayTask.ConfigureAwait(false); }
+                    catch (OperationCanceledException) { }
+                    continue;
+                }
+
+                await delayTask.ConfigureAwait(false);
+                CancellationTokenSource? linked;
+                TaskCompletionSource<QuotaDisplayState>? completion;
+                Task<QuotaDisplayState> refreshTask;
+                lock (sync)
+                {
+                    if (successfulRefreshGeneration != observedSuccessGeneration)
+                    {
+                        continue;
+                    }
+
+                    refreshTask = GetOrStartRefreshLocked(out linked, out completion);
+                }
+
+                StartRefresh(linked, completion);
+                var result = await AwaitWithCancellation(refreshTask, cancellationToken).ConfigureAwait(false);
                 if (IsTerminalAutoStatus(result.Status))
                 {
                     break;
@@ -143,6 +229,10 @@ public sealed class QuotaRefreshCoordinator : IDisposable
                     lastFreshAt = snapshot.UpdatedAt;
                     var status = result.Status == "partial" ? QuotaUiStatus.Partial : QuotaUiStatus.Fresh;
                     next = new(status, safeSnapshot, null, lastFreshAt, null, false, 0, source.SessionGeneration);
+                    successfulRefreshGeneration++;
+                    var resetSchedule = successfulRefresh;
+                    successfulRefresh = NewRefreshSignal();
+                    resetSchedule.TrySetResult(true);
                 }
                 else
                 {
@@ -225,6 +315,9 @@ public sealed class QuotaRefreshCoordinator : IDisposable
 
     private static bool IsTerminalAutoStatus(QuotaUiStatus status) =>
         status is QuotaUiStatus.SignedOut or QuotaUiStatus.SessionChanged;
+
+    private static TaskCompletionSource<bool> NewRefreshSignal() =>
+        new(TaskCreationOptions.RunContinuationsAsynchronously);
 
     private static QuotaUiStatus MapFailure(string status) => status.ToLowerInvariant() switch
     {

@@ -1,4 +1,5 @@
 using System.IO;
+using System.Diagnostics;
 using System.Text.Json;
 using QuotaFloat;
 using QuotaFloat.Wpf.Interaction;
@@ -13,6 +14,42 @@ void Check(bool condition, string label)
 {
     checkCount++;
     if (!condition) failures.Add(label);
+}
+
+async Task VerifyManualRefreshBackoffReset()
+{
+    var normalRefreshInterval = TimeSpan.FromMilliseconds(700);
+    using var source = new ManualRefreshBackoffSource();
+    using var coordinator = new QuotaRefreshCoordinator(source, TimeSpan.FromSeconds(5));
+    using var cancellation = new CancellationTokenSource();
+    coordinator.StateChanged += state =>
+    {
+        if (state.Status == QuotaUiStatus.Offline && !state.IsRefreshing)
+            source.FirstAutoFailureCompleted.TrySetResult(true);
+    };
+    var autoLoop = coordinator.RunAutoRefreshAsync(() => normalRefreshInterval, cancellation.Token);
+    await source.FirstAutoCall.Task.WaitAsync(TimeSpan.FromSeconds(5));
+    await source.FirstAutoFailureCompleted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+    var manualResult = await coordinator.RefreshAsync();
+    var manualSuccessAt = Stopwatch.GetTimestamp();
+    var nextAutoCallAt = await source.ThirdCall.Task.WaitAsync(TimeSpan.FromSeconds(5));
+    var elapsed = Stopwatch.GetElapsedTime(manualSuccessAt, nextAutoCallAt);
+    Console.WriteLine($"REFRESH-BACKOFF-RESET: normalMs={normalRefreshInterval.TotalMilliseconds:F0}; manualToNextAutoMs={elapsed.TotalMilliseconds:F1}; calls={source.CallCount}; maxActive={source.MaxActive}");
+    Check(manualResult.Status == QuotaUiStatus.Fresh && source.CallCount == 3 &&
+          elapsed >= TimeSpan.FromMilliseconds(500) && elapsed <= TimeSpan.FromMilliseconds(1100),
+        $"manual success rebases pending auto retry to normal interval (elapsed {elapsed.TotalMilliseconds:F1}ms)");
+    Check(source.MaxActive == 1, "manual refresh during auto backoff keeps source concurrency at one");
+    cancellation.Cancel();
+    await autoLoop;
+}
+
+if (args.Length == 1 && args[0] == "--refresh-backoff-reset")
+{
+    await VerifyManualRefreshBackoffReset();
+    foreach (var failure in failures) Console.WriteLine($"FAIL: {failure}");
+    if (failures.Count > 0) return 1;
+    Console.WriteLine("PASS: manual refresh rebases the pending auto interval; MaxActive=1");
+    return 0;
 }
 
 QuotaSnapshot? Parse(string usage, string credits = "{}")
@@ -166,6 +203,8 @@ using var rateLimitBackoffCoordinator = new QuotaRefreshCoordinator(rateLimitBac
 using var rateLimitCancellation = new CancellationTokenSource(250);
 await rateLimitBackoffCoordinator.RunAutoRefreshAsync(() => TimeSpan.FromMilliseconds(20), rateLimitCancellation.Token);
 Check(rateLimitBackoffSource.CallCount >= 2 && rateLimitBackoffSource.CallCount <= 4, "rate-limit retry remains bounded");
+
+await VerifyManualRefreshBackoffReset();
 
 foreach (var interval in PreferenceStore.ApprovedRefreshIntervals)
 {
@@ -403,4 +442,52 @@ sealed class BlockingQuotaSource : IQuotaSource
     }
 
     public void Dispose() { }
+}
+
+sealed class ManualRefreshBackoffSource : IQuotaSource
+{
+    private int calls;
+    private int active;
+    private int maxActive;
+
+    public TaskCompletionSource<bool> FirstAutoCall { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    public TaskCompletionSource<bool> FirstAutoFailureCompleted { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    public TaskCompletionSource<long> ThirdCall { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    public int CallCount => Volatile.Read(ref calls);
+    public int MaxActive => Volatile.Read(ref maxActive);
+    public long SessionGeneration => 1;
+
+    public Task<QuotaResult> FetchAsync(CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var call = Interlocked.Increment(ref calls);
+        var timestamp = Stopwatch.GetTimestamp();
+        var nowActive = Interlocked.Increment(ref active);
+        UpdateMaximum(nowActive);
+        try
+        {
+            if (call == 1)
+            {
+                FirstAutoCall.TrySetResult(true);
+                return Task.FromResult(new QuotaResult(null, "offline"));
+            }
+
+            if (call == 3) ThirdCall.TrySetResult(timestamp);
+            var snapshot = new QuotaSnapshot("Plus", new QuotaWindow(72, DateTimeOffset.UtcNow.AddHours(1), 18000, "5h"),
+                new QuotaWindow(38, DateTimeOffset.UtcNow.AddDays(2), 604800, "Weekly"), 1, Array.Empty<DateTimeOffset>(), DateTimeOffset.UtcNow);
+            return Task.FromResult(new QuotaResult(snapshot, "ok"));
+        }
+        finally { Interlocked.Decrement(ref active); }
+    }
+
+    public void Dispose() { }
+
+    private void UpdateMaximum(int value)
+    {
+        while (true)
+        {
+            var current = Volatile.Read(ref maxActive);
+            if (value <= current || Interlocked.CompareExchange(ref maxActive, value, current) == current) return;
+        }
+    }
 }
