@@ -36,33 +36,76 @@ public sealed class QuotaRefreshCoordinator : IDisposable
 
     public Task<QuotaDisplayState> RefreshAsync(CancellationToken cancellationToken = default)
     {
+        CancellationTokenSource? linked;
+        TaskCompletionSource<QuotaDisplayState>? completion;
+        Task<QuotaDisplayState> task;
         lock (sync)
         {
-            ObjectDisposedException.ThrowIf(disposed, this);
-            if (inFlight is not null)
-            {
-                return AwaitWithCancellation(inFlight, cancellationToken);
-            }
+            task = GetOrStartRefreshLocked(out linked, out completion);
+        }
 
-            var linked = CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token);
-            var task = RefreshCoreAsync(linked);
-            inFlight = task;
-            _ = task.ContinueWith(
-                completed =>
-                {
-                    linked.Dispose();
-                    lock (sync)
-                    {
-                        if (ReferenceEquals(inFlight, completed))
-                        {
-                            inFlight = null;
-                        }
-                    }
-                },
-                CancellationToken.None,
-                TaskContinuationOptions.ExecuteSynchronously,
-                TaskScheduler.Default);
-            return AwaitWithCancellation(task, cancellationToken);
+        StartRefresh(linked, completion);
+        return AwaitWithCancellation(task, cancellationToken);
+    }
+
+    private Task<QuotaDisplayState> GetOrStartRefreshLocked(
+        out CancellationTokenSource? linked,
+        out TaskCompletionSource<QuotaDisplayState>? completion)
+    {
+        ObjectDisposedException.ThrowIf(disposed, this);
+        if (inFlight is not null)
+        {
+            linked = null;
+            completion = null;
+            return inFlight;
+        }
+
+        linked = CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token);
+        completion = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        inFlight = completion.Task;
+        return inFlight;
+    }
+
+    private void StartRefresh(CancellationTokenSource? linked, TaskCompletionSource<QuotaDisplayState>? completion)
+    {
+        if (linked is not null && completion is not null)
+        {
+            _ = CompleteRefreshAsync(linked, completion);
+        }
+    }
+
+    private async Task CompleteRefreshAsync(CancellationTokenSource linked, TaskCompletionSource<QuotaDisplayState> completion)
+    {
+        try
+        {
+            var result = await RefreshCoreAsync(linked).ConfigureAwait(false);
+            ClearInFlight(completion.Task);
+            completion.TrySetResult(result);
+        }
+        catch (OperationCanceledException exception)
+        {
+            ClearInFlight(completion.Task);
+            completion.TrySetCanceled(exception.CancellationToken);
+        }
+        catch (Exception exception)
+        {
+            ClearInFlight(completion.Task);
+            completion.TrySetException(exception);
+        }
+        finally
+        {
+            linked.Dispose();
+        }
+    }
+
+    private void ClearInFlight(Task<QuotaDisplayState> completed)
+    {
+        lock (sync)
+        {
+            if (ReferenceEquals(inFlight, completed))
+            {
+                inFlight = null;
+            }
         }
     }
 
@@ -109,15 +152,21 @@ public sealed class QuotaRefreshCoordinator : IDisposable
                 }
 
                 await delayTask.ConfigureAwait(false);
+                CancellationTokenSource? linked;
+                TaskCompletionSource<QuotaDisplayState>? completion;
+                Task<QuotaDisplayState> refreshTask;
                 lock (sync)
                 {
                     if (successfulRefreshGeneration != observedSuccessGeneration)
                     {
                         continue;
                     }
+
+                    refreshTask = GetOrStartRefreshLocked(out linked, out completion);
                 }
 
-                var result = await RefreshAsync(cancellationToken).ConfigureAwait(false);
+                StartRefresh(linked, completion);
+                var result = await AwaitWithCancellation(refreshTask, cancellationToken).ConfigureAwait(false);
                 if (IsTerminalAutoStatus(result.Status))
                 {
                     break;
