@@ -1,6 +1,6 @@
 # Roadmap
 
-Codex Quota Float for Windows is currently available as the v1.1.2 Latest Release: a self-contained Windows x64 single-file EXE.
+Codex Quota Float for Windows is currently available as the v1.1.3 Latest Release: a self-contained Windows x64 single-file EXE.
 
 This is a public direction list, not a promise or schedule. Items are planned or under consideration and will be prioritized against evidence, maintenance cost, and user demand.
 
@@ -10,7 +10,7 @@ For the supporting discovery and launch work, see the [Growth Plan](docs/GROWTH-
 
 - **Committed in PR — Demo GIF:** the short, truthful Full → edge snap → Orb → hover expansion → ZH/EN switch demonstration is committed here and will be displayed by the repository README after merge.
 - **Committed candidate — Social Preview:** the 1280 × 640, under-1 MB preview image is committed here, but applying it in GitHub Repository Social Preview settings remains a separate step.
-- **Planned — Code signing:** evaluate signing options for future Windows binaries. The current v1.1.2 EXE is unsigned.
+- **Planned — Code signing:** evaluate signing options for future Windows binaries. The current v1.1.3 EXE is unsigned.
 - **Planned — Installation channels:** evaluate Scoop and WinGet packaging without implying support until a real package and update path exist.
 - **Under consideration — Automatic updates:** define an update and rollback model before implementing any updater.
 
@@ -22,4 +22,4 @@ For the supporting discovery and launch work, see the [Growth Plan](docs/GROWTH-
 
 ## Current boundary
 
-The project remains Windows x64 and Codex-focused. The current release does not claim code signing, VirusTotal results, automatic updates, Scoop/WinGet support, or native 125% / 150% DPI acceptance. See the [Latest Release](https://github.com/keida/codex-quota-float/releases/tag/v1.1.2) and [technical acceptance record](docs/wpf-r1/ACCEPTANCE-SUMMARY.md) for the verified scope.
+The project remains Windows x64 and Codex-focused. The current release does not claim code signing, VirusTotal results, automatic updates, Scoop/WinGet support, or native 125% / 150% DPI acceptance. See the [Latest Release](https://github.com/keida/codex-quota-float/releases/tag/v1.1.3) and [technical acceptance record](docs/wpf-r1/ACCEPTANCE-SUMMARY.md) for the verified scope.
