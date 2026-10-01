@@ -12,9 +12,9 @@ _Illustrative sample values; visuals are real WPF demo captures at 100% / 96 DPI
 
 ## Latest download
 
-**[Latest Release](https://github.com/keida/codex-quota-float/releases/latest)** · v1.1.2 · [Download the self-contained Windows x64 EXE](https://github.com/keida/codex-quota-float/releases/download/v1.1.2/Quote-Float-v1.1.2-win-x64.exe) · [Download SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.2/SHA256SUMS.txt)
+**[Latest Release](https://github.com/keida/codex-quota-float/releases/latest)** · v1.1.3 · [Download the self-contained Windows x64 EXE](https://github.com/keida/codex-quota-float/releases/download/v1.1.3/Quote.Float.exe) · [SHA-256 in release notes](https://github.com/keida/codex-quota-float/releases/tag/v1.1.3)
 
-Run `Quote-Float-v1.1.2-win-x64.exe` directly. No separate .NET installation is required. Verify the SHA-256 from `SHA256SUMS.txt` before running it. This build is currently unsigned, so Windows Defender SmartScreen may warn on first run; use the official release link above, verify the hash, and follow your Windows or organization policy. Do not bypass a security warning blindly.
+Run `Quote.Float.exe` directly. No separate .NET installation is required. Verify the SHA-256 from the v1.1.3 release notes before running it. This build is currently unsigned, so Windows Defender SmartScreen may warn on first run; use the official release link above, verify the hash, and follow your Windows or organization policy. Do not bypass a security warning blindly.
 
 ## Core features
 
@@ -28,7 +28,7 @@ Run `Quote-Float-v1.1.2-win-x64.exe` directly. No separate .NET installation is 
 - Windows x64 with the Codex Desktop app installed when using LaunchAndWatch.
 - Native baseline verified at Windows 100% / 96 DPI.
 - Windows 125% / 150% native DPI runtime acceptance remains **NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE**.
-- The published v1.1.2 EXE is self-contained; no separate .NET installation is required.
+- The published v1.1.3 EXE is self-contained; no separate .NET installation is required.
 
 ## Privacy promise, bounded by the source
 
@@ -41,19 +41,18 @@ The current source does not read chat content, define a telemetry or analytics e
 
 ## Verify the download
 
-From the folder containing the downloaded EXE and `SHA256SUMS.txt`:
+From the folder containing the downloaded `Quote.Float.exe`, compare its SHA-256 with the value published in the [v1.1.3 release notes](https://github.com/keida/codex-quota-float/releases/tag/v1.1.3):
 
 ```powershell
-$line = Get-Content .\SHA256SUMS.txt | Where-Object { $_ -match 'Quote-Float-v1.1.2-win-x64\.exe$' }
-$expected = ($line -split '\s+')[0]
-$actual = (Get-FileHash .\Quote-Float-v1.1.2-win-x64.exe -Algorithm SHA256).Hash
+$expected = 'D3F3F2D30662B1C93D973BA68AADA0498E7860245A8325546BE596A3E605E385'
+$actual = (Get-FileHash .\Quote.Float.exe -Algorithm SHA256).Hash
 if ($actual -ne $expected) { throw 'Checksum mismatch' }
 "SHA-256 OK: $actual"
 ```
 
 ## Quick start
 
-1. Download the EXE and `SHA256SUMS.txt` from the official [Latest Release](https://github.com/keida/codex-quota-float/releases/latest).
+1. Download `Quote.Float.exe` from the official [v1.1.3 release](https://github.com/keida/codex-quota-float/releases/tag/v1.1.3). The SHA-256 is included in its release notes.
 2. Verify the EXE with the PowerShell snippet above.
 3. Run the EXE. Use `--direct` to start the widget independently, or `--watch` to observe Codex without launching it. With no mode flag, the approved LaunchAndWatch behavior is used.
 
@@ -77,7 +76,7 @@ if ($actual -ne $expected) { throw 'Checksum mismatch' }
 
 [![WPF CI status](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml/badge.svg?branch=main)](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml)
 
-The current v1.1.2 release passed the WPF Release build and deterministic suite. The following remain explicitly **NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE**:
+The current v1.1.3 release passed the WPF Release build and deterministic suite. The following remain explicitly **NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE**:
 
 1. The same real Pro account `Fresh -> SignedOut -> Fresh`.
 2. Isolated Codex `Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery`.
@@ -89,4 +88,4 @@ The current v1.1.2 release passed the WPF Release build and deterministic suite.
 - `docs/`: public technical records, contracts, acceptance evidence, and release records.
 - `native/`: historical WinForms implementation kept for reference; it is not the current product implementation.
 
-OpenAI, Codex, Microsoft, and Windows names identify compatibility targets; no affiliation or endorsement is implied. The v1.1.2 release is the current Latest Release; v1.1.0 is the prior published release, while the v1.1.1 tag is unpublished and superseded.
+OpenAI, Codex, Microsoft, and Windows names identify compatibility targets; no affiliation or endorsement is implied. The v1.1.3 release is the current Latest Release; v1.1.2 is the prior published release, while the v1.1.1 tag is unpublished and superseded.

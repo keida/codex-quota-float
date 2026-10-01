@@ -12,9 +12,9 @@ _额度数值为示例；视觉素材来自 100% / 96 DPI 下的真实 WPF Demo 
 
 ## 最新下载
 
-**[Latest Release](https://github.com/keida/codex-quota-float/releases/latest)** · v1.1.2 · [下载自包含 Windows x64 EXE](https://github.com/keida/codex-quota-float/releases/download/v1.1.2/Quote-Float-v1.1.2-win-x64.exe) · [下载 SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v1.1.2/SHA256SUMS.txt)
+**[Latest Release](https://github.com/keida/codex-quota-float/releases/latest)** · v1.1.3 · [下载自包含 Windows x64 EXE](https://github.com/keida/codex-quota-float/releases/download/v1.1.3/Quote.Float.exe) · [发布说明中的 SHA-256](https://github.com/keida/codex-quota-float/releases/tag/v1.1.3)
 
-直接运行 `Quote-Float-v1.1.2-win-x64.exe`，无需单独安装 .NET。运行前请先用 `SHA256SUMS.txt` 校验 SHA-256。当前版本未进行代码签名，Windows Defender SmartScreen 首次运行时可能显示警告；请使用上面的官方 Release 链接、完成哈希校验，再遵循你的 Windows 或组织安全策略，不要盲目绕过安全警告。
+直接运行 `Quote.Float.exe`，无需单独安装 .NET。运行前请先用 v1.1.3 发布说明中的哈希值校验 SHA-256。当前版本未进行代码签名，Windows Defender SmartScreen 首次运行时可能显示警告；请使用上面的官方 Release 链接、完成哈希校验，再遵循你的 Windows 或组织安全策略，不要盲目绕过安全警告。
 
 ## 核心功能
 
@@ -28,7 +28,7 @@ _额度数值为示例；视觉素材来自 100% / 96 DPI 下的真实 WPF Demo 
 - Windows x64；使用 LaunchAndWatch 时需要安装 Codex Desktop。
 - 已验证的原生基线是 Windows 100% / 96 DPI。
 - Windows 125% / 150% 原生 DPI 运行验收仍为 **NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE**。
-- 已发布的 v1.1.2 EXE 是自包含版本，无需单独安装 .NET。
+- 已发布的 v1.1.3 EXE 是自包含版本，无需单独安装 .NET。
 
 ## 隐私承诺（以源码边界为准）
 
@@ -41,19 +41,18 @@ Quote Float 从 `CODEX_HOME` 或用户 `.codex` 目录下的本地 Codex `auth.j
 
 ## 校验下载
 
-在下载的 EXE 与 `SHA256SUMS.txt` 所在目录运行：
+在下载的 `Quote.Float.exe` 所在目录运行，将其 SHA-256 与 [v1.1.3 发布说明](https://github.com/keida/codex-quota-float/releases/tag/v1.1.3)中的值进行比较：
 
 ```powershell
-$line = Get-Content .\SHA256SUMS.txt | Where-Object { $_ -match 'Quote-Float-v1.1.2-win-x64\.exe$' }
-$expected = ($line -split '\s+')[0]
-$actual = (Get-FileHash .\Quote-Float-v1.1.2-win-x64.exe -Algorithm SHA256).Hash
+$expected = 'D3F3F2D30662B1C93D973BA68AADA0498E7860245A8325546BE596A3E605E385'
+$actual = (Get-FileHash .\Quote.Float.exe -Algorithm SHA256).Hash
 if ($actual -ne $expected) { throw 'Checksum mismatch' }
 "SHA-256 OK: $actual"
 ```
 
 ## 快速开始
 
-1. 从官方 [Latest Release](https://github.com/keida/codex-quota-float/releases/latest) 下载 EXE 与 `SHA256SUMS.txt`。
+1. 从官方 [v1.1.3 Release](https://github.com/keida/codex-quota-float/releases/tag/v1.1.3) 下载 `Quote.Float.exe`；SHA-256 包含在该版本的发布说明中。
 2. 使用上面的 PowerShell 片段校验 EXE。
 3. 运行 EXE。使用 `--direct` 独立启动浮窗，使用 `--watch` 只观察 Codex 而不启动它。不带模式参数时使用已批准的 LaunchAndWatch 行为。
 
@@ -77,7 +76,7 @@ if ($actual -ne $expected) { throw 'Checksum mismatch' }
 
 [![WPF CI 状态](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml/badge.svg?branch=main)](https://github.com/keida/codex-quota-float/actions/workflows/wpf-ci.yml)
 
-当前 v1.1.2 版本已通过 WPF Release 构建与确定性测试。以下事项仍明确保持 **NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE**：
+当前 v1.1.3 版本已通过 WPF Release 构建与确定性测试。以下事项仍明确保持 **NOT VERIFIED / OUT OF R1 ACCEPTANCE SCOPE**：
 
 1. 同一真实 Pro 账户 `Fresh -> SignedOut -> Fresh`。
 2. 隔离 Codex `Present -> close -> three absence confirmations -> Quote Float response -> restart/recovery`。
@@ -89,4 +88,4 @@ if ($actual -ne $expected) { throw 'Checksum mismatch' }
 - `docs/`：公开技术记录、契约、验收证据和发布记录。
 - `native/`：保留作参考的历史 WinForms 实现，不是当前产品实现。
 
-OpenAI、Codex、Microsoft 和 Windows 名称仅用于说明兼容目标；不代表任何关联或背书。v1.1.2 是当前 Latest Release；v1.1.0 是此前的已发布版本，v1.1.1 tag 未发布且已被取代。
+OpenAI、Codex、Microsoft 和 Windows 名称仅用于说明兼容目标；不代表任何关联或背书。v1.1.3 是当前 Latest Release；v1.1.2 是此前的已发布版本，v1.1.1 tag 未发布且已被取代。
