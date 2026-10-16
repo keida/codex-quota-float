@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Minimal permissions for the isolated preview window",
+  "windows": ["main"],
+  "permissions": ["core:default", "core:window:allow-set-size", "core:window:allow-set-position", "core:window:allow-set-theme", "core:window:allow-start-dragging"]
+}

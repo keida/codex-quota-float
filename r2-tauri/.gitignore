@@ -1,0 +1,11 @@
+node_modules/
+dist/
+target/
+.cache/
+evidence/
+candidates/
+profiles/
+.impeccable/
+*.log
+private-captures/
+src-tauri/gen/schemas/

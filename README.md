@@ -16,6 +16,10 @@ _Illustrative sample values; visuals are real WPF demo captures at 100% / 96 DPI
 
 Run `Quote.Float.exe` directly. No separate .NET installation is required. Verify the SHA-256 from the v1.1.3 release notes before running it. This build is currently unsigned, so Windows Defender SmartScreen may warn on first run; use the official release link above, verify the hash, and follow your Windows or organization policy. Do not bypass a security warning blindly.
 
+## R2 beta preview — not released
+
+The separate Tauri-based R2 line is being prepared as **2.0.0-beta.1**. It is not a GitHub Release or a published stable download. The v1.1.3 link above is the project's documented R1 release. The R2 scope, source build instructions, and current verification limits are documented in the [R2 README](r2-tauri/README.md) and [R2 acceptance record](r2-tauri/docs/r2/ACCEPTANCE.md).
+
 ## Core features
 
 - **Codex-only companion:** works with the installed Codex Desktop app, can launch it when needed or observe its presence, and never closes it.

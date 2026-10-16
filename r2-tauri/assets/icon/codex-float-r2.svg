@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Codex Float R2 quota ring</title>
+  <rect x="32" y="32" width="448" height="448" rx="128" fill="#152439"/>
+  <circle cx="256" cy="256" r="144" fill="none" stroke="#344B61" stroke-width="52"/>
+  <path d="M 256.000 112.000 A 144 144 0 1 1 114.188 230.995" fill="none" stroke="#4DE0BF" stroke-width="52" stroke-linecap="round"/>
+</svg>
