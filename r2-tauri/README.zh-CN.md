@@ -1,12 +1,12 @@
 # Codex Float R2
 
-**版本：**`2.0.0-beta.1` · **状态：**已更新的源码预览，含经人工测试的本地候选版；尚无 GitHub Release 或公开 R2 下载。
+**版本：**`2.0.0-beta.1` · **状态：**GitHub 预发布版已发布（非稳定版）；R1 v1.1.3 仍是 Latest。
 
 Codex Float R2 是 Windows 桌面伴侣，用紧凑浮窗显示 Codex 额度和本地观察到的 token 计数活动。它是独立的 Tauri 2 / Rust / React + TypeScript 实现，不替代 WPF R1 产品线。
 
 ## 下载
 
-R1 v1.1.3 是项目文档记录的已发布 R1 版本：[从 GitHub 下载并校验](https://github.com/keida/codex-quota-float/releases/tag/v1.1.3)。R2 `2.0.0-beta.1` 尚未发布。一个本地套餐标签候选版已通过人工试用，但 GitHub Release 中没有 R2 二进制文件。不要把本地构建或源码分支当作已签名或已发布的安装包。当前候选版的精确哈希和有限验收证据见 [Acceptance](docs/r2/ACCEPTANCE.md)。
+R1 v1.1.3 仍是项目稳定版 Latest Release：[从 GitHub 下载并校验](https://github.com/keida/codex-quota-float/releases/tag/v1.1.3)。R2 `2.0.0-beta.1` 已作为预发布版发布，不是稳定版替代品。[打开 R2 预发布页](https://github.com/keida/codex-quota-float/releases/tag/v2.0.0-beta.1)、[下载 Windows x64 EXE](https://github.com/keida/codex-quota-float/releases/download/v2.0.0-beta.1/Codex-Float-R2-2.0.0-beta.1-windows-x64.exe)，或下载 [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v2.0.0-beta.1/SHA256SUMS.txt)。资产大小为 20,928,512 字节，SHA-256 为 `5BF6AAFB87791556F543863FF7D8691CA363CFB2727A4351DB00A9C2FF36099A`。它未签名、未打包，属于启用 custom-protocol 的 debug-profile 构建；不是已签名安装程序或自包含应用。R2 需要 Windows x64、WebView2、可用的本地 Codex 身份验证和网络连接。证据和限制见 [Acceptance](docs/r2/ACCEPTANCE.md)。
 
 ## R2 当前功能
 
@@ -28,7 +28,7 @@ R2 具有独立生命周期：它不会监控 Codex Desktop，也不会在 Codex
 
 原生源码从 `CODEX_HOME` 或默认 `.codex` 目录读取本地 Codex 身份验证数据以请求额度；只向 [Security](../SECURITY.md) 中记录的两个 ChatGPT usage endpoint 发送身份验证请求。它还会扫描本地 `sessions/*.jsonl` 的有限内容以查找累计 token 计数字段。由于这些文件包含会话记录，**不能承诺程序从不读取或检查含对话内容的字节**。当前解析器用 token-count 记录生成图表，不会把 session 文件内容发送到产品服务器。
 
-此源码版本没有产品 telemetry 或 analytics endpoint。这是当前版本源码的事实，不是对未来版本的承诺。Token 计数不是额度百分比，R2 也不是 ChatGPT 普通聊天或 API 用量监控。公开文档和候选资源不包含账户数据、token、session 文件或原始响应。
+此源码版本没有产品 telemetry 或 analytics endpoint。这是当前版本源码的事实，不是对未来版本的承诺。Token 计数不是额度百分比，R2 也不是 ChatGPT 普通聊天或 API 用量监控。公开文档和发行资产不包含账户数据、token、session 文件或原始响应。更新后的 R2 原生截图仍待补充；根目录 README 中的截图展示的是 WPF R1，不是 R2。
 
 使用预览版前请阅读 [R2 数据边界详情](../SECURITY.md#r2-beta-source-data-boundary)。
 

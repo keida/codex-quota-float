@@ -1,8 +1,8 @@
 # R2 Changelog
 
-## 2.0.0-beta.1 — 2026-10-17 — prepared, not published
+## 2.0.0-beta.1 — 2026-10-17 — published prerelease
 
-This is the first versioned public-source preview for the separate Tauri R2 line. It is not a GitHub Release, stable replacement for WPF R1, installer, signed binary, or updater.
+This is the first versioned prerelease for the separate Tauri R2 line. It is a GitHub prerelease, not a stable replacement for WPF R1, installer, signed binary, or updater. R1 v1.1.3 remains Latest. [Release page](https://github.com/keida/codex-quota-float/releases/tag/v2.0.0-beta.1) · [Windows x64 asset](https://github.com/keida/codex-quota-float/releases/download/v2.0.0-beta.1/Codex-Float-R2-2.0.0-beta.1-windows-x64.exe) · [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v2.0.0-beta.1/SHA256SUMS.txt).
 
 ### Added
 
@@ -18,7 +18,7 @@ This is the first versioned public-source preview for the separate Tauri R2 line
 - Clarified the current-plan badge: `prolite` → `PRO LITE`, `plus` → `PLUS`, `pro` → `PRO (MORE)`, and `promax` → `PRO (MAX)`, case-insensitively. Unknown values remain readable; null or blank values use the localized Unknown fallback. The raw backend identifier is retained, and the badge appears only in the expanded detail header.
 - The pinned [Codex auth source](https://github.com/openai/codex/blob/ce0323f2f2d3b25e82806cd555237da3db4e1897/codex-rs/protocol/src/auth.rs#L130-L145) displays `KnownPlan::ProLite` as the generic `Pro`. R2's `PRO LITE` label is a deliberate UI distinction for raw `prolite`, separate from raw `pro` → `PRO (MORE)`; it is not an upstream display spelling or billing claim.
 - R2 remains independent of the Codex Desktop process: it does not monitor Codex or exit automatically when Codex closes. Its window-close action hides R2 to the tray; tray Exit quits. The quota path reads local authentication data and makes direct HTTP requests, with authentication/request problems represented as quota statuses. These are source-level statements; every lifecycle and failure scenario has not received native runtime testing.
-- Built a new local unpackaged x64 custom-protocol candidate (20,928,512 bytes; SHA-256 `5BF6AAFB87791556F543863FF7D8691CA363CFB2727A4351DB00A9C2FF36099A`). The user reported the candidate worked without issue. It is not a GitHub Release or public binary; `2.0.0-beta.1` remains unchanged.
+- Built the unpackaged x64 custom-protocol candidate later published as the prerelease asset (20,928,512 bytes; SHA-256 `5BF6AAFB87791556F543863FF7D8691CA363CFB2727A4351DB00A9C2FF36099A`). The user reported the candidate worked without issue; that report remains limited and is not broad native acceptance. The version remains `2.0.0-beta.1`.
 - The frontend suite passed 53 tests, Rust unit tests passed 20, and the frontend and custom-protocol builds succeeded. The Rust build emitted two warnings; see the current [acceptance record](ACCEPTANCE.md) for scope and limitations.
 
 ### Compatibility and claims

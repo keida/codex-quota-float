@@ -1,12 +1,12 @@
-# R2 Acceptance Record — 2.0.0-beta.1 source candidates
+# R2 Acceptance Record — 2.0.0-beta.1 prerelease
 
 ## Scope and outcome
 
-**The updated plan-label candidate passes frontend, Rust, and build checks and was reported as working in human testing; broad native acceptance remains incomplete.** R2 remains a source preview, not a GitHub Release. The original beta.1 candidate and the updated local candidate have different hashes and are documented separately below.
+**The published plan-label prerelease asset has recorded frontend, Rust, and build checks and a limited human report; broad native acceptance remains incomplete.** R2 `2.0.0-beta.1` is a GitHub prerelease, not stable. The original first beta.1 candidate and the later published asset have different hashes and are documented separately below.
 
-## Current plan-label candidate — 2026-10-17
+## Published plan-label asset — 2026-10-17
 
-The version remains `2.0.0-beta.1`; this is a source-only update, not a formal release or public download. The new unpackaged x64 Windows GUI executable is 20,928,512 bytes with SHA-256 `5BF6AAFB87791556F543863FF7D8691CA363CFB2727A4351DB00A9C2FF36099A`. Its copied candidate hash and size match the build output. The prior first-candidate executable hash `22F380596C81C32989A1C54599B4EA2071F54ED803DAB50399C7916509BCCC94` identifies a different artifact and must not be used to verify this one.
+The version remains `2.0.0-beta.1`; the plan-label source update is distributed as a prerelease, not a stable release. The published unpackaged x64 Windows GUI asset is `Codex-Float-R2-2.0.0-beta.1-windows-x64.exe` (20,928,512 bytes; SHA-256 `5BF6AAFB87791556F543863FF7D8691CA363CFB2727A4351DB00A9C2FF36099A`). [Release page](https://github.com/keida/codex-quota-float/releases/tag/v2.0.0-beta.1) · [EXE download](https://github.com/keida/codex-quota-float/releases/download/v2.0.0-beta.1/Codex-Float-R2-2.0.0-beta.1-windows-x64.exe) · [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v2.0.0-beta.1/SHA256SUMS.txt). It is unsigned and from a custom-protocol debug-profile build; it is not an installer or self-contained app. The prior first-candidate executable hash `22F380596C81C32989A1C54599B4EA2071F54ED803DAB50399C7916509BCCC94` identifies a different artifact and must not be used to verify the published asset.
 
 The frontend-only plan-label change displays `prolite` as `PRO LITE`, `plus` as `PLUS`, `pro` as `PRO (MORE)`, and `promax` as `PRO (MAX)`, case-insensitively. Unknown identifiers remain readable; null or blank values use the localized Unknown fallback. The raw model value is unchanged, and the 14px bold badge is limited to the expanded detail header, with Plus in mint, the Pro family in violet, and unknown values neutral. The pinned [Codex auth source](https://github.com/openai/codex/blob/ce0323f2f2d3b25e82806cd555237da3db4e1897/codex-rs/protocol/src/auth.rs#L130-L145) displays `KnownPlan::ProLite` as generic `Pro`; R2 deliberately uses `PRO LITE` for raw `prolite` to distinguish it from raw `pro` → `PRO (MORE)`. These are R2 UI labels and do not establish billing, price, or quota-window rules.
 
@@ -22,6 +22,8 @@ The source has no Codex-process monitoring or auto-exit dependency. Closing Code
 | Human test report | LIMITED PASS | User reported the candidate worked without issue; no detailed public interaction trace or capture was supplied |
 
 This human report is not evidence of broad DPI, provider/account-switch, security, clean-machine, shell-icon, or every interaction path. The current candidate was not used to claim those results.
+
+No updated native R2 screenshots are included because the required native screenshot-control capability was unavailable. The screenshots in the root README are WPF R1 visuals, not captures of this R2 asset.
 
 ## Historical first-candidate checks — SHA-256 `22F380596C81C32989A1C54599B4EA2071F54ED803DAB50399C7916509BCCC94`
 
@@ -57,7 +59,7 @@ This was a tool-driven startup/basic-GUI smoke test only. It does **not** establ
 - WebView element-focus restoration and event ordering for native `show`/`set_focus` versus the tray action.
 - Icon legibility at 16/20/24px in actual Windows tray/shortcut/shell rendering; only pixel dimensions and alpha were verified.
 - Broad Windows DPI scaling, all monitor/work-area combinations, provider/account-switch transitions, and complete Plus/Pro parity.
-- Any hosted release, signature, installer, updater, or user-facing shortcut installation.
+- A code signature, installer, updater, or user-facing shortcut installation. The published prerelease does not establish any of these.
 - Clean-machine portability and missing-WebView2 recovery behavior.
 
 The limited smoke run does not replace the separately scoped acceptance of hover and tray interactions, icon rendering, DPI, and clean-machine behavior. Do not infer those PASS results from this smoke, the previous Rev29 executable, component tests, or icon file inspection.

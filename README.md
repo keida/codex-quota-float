@@ -16,9 +16,9 @@ _Illustrative sample values; visuals are real WPF demo captures at 100% / 96 DPI
 
 Run `Quote.Float.exe` directly. No separate .NET installation is required. Verify the SHA-256 from the v1.1.3 release notes before running it. This build is currently unsigned, so Windows Defender SmartScreen may warn on first run; use the official release link above, verify the hash, and follow your Windows or organization policy. Do not bypass a security warning blindly.
 
-## R2 beta preview — source update, not released
+## R2 beta prerelease — published, not stable
 
-The separate Tauri-based R2 line remains **2.0.0-beta.1** and is not a GitHub Release or published download. Its current local candidate includes clearer current-plan labels; it does not replace WPF R1 or change the v1.1.3 Latest Release linked above. See the [R2 README](r2-tauri/README.md), [R2 update and feature boundaries](r2-tauri/docs/r2/UPDATE-2026-10-17.md), and [R2 acceptance record](r2-tauri/docs/r2/ACCEPTANCE.md) for the candidate identity and evidence limits.
+The separate Tauri-based R2 line is **2.0.0-beta.1**, published as a GitHub prerelease on 2026-10-17. It is not stable and does not replace WPF R1 or the v1.1.3 Latest Release above. [R2 prerelease](https://github.com/keida/codex-quota-float/releases/tag/v2.0.0-beta.1) · [Download Windows x64 EXE](https://github.com/keida/codex-quota-float/releases/download/v2.0.0-beta.1/Codex-Float-R2-2.0.0-beta.1-windows-x64.exe) · [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v2.0.0-beta.1/SHA256SUMS.txt). The EXE is 20,928,512 bytes (SHA-256 `5BF6AAFB87791556F543863FF7D8691CA363CFB2727A4351DB00A9C2FF36099A`); it is unsigned, unpackaged, and a custom-protocol debug-profile build. It requires WebView2, usable local Codex authentication, and network access; it is not self-contained. The screenshots above show WPF R1; updated native R2 screenshots are pending. See the [R2 README](r2-tauri/README.md), [R2 update and feature boundaries](r2-tauri/docs/r2/UPDATE-2026-10-17.md), and [R2 acceptance record](r2-tauri/docs/r2/ACCEPTANCE.md) for scope and verification limits.
 
 ## Core features
 

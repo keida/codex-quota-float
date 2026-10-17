@@ -1,12 +1,12 @@
 # Codex Float R2
 
-**Version:** `2.0.0-beta.1` · **Status:** updated source preview with a human-tested local candidate; no GitHub Release or public R2 download.
+**Version:** `2.0.0-beta.1` · **Status:** published GitHub prerelease (not stable); R1 v1.1.3 remains Latest.
 
 Codex Float R2 is a Windows desktop companion that shows Codex quota and locally observed token-count activity in a compact floating window. It is a separate Tauri 2 / Rust / React + TypeScript implementation; it does not replace the WPF R1 line.
 
 ## Downloads
 
-R1 v1.1.3 is the project's documented published R1 release: [download and verify it from GitHub](https://github.com/keida/codex-quota-float/releases/tag/v1.1.3). R2 `2.0.0-beta.1` is not published. A local plan-label candidate was human-tested, but no R2 binary is attached to a GitHub Release. Do not treat a local build or source branch as a signed or released installer. The current candidate's exact hash and limited evidence are in [Acceptance](docs/r2/ACCEPTANCE.md).
+R1 v1.1.3 remains the project's stable Latest release: [download and verify it from GitHub](https://github.com/keida/codex-quota-float/releases/tag/v1.1.3). R2 `2.0.0-beta.1` is published as a prerelease, not a stable replacement. [Open the R2 prerelease](https://github.com/keida/codex-quota-float/releases/tag/v2.0.0-beta.1), [download the Windows x64 EXE](https://github.com/keida/codex-quota-float/releases/download/v2.0.0-beta.1/Codex-Float-R2-2.0.0-beta.1-windows-x64.exe), or download [SHA256SUMS.txt](https://github.com/keida/codex-quota-float/releases/download/v2.0.0-beta.1/SHA256SUMS.txt). The asset is 20,928,512 bytes with SHA-256 `5BF6AAFB87791556F543863FF7D8691CA363CFB2727A4351DB00A9C2FF36099A`. It is unsigned, unpackaged, and a custom-protocol debug-profile build; it is not a signed installer or self-contained app. R2 requires Windows x64, WebView2, usable local Codex authentication, and network access. See [Acceptance](docs/r2/ACCEPTANCE.md) for evidence and limits.
 
 ## What R2 currently does
 
@@ -28,7 +28,7 @@ R2 has an independent lifecycle: it does not monitor Codex Desktop or automatica
 
 The native source reads local Codex authentication data from `CODEX_HOME` or the default `.codex` directory to request quota. It sends authenticated requests to the two ChatGPT usage endpoints documented in [Security](../SECURITY.md). It also scans bounded portions of local `sessions/*.jsonl` data to find cumulative token-count fields. Because those files contain session records, this is **not** a promise that the program never reads or inspects conversation-bearing bytes. The current parser uses token-count records for its chart; it does not send session-file content to a product server.
 
-At this source version there is no product telemetry or analytics endpoint. That is a statement about this version’s source, not a promise about future versions. Token counts are not quota percentages, and R2 is not ChatGPT ordinary-chat or API usage monitoring. No account data, token, session file, or raw response is included in this source branch’s public documentation or candidate assets.
+At this source version there is no product telemetry or analytics endpoint. That is a statement about this version’s source, not a promise about future versions. Token counts are not quota percentages, and R2 is not ChatGPT ordinary-chat or API usage monitoring. No account data, token, session file, or raw response is included in this source branch’s public documentation or release asset. Updated native R2 screenshots are pending; the root README screenshots depict WPF R1, not R2.
 
 Read [the R2 data-boundary details](../SECURITY.md#r2-beta-source-data-boundary) before using a preview build.
 
