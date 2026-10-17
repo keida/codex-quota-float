@@ -3,6 +3,27 @@ export type Language = 'en' | 'zh'
 export type ThemeChoice = 'system' | 'light' | 'dark'
 export type View = 'widget' | 'detail' | 'settings'
 
+export function formatPlanLabel(planLabel: string | null): string | null {
+  if (!planLabel?.trim()) return null
+  switch (planLabel?.trim().toLowerCase()) {
+    case 'prolite': return 'PRO LITE'
+    case 'plus': return 'PLUS'
+    case 'pro': return 'PRO (MORE)'
+    case 'promax': return 'PRO (MAX)'
+    default: return planLabel
+  }
+}
+
+export function planLabelTone(planLabel: string | null) {
+  switch (planLabel?.trim().toLowerCase()) {
+    case 'plus': return 'plan-plus'
+    case 'prolite':
+    case 'pro':
+    case 'promax': return 'plan-pro'
+    default: return 'plan-neutral'
+  }
+}
+
 export type QuotaStatus = 'available' | 'partial' | 'stale' | 'unavailable' | 'signedOut' | 'rateLimited'
 export type ActivityStatus = 'available' | 'partial' | 'unavailable'
 export type ResetCreditStatus = 'available' | 'partial' | 'stale' | 'unavailable'
@@ -85,7 +106,7 @@ export const copy = {
   en: {
     plus: 'Plus', pro: 'Pro', fiveHour: '5h', weekly: 'Weekly', fiveHourShort: '5h', weeklyShort: 'wk', fiveHourFull: '5-hour', weeklyFull: 'Weekly',
     resets: 'Resets in', hours: '1h 42m', days: '4d 7h', remaining: 'remaining',
-    quotaRemaining: 'Quota remaining', planSelection: 'Sample plan', today: 'Today',
+    quotaRemaining: 'Quota remaining', planSelection: 'Sample plan', planLabelAccessible: 'Plan: {label} (identifier: {identifier})', today: 'Today',
     tokens: 'Local activity', device: 'This device only', tokenUnit: 'tokens', tokensPerBucket: 'Tokens / 2h', liveTokensPerBucket: 'Tokens / local-time bucket',
     presence: 'Codex app', notConnected: 'Not connected', demo: 'Sample data',
     refreshedLocally: 'Sample refreshed locally', refresh: 'Refresh sample', refreshLive: 'Refresh', pinUnavailable: 'Pin unavailable in demo',
@@ -107,7 +128,7 @@ export const copy = {
   zh: {
     plus: 'Plus', pro: 'Pro', fiveHour: '5小时', weekly: '每周', fiveHourShort: '5小时', weeklyShort: '周', fiveHourFull: '5小时', weeklyFull: '每周',
     resets: '重置时间', hours: '1小时42分', days: '4天7小时', remaining: '剩余',
-    quotaRemaining: '剩余额度', planSelection: '示例套餐', today: '今天',
+    quotaRemaining: '剩余额度', planSelection: '示例套餐', planLabelAccessible: '套餐：{label}（标识符：{identifier}）', today: '今天',
     tokens: '本地活动', device: '仅此设备', tokenUnit: 'tokens', tokensPerBucket: '每2小时 tokens', liveTokensPerBucket: '每个本地时间区间 tokens',
     presence: 'Codex 应用', notConnected: '未连接', demo: '样本数据',
     refreshedLocally: '样本已在本地刷新', refresh: '刷新样本', refreshLive: '刷新', pinUnavailable: '演示中无法固定',

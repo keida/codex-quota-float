@@ -22,11 +22,24 @@ From `r2-tauri/`, install the exact npm lockfile once on a network-enabled devel
 npm ci
 npm test -- --run
 npm run build
-cargo test --manifest-path src-tauri/Cargo.toml --locked
-cargo build --manifest-path src-tauri/Cargo.toml --locked --features custom-protocol
+cargo test --manifest-path src-tauri/Cargo.toml --locked --jobs 2
+cargo build --manifest-path src-tauri/Cargo.toml --locked --jobs 2 --features custom-protocol
 ```
 
-For a machine whose Cargo registry cache already contains every locked crate, add `--offline` to Cargo commands. The custom-protocol build expects `dist/` to have been produced by `npm run build`. No installer is generated because `bundle.active` is false.
+The default Cargo commands use the network as needed to obtain locked crates. For a fully cached machine, the equivalent offline commands are:
+
+```powershell
+cargo test --manifest-path src-tauri/Cargo.toml --locked --offline --jobs 2
+cargo build --manifest-path src-tauri/Cargo.toml --locked --offline --jobs 2 --features custom-protocol
+```
+
+Offline mode requires the local registry cache to contain every locked crate. The custom-protocol build expects `dist/` to have been produced by `npm run build`. No installer is generated because `bundle.active` is false.
+
+## Current local source candidate
+
+The `2.0.0-beta.1` source received a plan-label update on 2026-10-17 without changing its version or dependency graph. The resulting local unpackaged x64 candidate is 20,928,512 bytes, SHA-256 `5BF6AAFB87791556F543863FF7D8691CA363CFB2727A4351DB00A9C2FF36099A`. This hash identifies a local candidate only; it is not a GitHub Release asset or public download. The frontend suite (53 tests), Rust suite (20 tests), frontend build, and locked offline custom-protocol build passed for this source. The Rust build emitted two compiler warnings; the [acceptance record](ACCEPTANCE.md) separates this candidate from the earlier beta.1 executable.
+
+Recognized current plan identifiers are displayed as `PRO LITE`, `PLUS`, `PRO (MORE)`, and `PRO (MAX)` for `prolite`, `plus`, `pro`, and `promax`, respectively. The raw identifier remains in the model, and unknown values are not coerced to a known plan. The pinned [Codex auth source](https://github.com/openai/codex/blob/ce0323f2f2d3b25e82806cd555237da3db4e1897/codex-rs/protocol/src/auth.rs#L130-L145) displays `KnownPlan::ProLite` as generic `Pro`; R2 deliberately uses `PRO LITE` to distinguish raw `prolite` from raw `pro` → `PRO (MORE)`. These are R2 UI labels, not upstream spelling or billing terms.
 
 This source branch does not prescribe credential setup or account mutation. Do not add tokens, `auth.json`, raw API responses, session records, local profiles, screenshots, or machine-specific diagnostics to the repository.
 

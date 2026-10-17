@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { finishNativeDrag, inDesktop, readDashboardSnapshot, readSystemTheme, resizeSurface, setNativeTheme, setTrayLanguage, startNativeDrag, subscribeSystemTheme, subscribeTrayActions, type DragCompletion, type TrayAction } from './bridge'
-import { activityChartScale, activityXAxisTickLabels, copy, formatActivityAxisTick, formatCompactTokenCount, localDayEdgesUtcSeconds, type Copy, type DashboardSnapshot, type Language, type Plan, type ResetCreditSnapshot, type ThemeChoice, type View, TOKEN_BARS, TOKEN_TOTAL, visibleQuota } from './model'
+import { activityChartScale, activityXAxisTickLabels, copy, formatActivityAxisTick, formatCompactTokenCount, formatPlanLabel, localDayEdgesUtcSeconds, planLabelTone, type Copy, type DashboardSnapshot, type Language, type Plan, type ResetCreditSnapshot, type ThemeChoice, type View, TOKEN_BARS, TOKEN_TOTAL, visibleQuota } from './model'
 
 const STORAGE_KEY = 'quota-float-r2-preview.preferences'
 const REFRESH_INTERVAL_SECONDS = [60, 120, 300] as const
@@ -536,6 +536,13 @@ export default function App() {
     if (!hoverSuppressed.current && view !== 'settings') scheduleSurfaceLeave()
   }
   function refreshSample() { setSampleRefreshedAt(new Date()) }
+  const rawPlanLabel = dashboard?.planLabel ?? null
+  const hasPlanLabel = Boolean(rawPlanLabel?.trim())
+  const displayPlanLabel = formatPlanLabel(rawPlanLabel) ?? t.unknown
+  const planLabelTitle = hasPlanLabel && rawPlanLabel && displayPlanLabel !== rawPlanLabel ? `${rawPlanLabel} · ${displayPlanLabel}` : displayPlanLabel
+  const planLabelAccessible = hasPlanLabel && rawPlanLabel
+    ? t.planLabelAccessible.replace('{label}', displayPlanLabel).replace('{identifier}', rawPlanLabel)
+    : t.unknown
 
   return <main ref={surfaceElement} className={`surface theme-${activeTheme} ${expanded ? 'is-expanded' : 'is-compact'} ${view === 'settings' ? 'is-settings' : ''}`} data-testid="surface" data-drag-region="true" data-dragging={nativeDragging}
     onPointerDown={beginNativeDrag} onPointerUp={endNativeDragPointer} onPointerCancel={cancelNativeDragPointer}
@@ -570,7 +577,7 @@ export default function App() {
     </button> : view === 'detail' ? <section className="detail" data-testid="detail" aria-label={t.quotaDetails}>
       <header className="detail-header" data-drag-region="true">
         <div className="product-heading"><h1>Codex</h1>{native
-          ? <span className="native-plan-label" data-testid="plan-label" title={dashboard?.planLabel ?? t.unknown}>{dashboard?.planLabel ?? t.unknown}</span>
+          ? <span className={`native-plan-label ${planLabelTone(rawPlanLabel)}`} data-testid="plan-label" title={planLabelTitle} aria-label={planLabelAccessible}>{displayPlanLabel}</span>
           : <div className="plan-switch" role="group" aria-label={t.planSelection}>
           <button data-testid="plan-plus" aria-pressed={prefs.plan === 'plus'} className={prefs.plan === 'plus' ? 'selected' : ''} onClick={() => update('plan', 'plus')}>{t.plus}</button>
           <button data-testid="plan-pro" aria-pressed={prefs.plan === 'pro'} className={prefs.plan === 'pro' ? 'selected' : ''} onClick={() => update('plan', 'pro')}>{t.pro}</button>

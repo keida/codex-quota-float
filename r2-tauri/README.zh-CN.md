@@ -1,22 +1,28 @@
 # Codex Float R2
 
-**版本：**`2.0.0-beta.1` · **状态：**源码预览，尚未发布 GitHub Release。
+**版本：**`2.0.0-beta.1` · **状态：**已更新的源码预览，含经人工测试的本地候选版；尚无 GitHub Release 或公开 R2 下载。
 
 Codex Float R2 是 Windows 桌面伴侣，用紧凑浮窗显示 Codex 额度和本地观察到的 token 计数活动。它是独立的 Tauri 2 / Rust / React + TypeScript 实现，不替代 WPF R1 产品线。
 
 ## 下载
 
-R1 v1.1.3 是项目文档记录的已发布 R1 版本：[从 GitHub 下载并校验](https://github.com/keida/codex-quota-float/releases/tag/v1.1.3)。R2 `2.0.0-beta.1` 尚未发布。不要把本地构建或分支候选当作已签名或已发布的安装包。
+R1 v1.1.3 是项目文档记录的已发布 R1 版本：[从 GitHub 下载并校验](https://github.com/keida/codex-quota-float/releases/tag/v1.1.3)。R2 `2.0.0-beta.1` 尚未发布。一个本地套餐标签候选版已通过人工试用，但 GitHub Release 中没有 R2 二进制文件。不要把本地构建或源码分支当作已签名或已发布的安装包。当前候选版的精确哈希和有限验收证据见 [Acceptance](docs/r2/ACCEPTANCE.md)。
 
 ## R2 当前功能
 
 - 显示 96×96 DIP 紧凑浮窗；悬停展开额度详情，移开后恢复紧凑状态。Settings 编辑期间保持打开，通过 Done/Escape 正常关闭。
 - 从源码实现的 Codex usage 视图读取动态额度和 reset-credit 数据。刷新状态区分完整、部分、过期、不可用、退出登录和速率限制等结果。
+- 将当前返回的套餐标识显示为 `PRO LITE`、`PLUS`、`PRO (MORE)` 或 `PRO (MAX)`，分别对应 `prolite`、`plus`、`pro`、`promax`（不区分大小写）。未知标识仍可读；该标签不会推断额度区间、计费或价格。
 - 支持 English / 简体中文，以及 System / Light / Dark 主题。System 使用 Windows 返回的原生窗口主题，并跟随 Windows“应用模式/应用颜色”设置。
+- 当前 Settings 提供主题、语言和 60 / 120 / 300 秒刷新间隔；源码未实现 Follow Codex、低额度提醒或 About 页面。
 - 提供托盘 Open、Refresh、Exit；窗口配置为不在任务栏单独显示按钮。
-- 扫描本地 Codex session JSONL 记录中的累计 token 计数字段，并绘制本地日活动图。覆盖不完整时，显示总量是下限；token 活动不等于已消耗额度。
+- 扫描本地 Codex session JSONL 记录中的累计 token 计数字段，并按本地时间绘制一天内的 12 个区间。缺失区间保持未知；覆盖不完整时，显示总量是下限。Token 活动不等于已消耗额度。
 
 这些是源码支持的能力，不代表完整 Plus/Pro 功能等价或所有账户/服务状态都已覆盖。R2 不使用 Codex app-server，也不提供实时审批/会话控制、预测、提醒或“跟随 Codex”功能。
+
+固定版本的 [Codex auth 源码](https://github.com/openai/codex/blob/ce0323f2f2d3b25e82806cd555237da3db4e1897/codex-rs/protocol/src/auth.rs#L130-L145) 将 `KnownPlan::ProLite` 显示为通用名称 `Pro`。R2 有意把原始 `prolite` 标识显示为 `PRO LITE`，以便与显示为 `PRO (MORE)` 的原始 `pro` 区分。这些是 R2 界面标签，不是上游计费术语或权益声明。当前源码更新、R1/R2 对照、运行要求、隐私边界和已知限制见[《2026-10-17 更新》](docs/r2/UPDATE-2026-10-17.md)。
+
+R2 具有独立生命周期：它不会监控 Codex Desktop，也不会在 Codex 关闭时自动退出。关闭 R2 窗口只会将其隐藏；要退出请使用托盘 Exit。额度读取路径使用本地身份验证数据并直接发送身份验证 HTTP 请求，不依赖正在运行的 Codex 进程。身份验证缺失/无效和请求失败会表示为额度可用性状态。这些是源码层面的行为说明，并不代表每种无 Codex 或网络故障场景都经过原生测试。
 
 ## 数据与隐私边界
 
@@ -39,6 +45,7 @@ Windows 前置条件和源码构建命令见 [Development](docs/r2/DEVELOPMENT.m
 - [Changelog](docs/r2/CHANGELOG.md)
 - [Development 与图标生成](docs/r2/DEVELOPMENT.md)
 - [Acceptance 与限制](docs/r2/ACCEPTANCE.md)
+- [2026-10-17 更新](docs/r2/UPDATE-2026-10-17.md)
 - [English README](README.md)
 
 OpenAI、Codex、ChatGPT、Microsoft 和 Windows 名称仅用于说明兼容目标，不代表任何关联或背书。

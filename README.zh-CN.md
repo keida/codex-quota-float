@@ -16,9 +16,9 @@ _额度数值为示例；视觉素材来自 100% / 96 DPI 下的真实 WPF Demo 
 
 直接运行 `Quote.Float.exe`，无需单独安装 .NET。运行前请先用 v1.1.3 发布说明中的哈希值校验 SHA-256。当前版本未进行代码签名，Windows Defender SmartScreen 首次运行时可能显示警告；请使用上面的官方 Release 链接、完成哈希校验，再遵循你的 Windows 或组织安全策略，不要盲目绕过安全警告。
 
-## R2 Beta 预览版——尚未发布
+## R2 Beta 预览版——源码更新，尚未发布
 
-独立的 Tauri R2 产品线正在准备 **2.0.0-beta.1**。它尚未发布到 GitHub Release，也不是已发布的稳定版。v1.1.3 链接是项目文档记录的 R1 版本。R2 的范围、源码构建方式和当前验收限制见 [R2 中文说明](r2-tauri/README.zh-CN.md) 与 [R2 验收记录](r2-tauri/docs/r2/ACCEPTANCE.md)。
+独立的 Tauri R2 产品线仍为 **2.0.0-beta.1**，不是 GitHub Release，也不是公开下载。当前本地候选版改进了当前套餐标签的清晰度；它不会替代 WPF R1，也不会改变上方链接的 v1.1.3 Latest Release。候选版身份和证据限制见 [R2 中文说明](r2-tauri/README.zh-CN.md)、[R2 更新与功能边界](r2-tauri/docs/r2/UPDATE-2026-10-17.md) 和 [R2 验收记录](r2-tauri/docs/r2/ACCEPTANCE.md)。
 
 ## 核心功能
 

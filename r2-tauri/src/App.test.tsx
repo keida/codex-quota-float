@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testi
 import { StrictMode } from 'react'
 import userEvent from '@testing-library/user-event'
 import App from './App'
-import { activityChartScale, activityXAxisTickLabels, formatActivityAxisTick, formatCompactTokenCount, localDayEdgesUtcSeconds, splitDayEdgesUtcSeconds, TOKEN_BARS, TOKEN_TOTAL, visibleQuota, type DashboardSnapshot } from './model'
+import { activityChartScale, activityXAxisTickLabels, formatActivityAxisTick, formatCompactTokenCount, formatPlanLabel, localDayEdgesUtcSeconds, planLabelTone, splitDayEdgesUtcSeconds, TOKEN_BARS, TOKEN_TOTAL, visibleQuota, type DashboardSnapshot } from './model'
 import * as bridge from './bridge'
 
 const desktopMode = vi.hoisted(() => ({ value: false }))
@@ -57,6 +57,18 @@ const liveSnapshot = {
 }
 
 describe('Quota Float reference preview', () => {
+  it('maps only recognized plan identifiers and preserves unknown labels', () => {
+    expect(['prolite', 'PLUS', 'Pro', 'PROMAX'].map(formatPlanLabel)).toEqual(['PRO LITE', 'PLUS', 'PRO (MORE)', 'PRO (MAX)'])
+    expect(formatPlanLabel('Enterprise Tier')).toBe('Enterprise Tier')
+    expect(formatPlanLabel('  future-tier  ')).toBe('  future-tier  ')
+    expect(formatPlanLabel('')).toBeNull()
+    expect(formatPlanLabel('   ')).toBeNull()
+    expect(formatPlanLabel(null)).toBeNull()
+    expect(['prolite', 'pro', 'promax'].map(planLabelTone)).toEqual(['plan-pro', 'plan-pro', 'plan-pro'])
+    expect(planLabelTone('plus')).toBe('plan-plus')
+    expect(planLabelTone('unknown')).toBe('plan-neutral')
+  })
+
   it('divides a local day into 12 validated bins across 23-hour and 25-hour DST days', () => {
     for (const durationHours of [23, 24, 25]) {
       const start = Date.UTC(2026, 0, 1)
@@ -661,14 +673,15 @@ describe('Quota Float reference preview', () => {
     const dayEdges = vi.mocked(bridge.readDashboardSnapshot).mock.calls[0]?.[0] ?? []
     expect(dayEdges).toHaveLength(13)
     expect(dayEdges.every((edge, index) => index === 0 || (dayEdges[index - 1] !== undefined && edge > dayEdges[index - 1]!))).toBe(true)
-    expect(await screen.findByTestId('plan-label')).toHaveTextContent('prolite')
+    expect(await screen.findByTestId('plan-label')).toHaveTextContent('PRO LITE')
     expect(screen.getByTestId('quota-window-label')).toHaveTextContent('Weekly')
     expect(screen.queryByTestId('quota-fiveHour')).not.toBeInTheDocument()
     expect(screen.queryByTestId('plan-plus')).not.toBeInTheDocument()
     expect(screen.getByTestId('quota-status')).toHaveTextContent('Partial')
     expect(screen.getByTestId('activity-total')).toHaveTextContent('≥1.2K tokens')
     expect(screen.getByTestId('activity-total').querySelector('strong')).toHaveAttribute('aria-label', '≥1,200 tokens')
-    expect(screen.getByTestId('plan-label')).toHaveAttribute('title', 'prolite')
+    expect(screen.getByTestId('plan-label')).toHaveAttribute('title', 'prolite · PRO LITE')
+    expect(screen.getByTestId('plan-label')).toHaveAttribute('aria-label', 'Plan: PRO LITE (identifier: prolite)')
     expect(screen.getByTestId('device-label')).toHaveTextContent('This device only')
     expect(screen.getAllByTestId('token-bar')).toHaveLength(12)
     expect(screen.getAllByTestId('token-bar').filter(bar => bar.getAttribute('data-value') === 'unknown')).toHaveLength(2)
@@ -705,16 +718,37 @@ describe('Quota Float reference preview', () => {
     expect(screen.getByTestId('credit-reset-status')).not.toHaveTextContent('2')
   })
 
-  it('uses the weekly compact treatment from the returned window duration and keeps the raw plan label', async () => {
+  it('uses the weekly compact treatment from the returned window duration without changing the compact widget', async () => {
     desktopMode.value = true
     vi.mocked(bridge.readDashboardSnapshot).mockResolvedValue(liveSnapshot)
     render(<App />)
     expect(await screen.findByTestId('compact-weekly-value')).toHaveTextContent('74%')
     expect(screen.getByTestId('widget')).toHaveTextContent('74%wk')
     fireEvent.mouseEnter(screen.getByTestId('widget'))
-    expect(await screen.findByTestId('plan-label')).toHaveTextContent('prolite')
+    expect(await screen.findByTestId('plan-label')).toHaveTextContent('PRO LITE')
     expect(screen.getByTestId('weekly-reset-panel')).toBeInTheDocument()
     expect(screen.queryByTestId('plan-pro')).not.toBeInTheDocument()
+  })
+
+  it('keeps unknown native plan identifiers readable and never coerces them to a known tier', async () => {
+    desktopMode.value = true
+    localStorage.setItem('quota-float-r2-preview.preferences', JSON.stringify({ language: 'zh' }))
+    vi.mocked(bridge.readDashboardSnapshot).mockResolvedValue({ ...liveSnapshot, planLabel: 'future-enterprise-tier-with-a-long-name' })
+    const first = render(<App />)
+    fireEvent.mouseEnter(screen.getByTestId('widget'))
+    const label = await screen.findByTestId('plan-label')
+    expect(label).toHaveTextContent('future-enterprise-tier-with-a-long-name')
+    expect(label).toHaveAttribute('title', 'future-enterprise-tier-with-a-long-name')
+    expect(label).toHaveAttribute('aria-label', '套餐：future-enterprise-tier-with-a-long-name（标识符：future-enterprise-tier-with-a-long-name）')
+    expect(label).toHaveClass('plan-neutral')
+    expect(screen.queryByTestId('plan-plus')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('plan-pro')).not.toBeInTheDocument()
+    first.unmount()
+
+    vi.mocked(bridge.readDashboardSnapshot).mockResolvedValue({ ...liveSnapshot, planLabel: '   ' })
+    render(<App />)
+    fireEvent.mouseEnter(screen.getByTestId('widget'))
+    expect(await screen.findByTestId('plan-label')).toHaveTextContent('未知')
   })
 
   it('uses the shared short labels for native two-window compact values without changing provider identity', async () => {
@@ -730,7 +764,7 @@ describe('Quota Float reference preview', () => {
     expect(await screen.findByTestId('compact-five-hour-reading')).toHaveTextContent('5h74%')
     expect(screen.getByTestId('compact-weekly-reading')).toHaveTextContent('wk38%')
     fireEvent.mouseEnter(screen.getByTestId('widget'))
-    expect(await screen.findByTestId('plan-label')).toHaveTextContent('prolite')
+    expect(await screen.findByTestId('plan-label')).toHaveTextContent('PRO LITE')
     expect(screen.getAllByTestId('quota-window-label').map(label => label.textContent)).toEqual(['5-hour remaining', 'Weekly remaining'])
   })
 

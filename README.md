@@ -16,9 +16,9 @@ _Illustrative sample values; visuals are real WPF demo captures at 100% / 96 DPI
 
 Run `Quote.Float.exe` directly. No separate .NET installation is required. Verify the SHA-256 from the v1.1.3 release notes before running it. This build is currently unsigned, so Windows Defender SmartScreen may warn on first run; use the official release link above, verify the hash, and follow your Windows or organization policy. Do not bypass a security warning blindly.
 
-## R2 beta preview — not released
+## R2 beta preview — source update, not released
 
-The separate Tauri-based R2 line is being prepared as **2.0.0-beta.1**. It is not a GitHub Release or a published stable download. The v1.1.3 link above is the project's documented R1 release. The R2 scope, source build instructions, and current verification limits are documented in the [R2 README](r2-tauri/README.md) and [R2 acceptance record](r2-tauri/docs/r2/ACCEPTANCE.md).
+The separate Tauri-based R2 line remains **2.0.0-beta.1** and is not a GitHub Release or published download. Its current local candidate includes clearer current-plan labels; it does not replace WPF R1 or change the v1.1.3 Latest Release linked above. See the [R2 README](r2-tauri/README.md), [R2 update and feature boundaries](r2-tauri/docs/r2/UPDATE-2026-10-17.md), and [R2 acceptance record](r2-tauri/docs/r2/ACCEPTANCE.md) for the candidate identity and evidence limits.
 
 ## Core features
 

@@ -159,7 +159,10 @@ button:disabled { cursor: default; }
 .plan-switch { display: inline-flex; align-items: center; gap: 7px; }
 .plan-switch button { border: 0; padding: 3px 0; color: var(--muted); background: transparent; cursor: pointer; font-size: 11px; font-weight: 500; }
 .plan-switch button.selected { color: var(--ink); font-weight: 680; }
-.native-plan-label { max-width: 88px; overflow: hidden; border: 1px solid var(--line); border-radius: 999px; padding: 3px 7px; color: var(--ink); background: var(--raised); font-size: 12px; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
+.native-plan-label { min-width: 0; max-width: 120px; overflow: hidden; border: 1px solid var(--line); border-radius: 999px; padding: 5px 9px; font-size: 14px; font-weight: 720; line-height: 1; text-overflow: ellipsis; white-space: nowrap; }
+.native-plan-label.plan-plus { border-color: color-mix(in srgb, var(--quota-mint) 42%, var(--line)); color: var(--quota-mint); background: color-mix(in srgb, var(--quota-mint) 12%, transparent); }
+.native-plan-label.plan-pro { border-color: color-mix(in srgb, var(--quota-violet) 42%, var(--line)); color: color-mix(in srgb, var(--quota-violet) 76%, var(--ink)); background: color-mix(in srgb, var(--quota-violet) 12%, transparent); }
+.native-plan-label.plan-neutral { border-color: var(--line); color: var(--ink); background: var(--raised); }
 .icon-toolbar { display: inline-flex; align-items: center; gap: 14px; }
 .icon-button { width: 24px; height: 25px; display: grid; place-items: center; border: 0; border-radius: 6px; padding: 4px; color: var(--ink); background: transparent; cursor: pointer; }
 .icon-button:hover:not(:disabled) { background: var(--raised); }

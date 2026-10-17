@@ -1,10 +1,29 @@
-# R2 Acceptance Record — 2.0.0-beta.1 source candidate
+# R2 Acceptance Record — 2.0.0-beta.1 source candidates
 
 ## Scope and outcome
 
-**Build/source checks pass; this exact candidate received a limited native Windows startup/basic-GUI smoke test, not full native acceptance.** The candidate is a source preview, not a GitHub Release. Evidence below distinguishes component tests and limited desktop smoke behavior from remaining acceptance gaps.
+**The updated plan-label candidate passes frontend, Rust, and build checks and was reported as working in human testing; broad native acceptance remains incomplete.** R2 remains a source preview, not a GitHub Release. The original beta.1 candidate and the updated local candidate have different hashes and are documented separately below.
 
-## Executed checks
+## Current plan-label candidate — 2026-10-17
+
+The version remains `2.0.0-beta.1`; this is a source-only update, not a formal release or public download. The new unpackaged x64 Windows GUI executable is 20,928,512 bytes with SHA-256 `5BF6AAFB87791556F543863FF7D8691CA363CFB2727A4351DB00A9C2FF36099A`. Its copied candidate hash and size match the build output. The prior first-candidate executable hash `22F380596C81C32989A1C54599B4EA2071F54ED803DAB50399C7916509BCCC94` identifies a different artifact and must not be used to verify this one.
+
+The frontend-only plan-label change displays `prolite` as `PRO LITE`, `plus` as `PLUS`, `pro` as `PRO (MORE)`, and `promax` as `PRO (MAX)`, case-insensitively. Unknown identifiers remain readable; null or blank values use the localized Unknown fallback. The raw model value is unchanged, and the 14px bold badge is limited to the expanded detail header, with Plus in mint, the Pro family in violet, and unknown values neutral. The pinned [Codex auth source](https://github.com/openai/codex/blob/ce0323f2f2d3b25e82806cd555237da3db4e1897/codex-rs/protocol/src/auth.rs#L130-L145) displays `KnownPlan::ProLite` as generic `Pro`; R2 deliberately uses `PRO LITE` for raw `prolite` to distinguish it from raw `pro` → `PRO (MORE)`. These are R2 UI labels and do not establish billing, price, or quota-window rules.
+
+The source has no Codex-process monitoring or auto-exit dependency. Closing Codex does not automatically close R2; closing R2's window hides it to the tray, and tray Exit quits the app. The quota reader uses local authentication data and direct HTTP requests, so a usable local auth file and network are sufficient for that request path without Codex Desktop running. Missing/invalid authentication and request failures are represented as quota availability states. These are source-level behaviors; this candidate's human report did not include a detailed no-Codex or failure-state trace.
+
+| Current check | Result | Boundary |
+| --- | --- | --- |
+| Frontend suite | PASS, 53/53 | Component and interaction tests; not native WebView behavior |
+| Frontend build | PASS | TypeScript + Vite output from the updated source |
+| Rust unit tests | PASS, 20/20 | No account/provider calls |
+| Locked offline x64 MSVC custom-protocol build | PASS | Unpackaged executable; two existing compiler warnings; unsigned |
+| Candidate identity | PASS | x64 PE, Windows GUI subsystem 2; copied file hash and size match the build output |
+| Human test report | LIMITED PASS | User reported the candidate worked without issue; no detailed public interaction trace or capture was supplied |
+
+This human report is not evidence of broad DPI, provider/account-switch, security, clean-machine, shell-icon, or every interaction path. The current candidate was not used to claim those results.
+
+## Historical first-candidate checks — SHA-256 `22F380596C81C32989A1C54599B4EA2071F54ED803DAB50399C7916509BCCC94`
 
 | Check | Result | Boundary |
 | --- | --- | --- |
